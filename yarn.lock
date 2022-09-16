@@ -1428,10 +1428,10 @@
   dependencies:
     "@sinonjs/commons" "^1.7.0"
 
-"@teiresource/commonconfig@^0.1.1":
-  version "0.1.1"
-  resolved "https://registry.npmjs.org/@teiresource/commonconfig/-/commonconfig-0.1.1.tgz#2abc03cee6f8654d9cc890f7ca4fe11ae3726f51"
-  integrity sha512-2tN8uxNhFf5n27PrnRnkOv4sQOEbxpUuNqedQSwgXXP1LAnRmMkNHp1bJYE0JH0V/z1C0nBCUf5id6F2FY2Uiw==
+"@teiresource/commonconfig@^0.1.7":
+  version "0.1.7"
+  resolved "https://registry.npmjs.org/@teiresource/commonconfig/-/commonconfig-0.1.7.tgz#d61721f4674723359a6cb01a4ede9b03f5350f52"
+  integrity sha512-PW0ci7KnP3zUccgQJAWPsDfhWC6sDQIzsc//0PWM4RfKBCRtXCubFPA1TYoAlKqF/ETQpPnvKu24c1wW7727HQ==
   dependencies:
     axios "^0.27.2"
     react "18.0.0"
@@ -5951,6 +5951,11 @@ react-native-codegen@^0.69.1, react-native-codegen@^0.69.2:
     jscodeshift "^0.13.1"
     nullthrows "^1.1.1"
 
+react-native-fast-image@^8.6.1:
+  version "8.6.1"
+  resolved "https://registry.npmjs.org/react-native-fast-image/-/react-native-fast-image-8.6.1.tgz#6a3a11b8ebc7629919265d33a420a04d13c897e0"
+  integrity sha512-ILuP7EuakqHNzTr8ZbumhuxG4tE/wGQ66z4nEEuzc0FlqY6rYaPsnq/UD2ahoyFj6QP1WvA2RIK3odib+VcqWg==
+
 react-native-gesture-handler@^2.6.0:
   version "2.6.0"
   resolved "https://registry.npmjs.org/react-native-gesture-handler/-/react-native-gesture-handler-2.6.0.tgz#8eeb25a2be9718db2e241084f4a337bec0e30ed1"
@@ -5966,6 +5971,11 @@ react-native-gradle-plugin@^0.0.7:
   version "0.0.7"
   resolved "https://registry.npmjs.org/react-native-gradle-plugin/-/react-native-gradle-plugin-0.0.7.tgz#96602f909745239deab7b589443f14fce5da2056"
   integrity sha512-+4JpbIx42zGTONhBTIXSyfyHICHC29VTvhkkoUOJAh/XHPEixpuBduYgf6Y4y9wsN1ARlQhBBoptTvXvAFQf5g==
+
+react-native-image-picker@^4.10.0:
+  version "4.10.0"
+  resolved "https://registry.npmjs.org/react-native-image-picker/-/react-native-image-picker-4.10.0.tgz#471ca942bd1189134eff63e25903147f54aeb8c2"
+  integrity sha512-QNK4ZnFLD+BdiM1QL1jh9GUALhRXm3MV97crhnTCSMv50H6E4tq3ozgfyxF5uKz0cECbNkWswg4sjgqZKEJtww==
 
 react-native-iphone-x-helper@^1.3.1:
   version "1.3.1"

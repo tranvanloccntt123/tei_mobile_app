@@ -1,15 +1,15 @@
 import { AppStyle } from "@teiresource/commonconfig/AppStyle";
+import { gray, white } from "@teiresource/commonconfig/Colors";
 import React from "react";
-import { SafeAreaView, StatusBar, View } from "react-native";
+import { ScrollView, StatusBar, Text, View } from "react-native";
 import CreatePostForm from "../forms/CreatePostForm";
 interface CreatePostBasicLayoutInterface{
-    onSendPost: Function
+    onSendPost: Function,
+    isLoad: boolean
 }
-export default function CreatePostBasicLayout(){
-    return <View style={[AppStyle.container, {paddingTop: 15}]}>
+export default function CreatePostBasicLayout(props: CreatePostBasicLayoutInterface){
+    return <ScrollView showsVerticalScrollIndicator={false} style={[AppStyle.container, {paddingTop: 15, backgroundColor: white}]}>
         <StatusBar translucent={true} backgroundColor={'transparent'} barStyle={'dark-content'} />
-        <SafeAreaView style={{flex: 1}}>
-            <CreatePostForm />
-        </SafeAreaView>
-    </View>
+        <CreatePostForm onSendPost={props.onSendPost} />
+    </ScrollView>
 }

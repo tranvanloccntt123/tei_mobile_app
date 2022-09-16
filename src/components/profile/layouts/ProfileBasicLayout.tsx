@@ -2,7 +2,7 @@ import React, { ReactNode } from "react";
 import { View, StatusBar, Dimensions, StyleSheet, FlatList, SafeAreaView, Text, ImageBackground, TouchableOpacity } from "react-native";
 import { AppStyle } from "@teiresource/commonconfig/AppStyle";
 import { black, blue, gray, grayLightPrimary, white } from "@teiresource/commonconfig/Colors";
-import { PostInterface, UserInterface } from "../../common/PostInterface";
+import { PostInterface, UserInterface } from "@teiresource/commonconfig/AppInterface";
 import BasicCommonMedia from "../elements/BasicCommonMedia";
 import BasicHeader from "../elements/BasicHeader";
 import ModalSlideShow from "../elements/ModalSlideShow";
@@ -10,6 +10,7 @@ import PostCard from "../elements/PostCard";
 import AntDesign from "react-native-vector-icons/AntDesign";
 import BasicHorizontalFriend from "../elements/BasicHorizontalFriend";
 import { ProfileInterface } from "@teiresource/commonconfig/AppInterface";
+import { Modalize } from "react-native-modalize";
 const { width, height } = Dimensions.get('window');
 const style = StyleSheet.create({
     settingContainer: { width: 25, height: 25, backgroundColor: white, borderRadius: 5, shadowColor: black, shadowOffset: { width: 2, height: 2 }, shadowOpacity: 0.5, elevation: 3 }
@@ -36,6 +37,7 @@ enum ImagePosition {
     background
 }
 export default function ProfileLayout(props: PropsInterface) {
+    const modalizeRef = React.useRef<Modalize>(null);
     const [visible, setVisible] = React.useState<boolean>(false);
     const [dataSlideShow, setDataSlideShow] = React.useState<Array<any>>([]);
     const renderItem = (props: RenderItemPostInterface) => <PostCard onPressToImage={(data: any) => {
@@ -46,7 +48,10 @@ export default function ProfileLayout(props: PropsInterface) {
         <BasicHorizontalFriend data={props.friends? props.friends : []} />
         <BasicCommonMedia navigation={props.navigation} data={props.commonMedia} />
     </View>, [props.data]);
-    return <View style={[AppStyle.container]}>
+    const onOpen = () => {
+        modalizeRef.current?.open();
+      };
+    return <View style={[AppStyle.container, {backgroundColor: white}]}>
         <StatusBar translucent={true} backgroundColor={'transparent'} barStyle={'light-content'} />
         <BasicHeader user={props.user} />
         <SafeAreaView style={{ flex: 1, }}>
@@ -65,7 +70,7 @@ export default function ProfileLayout(props: PropsInterface) {
                 <FlatList
                     style={{ paddingTop: height * 0.4 }}
                     data={props.data}
-                    extraData={(item: any, index: any) => `${index.toString()}`}
+                    extraData={(item: any, index: any) => `${index.toString()}-${item.id}`}
                     renderItem={renderItem}
                     showsVerticalScrollIndicator={false}
                     scrollEventThrottle={18}
@@ -79,5 +84,6 @@ export default function ProfileLayout(props: PropsInterface) {
             </View>
         </SafeAreaView>
         <ModalSlideShow data={dataSlideShow} visible={visible} onRequestClose={() => setVisible(false)} />
+        <Modalize  ref={modalizeRef}></Modalize>
     </View>
 }

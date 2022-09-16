@@ -3,7 +3,8 @@ import { View, TouchableOpacity, Animated, StyleSheet, Dimensions, Text } from "
 import { AppStyle } from "@teiresource/commonconfig/AppStyle";
 import { black, gray, white } from "@teiresource/commonconfig/Colors";
 import AntDesign from 'react-native-vector-icons/AntDesign';
-import { ScreenInterface } from "../../common/ScreenInterface";
+import { ScreenInterface } from "../../../common/ScreenInterface";
+import FastImage from 'react-native-fast-image'
 const { width } = Dimensions.get('window');
 const style = StyleSheet.create({
     itemContainer: { width: width, height: '100%' },

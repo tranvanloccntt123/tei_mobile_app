@@ -13,11 +13,10 @@
  import { applyMiddleware, combineReducers, createStore, ReducersMapObject } from 'redux';
  import { COMBINE_NAME_PROFILE } from './src/redux/reducers/CombineName';
  import ProfileReducer from './src/redux/reducers/ProfileReducer';
- import ProfileSccreen from './src/screens/ProfileScreen';
  import createSagaMiddleware from '@redux-saga/core';
  import ProfileSagas from './src/redux/sagas/ProfileSagas';
  import { ApiRequest } from '@teiresource/commonconfig/ApiRequest';
- import CreatePostScreen from './src/screens/CreatePostScreen';
+import AppNavigation from './src/navigations';
  const combine: ReducersMapObject = {};
  combine[`${COMBINE_NAME_PROFILE}`] = ProfileReducer;
  const sagaMiddleware = createSagaMiddleware();
@@ -26,7 +25,7 @@
    ApiRequest.token = "H3FizGTaUakQUQjlFAtki41lOjHOURTyXATmxsXV";
    ApiRequest.applicationId = "10";
    return <Provider store={store}>
-     <ProfileSccreen />
+     <AppNavigation />
    </Provider>
  };
  sagaMiddleware.run(ProfileSagas);

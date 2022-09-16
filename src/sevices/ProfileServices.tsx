@@ -1,10 +1,11 @@
 import { STOREAGE } from "@teiresource/commonconfig/ApiRoute";
-import { UserInterface, VisitProfile } from "@teiresource/commonconfig/AppInterface";
+import { PaginateInterface, PostInterface, UserInterface, VisitProfile } from "@teiresource/commonconfig/AppInterface";
 import { getListFriend, getListPost, getVisitProfile } from "@teiresource/commonconfig/Until";
 import React from "react";
 import { useSelector } from "react-redux";
 import { AVATAR_DEFAULT, DEV_BACKGROUND } from "../assets/images";
 import { COMBINE_NAME_PROFILE } from "../redux/reducers/CombineName";
+import { esTime } from '../untils/Time';
 export const useProfileSevices = (user_id: any, setCountFriend: Function, setCountPost: Function, setCurrent: Function, setFriends: Function, onProfileNull: Function) => {
     const {profile, cFriend, cPost} = useSelector((state: any) => {
         return {
@@ -16,6 +17,7 @@ export const useProfileSevices = (user_id: any, setCountFriend: Function, setCou
 
     const getData = async () => {
         let r:VisitProfile | null = await getVisitProfile(user_id);
+        console.log(r);
         if(r == null) return;
         setCountFriend(r.friends);
         setCountPost(r.posts);
@@ -26,7 +28,9 @@ export const useProfileSevices = (user_id: any, setCountFriend: Function, setCou
     }
     React.useEffect(() => {
         if(profile){
-            if(profile.id != user_id) getData();
+            if(profile.id != user_id) {
+                getData();
+            }
             else {
                 setCurrent(profile);
                 setCountFriend(cFriend);
@@ -53,20 +57,34 @@ export const useProfileSevices = (user_id: any, setCountFriend: Function, setCou
     }, []);
 }
 
-export const useLoadPost = (load: boolean, setLoad: Function, setPost: Function) => {
-    let postLeftID: number = 0;
-    let isEndLoad: boolean = false;
+export const useLoadPost = (load: boolean, setLoad: Function, posts: Array<any>, setPost: Function) => {
+    const [isEndLoad, setIsEndLoad] = React.useState<boolean>(false);
     const getPost = async () => {
         if(isEndLoad) return;
-        let r = await getListPost(postLeftID, 1);
+        let r = await getListPost(posts.length? posts[posts.length - 1].id : 0, 1);
         setLoad(false);
         if(!r){
-            isEndLoad = true;
+            setIsEndLoad(true);
             return;
         }
+        let mapValue: Array<PostInterface> = r.data.map((value: any) => {
+            let createdAt = new Date(value.created_at); 
+            return ({
+                id: value.id,
+                content: value.content,
+                image: value.media? `${STOREAGE}/${value.media}` : undefined,
+                user: {
+                    id: value.user_id,
+                    name: value.name,
+                    avatar: AVATAR_DEFAULT,
+                    background: DEV_BACKGROUND
+                },
+                created_at: `${esTime(createdAt.getHours())}:${esTime(createdAt.getMinutes())} ${esTime(createdAt.getDate())}/${esTime(createdAt.getMonth())}/${createdAt.getFullYear()}`
+            });
+        });
         setPost((posts:any) => {
-            return [...posts, ...r!!.data]
-        })
+            return [...posts, ...mapValue]
+        });
     }
     React.useEffect(() => {
         if(load){

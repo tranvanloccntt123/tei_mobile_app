@@ -7,7 +7,8 @@ import { AVATAR_DEFAULT } from "../../../assets/images";
 import { CommonMediaInterface } from "../../../common/PostInterface";
 import BasicCommonMediaItem from "./BasicCommonMediaItem";
 import AntDesign from 'react-native-vector-icons/AntDesign';
-import { PROFILE_MODAL_SCREEN } from "@teiresource/commonconfig/RouteName";
+import { POST_CREATE_SCREEN, PROFILE_MODAL_SCREEN } from "@teiresource/commonconfig/RouteName";
+import { useNavigation } from "@react-navigation/native";
 const style = StyleSheet.create({
     container: { width: '100%', backgroundColor: white, paddingTop: 25, paddingBottom: 35 },
     commonHeaderContainer: {
@@ -30,12 +31,16 @@ interface BasicCommonMediaProps {
     navigation?: any
 }
 export default function BasicCommonMedia(props: BasicCommonMediaProps) {
+    const navigation = useNavigation();
     const scrollX = React.useRef(new Animated.Value(0)).current;
     const CommonImageView = (commonImageViewProps: { item: CommonMediaInterface, index: any }) => <BasicCommonMediaItem onPress={(index: any) => {
-        props.navigation?.navigate(PROFILE_MODAL_SCREEN, { data: props.data.map(value => value), position: index })
+        navigation.navigate(PROFILE_MODAL_SCREEN as never, { data: props.data.map(value => value), position: index } as never)
     }} {...commonImageViewProps} />
+    const onCreatePost = () => {
+        navigation.navigate(POST_CREATE_SCREEN as never, {} as never)
+    }
     const ListHeaderComponent = React.useCallback(() => {
-        return <TouchableOpacity activeOpacity={0.9}>
+        return <TouchableOpacity onPress={onCreatePost} activeOpacity={0.9}>
             <ImageBackground source={AVATAR_DEFAULT} style={style.commonHeaderContainer}>
                 <View style={{ flex: 1.5 }}></View>
                 <View style={{ flex: 1, backgroundColor: white }}>

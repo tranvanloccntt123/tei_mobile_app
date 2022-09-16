@@ -3,10 +3,11 @@ import { Dimensions, Animated, Modal, View, StyleSheet, FlatList, Text, Touchabl
 import { AppStyle } from "@teiresource/commonconfig/AppStyle";
 import { black, gray, white } from "@teiresource/commonconfig/Colors";
 import AntDesign from 'react-native-vector-icons/AntDesign'
+import FastImage from "react-native-fast-image";
 const { width, height } = Dimensions.get('window');
 const style = StyleSheet.create({
     itemContainer: { width: width, height: '100%' },
-    itemImage: { width: '100%', height: '100%', resizeMode: 'contain' },
+    itemImage: { width: '100%', height: '100%', resizeMode: 'center' },
     closeButton: { backgroundColor: black, position: 'absolute', zIndex: 2, top: 55, right: 15, width: 35, height: 35, borderRadius: 25 }
 });
 interface ModalSlideShowInterface {
@@ -26,6 +27,9 @@ export default function ModalSlideShow(props: ModalSlideShowInterface) {
     }, [props.visible]);
     const scrollX = React.useRef(new Animated.Value(0)).current
     const { data } = props;
+    React.useEffect(() => {
+        console.log(data);
+    },[data]);
     const onClose = () => {
         setVisible(false);
         if (props.onRequestClose)
@@ -33,14 +37,8 @@ export default function ModalSlideShow(props: ModalSlideShowInterface) {
     }
     const renderItem = React.useCallback((itemProps: { item: any, index: any }) => {
         const inputRange = [(itemProps.index - 1) * width, itemProps.index * width, (itemProps.index + 1) * width]
-        const opacity = scrollX.interpolate({
-            inputRange,
-            outputRange: [
-                0.3, 1, 0.3
-            ]
-        })
         return <View style={[style.itemContainer]}>
-            <Animated.Image source={props.isImage? itemProps.item[`${props.isImage}`] : itemProps.item.image} style={[style.itemImage, { opacity }]} />
+            <FastImage resizeMode="contain" source={{uri: props.isImage? itemProps.item[`${props.isImage}`] : itemProps.item.image}} style={[style.itemImage]} />
             {
                 __DEV__ ? <Text style={{ position: 'absolute', bottom: 25, color: white, fontSize: 25, left: 15, fontWeight: 'bold' }}>{itemProps.index}</Text> : null
             }

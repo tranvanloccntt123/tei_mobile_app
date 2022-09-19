@@ -1,5 +1,5 @@
 import { ApiRequest } from "./ApiRequest";
-import { LOGIN_API_SIGNIN, LOGIN_API_SIGNUP, POST_API_CREATE, POST_API_DELETE, POST_API_LIST, POST_API_UPDATE, PROFILE_API_RELATION_LIST, PROFILE_API_VISIT, RELATION_API_REQUEST } from "./ApiRoute";
+import { LOGIN_API_SIGNIN, LOGIN_API_SIGNUP, POST_API_CREATE, POST_API_DELETE, POST_API_LIST, POST_API_UPDATE, PROFILE_API_RELATION_LIST, PROFILE_API_VISIT, PROFILE_API_RELATION_REQUEST } from "./ApiRoute";
 
 let regex = /^[a-zA-Z0-9]{6,15}/;
 
@@ -157,7 +157,7 @@ export const checkUUIDRegex = (r: string) => {
 }
 
 export const sendRelationShip = async (id: number, status: RelationShipEnum) => {
-  let result = await ApiRequest.build('POST', 'application/json')(RELATION_API_REQUEST, {friend: id, status: getRelationShipName(status)});
+  let result = await ApiRequest.build('POST', 'application/json')(PROFILE_API_RELATION_REQUEST, {friend: id, status: getRelationShipName(status)});
   if(result.status < 200 && result.status >= 300) return false;
   let r: ResponseInterface = result.data;
   if(!r || r.status.toLowerCase() == RESPONSE_FAIL) return false;

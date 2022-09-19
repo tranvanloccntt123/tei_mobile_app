@@ -5,7 +5,7 @@ import { View, Text, TouchableOpacity } from 'react-native';
 import { NavigationContainer, useNavigation } from '@react-navigation/native';
 import { createNativeStackNavigator, NativeStackNavigationOptions } from '@react-navigation/native-stack';
 import ProfileScreen from '../screens/ProfileScreen';
-import { POST_CREATE_SCREEN, POST_CREATE_TITLE, PROFILE_INFO_SCREEN, PROFILE_MODAL_SCREEN } from '@teiresource/commonconfig/RouteName';
+import { POST_CREATE_SCREEN, POST_CREATE_TITLE, PROFILE_INFO_SCREEN, PROFILE_MODAL_SCREEN } from '../common/RouteName';
 import ProfileSlideShow from '../screens/ProfileSlideShow';
 import CreatePostScreen from '../screens/CreatePostScreen';
 import AntDesign from 'react-native-vector-icons/AntDesign';

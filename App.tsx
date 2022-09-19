@@ -15,7 +15,7 @@
  import ProfileReducer from './src/redux/reducers/ProfileReducer';
  import createSagaMiddleware from '@redux-saga/core';
  import ProfileSagas from './src/redux/sagas/ProfileSagas';
- import { ApiRequest } from '@teiresource/commonconfig/ApiRequest';
+ import { ApiRequest } from './src/common/ApiRequest';
 import AppNavigation from './src/navigations';
  const combine: ReducersMapObject = {};
  combine[`${COMBINE_NAME_PROFILE}`] = ProfileReducer;

@@ -39,7 +39,7 @@ export default function ProfileModalLayout(props: ScreenInterface) {
             data={data}
             keyExtractor={(item, index) => `[KEY MODAL SLIDE SHOW] ${index}`}
             renderItem={renderItem}
-            initialNumToRender={60}
+            initialNumToRender={1}
             horizontal
             pagingEnabled
             scrollEventThrottle={16}

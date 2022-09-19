@@ -16,7 +16,8 @@ const style = StyleSheet.create({
         shadowOffset: { width: 3, height: 3 },
         shadowOpacity: 0.5,
         elevation: 3,
-        padding: 5
+        paddingHorizontal: 5,
+        paddingTop: 5
     },
     commonImage: {
         width: '100%',
@@ -31,7 +32,7 @@ export default function BasicCommonMediaItem(props: BasicCommonMediaItemProps) {
         props.onPress(index)
     }
     return <View key={`[KEY] Common Media ${index}`} style={[style.mediaContainer]}>
-        <TouchableOpacity onPress={onPress} activeOpacity={0.8}>
+        <TouchableOpacity style={{marginBottom: 15}} onPress={onPress} activeOpacity={0.8}>
             <Image source={item.image} style={style.commonImage} />
         </TouchableOpacity>
     </View>

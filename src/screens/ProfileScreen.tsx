@@ -1,42 +1,35 @@
-import { getRelationShipName } from "../common/AppEnum";
-import { ProfileInterface, PostInterface, UserInterface, CommonMediaInterface, ScreenInterface } from "../common/AppInterface";
-import { sendRelationShip } from "../common/Until";
+import { CommonMediaInterface, ScreenInterface } from "../common/AppInterface";
 import React from "react";
 import { DEV_BACKGROUND } from "../assets/images";
 import ProfileLayout from "../components/profile/layouts/ProfileBasicLayout";
-import { useLoadPost, useLoadProfile, useProfileSevices } from "../sevices/ProfileServices";
-export default function ProfileScreen(props: ScreenInterface){
-    const user_id: number = props.route? props.route.id? props.route.id : 5 : 5;
-    const [current, setCurrent] = React.useState<ProfileInterface>();
-    const [countFriend, setCountFriend] = React.useState<number>(0);
-    const [countPost, setCountPost] = React.useState<number>(0);
-    const [friends, setFriends] = React.useState<Array<UserInterface>>([]);
-    const [relationShip, setRelationShip] = React.useState<number>(3);
-    const [posts, setPosts] = React.useState<Array<PostInterface>>([]);
-    const [isLoad, setIsLoad] = React.useState<boolean>(true);
+import { onHandleRelationShip, stateManagement, useCheckRelationShip, useLoadPost, useLoadProfile, useProfileSevices } from "../sevices/ProfileServices";
+export default function ProfileScreen(this: any, props: ScreenInterface){
     useLoadProfile();
-    useProfileSevices(user_id, setCountFriend, setCountPost, setCurrent, setFriends, setRelationShip);
-    useLoadPost(isLoad, setIsLoad, posts, setPosts);
+    const user_id: number = props.route? props.route.id? props.route.id : 1 : 1;
+    stateManagement.call(this, user_id);
+    useProfileSevices.call(this);
+    useLoadPost.call(this);
+    useCheckRelationShip.call(this);
     const common:Array<CommonMediaInterface> = Array.from({length: 10}, (_, i) => {
         return {
             id: i,
             image: DEV_BACKGROUND
         }
     });
-
     const handleRelationShip = async () => {
-        //let r = await sendRelationShip(user_id, getRelationShipName())
+        let newRelation = await onHandleRelationShip(user_id, this.relationShip, this.setRelationShip);
+        return newRelation;
     }
-
-    return current? <ProfileLayout 
-        user={current}
-        data={posts} 
-        friends={friends}
+    return this.current? <ProfileLayout 
+        user={this.current}
+        data={this.posts} 
+        friends={this.friends}
         commonMedia={common}
-        navigation={props.navigation}
-        countFriend={countFriend}
-        countPost={countPost}
-        LoadPostFunction={() => setIsLoad(true)}
-        relationShip={relationShip}
+        countFriend={this.countFriend}
+        countPost={this.countPost}
+        LoadPostFunction={() => this.setIsLoad(true)}
+        relationShip={this.relationShip}
+        handleRelationShip={handleRelationShip}
+        isVisit={this.isVisit}
     /> : null
 }

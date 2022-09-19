@@ -8,7 +8,7 @@
  // Note: test renderer must be required after react-native.
  import renderer from 'react-test-renderer';
  import { ApiRequest } from '../src/common/ApiRequest';
- import { getListFriend, getListPost, getVisitProfile, sendPost, deletePost, getListChat, updatePost, checkUUIDRegex, sendRelationShip } from '../src/common/Until';
+ import { getListFriend, getListPost, getVisitProfile, sendPost, deletePost, getListChat, updatePost, checkUUIDRegex, sendRelationShip, checkRelationShip } from '../src/common/Until';
  import { PaginateInterface, VisitProfile } from '../src/common/AppInterface';
  import axios from 'axios';
  import { getCacheUser } from '../src/common/LocalCache';
@@ -99,11 +99,11 @@
    });
  
    test("relation", async () => {
-     let r: boolean | null = await sendRelationShip(5, RelationShipEnum.request);
-     expect(r).toBe(true);
-     r = await sendRelationShip(-1, RelationShipEnum.confirm);
-     expect(r).toBe(false);
-     r = await sendRelationShip(5, RelationShipEnum.confirm);
-     expect(r).toBe(true);
+    //check relation
+      let r = await checkRelationShip(5);
+      expect(r).not.toBeNull();
+      expect(r).toHaveProperty('personRequest');
+      expect(r).toHaveProperty('status');
    });
+
  });

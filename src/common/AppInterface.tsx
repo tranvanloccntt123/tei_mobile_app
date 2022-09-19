@@ -1,4 +1,5 @@
 import { ImageSourcePropType } from "react-native"
+import { RelationShipEnum } from "./AppEnum"
 
 export interface BaseApiResponseInterface{
     id: number, 
@@ -41,9 +42,7 @@ export interface PostInterface extends BaseApiResponseInterface{
 export interface VisitProfile{
     posts: number,
     friends: number,
-    profile: ProfileInterface,
-    relation_ship: number,
-    who_request: number
+    profile: ProfileInterface
 }
 export interface PaginateDetailInterface{
     total: number
@@ -76,4 +75,9 @@ export interface CommonMediaInterface extends BaseApiResponseInterface{
 export interface ScreenInterface{
     navigation?: any,
     route?: any
+}
+
+export interface CheckRelationInterface{
+    status: RelationShipEnum,
+    personRequest: boolean
 }

@@ -13,7 +13,7 @@ const style = StyleSheet.create({
     container: { width: '100%', backgroundColor: white, paddingTop: 25, paddingBottom: 35 },
     commonHeaderContainer: {
         width: 120,
-        height: 170,
+        height: 160,
         shadowColor: black,
         shadowOffset: { width: 3, height: 3 },
         shadowOpacity: 0.5,
@@ -28,19 +28,19 @@ const style = StyleSheet.create({
 });
 interface BasicCommonMediaProps {
     data: Array<CommonMediaInterface>,
-    navigation?: any
+    isVisit: boolean
 }
 export default function BasicCommonMedia(props: BasicCommonMediaProps) {
     const navigation = useNavigation();
     const scrollX = React.useRef(new Animated.Value(0)).current;
-    const CommonImageView = (commonImageViewProps: { item: CommonMediaInterface, index: any }) => <BasicCommonMediaItem onPress={(index: any) => {
+    const CommonImageView = React.useCallback((commonImageViewProps: { item: CommonMediaInterface, index: any }) => <BasicCommonMediaItem onPress={(index: any) => {
         navigation.navigate(PROFILE_MODAL_SCREEN as never, { data: props.data.map(value => value), position: index } as never)
-    }} {...commonImageViewProps} />
+    }} {...commonImageViewProps} />, []);
     const onCreatePost = () => {
         navigation.navigate(POST_CREATE_SCREEN as never, {} as never)
     }
     const ListHeaderComponent = React.useCallback(() => {
-        return <TouchableOpacity onPress={onCreatePost} activeOpacity={0.9}>
+        return !props.isVisit ? <TouchableOpacity onPress={onCreatePost} activeOpacity={0.9}>
             <ImageBackground source={AVATAR_DEFAULT} style={style.commonHeaderContainer}>
                 <View style={{ flex: 1.5 }}></View>
                 <View style={{ flex: 1, backgroundColor: white }}>
@@ -52,14 +52,16 @@ export default function BasicCommonMedia(props: BasicCommonMediaProps) {
                     <Text style={{ textAlign: 'center', marginBottom: 5, fontWeight: 'bold' }}>Create post</Text>
                 </View>
             </ImageBackground>
-        </TouchableOpacity>
-    }, []);
+        </TouchableOpacity> : null
+    }, [props.isVisit]);
     return <View style={[style.container]}>
-        <View style={[{flexDirection: 'row'}, AppStyle.m3]}>
-            <Text style={[AppStyle.h3, {flex: 1}]}>Medias</Text>
-            <TouchableOpacity activeOpacity={0.8} style={{alignSelf: 'center'}}>
-                <Text style={{color: blue}}>See all</Text>
-            </TouchableOpacity>
+        <View style={[{ flexDirection: 'row' }, AppStyle.m3]}>
+            <Text style={[AppStyle.h3, { flex: 1 }]}>Medias</Text>
+            {
+                props.data.length > 0? <TouchableOpacity activeOpacity={0.8} style={{ alignSelf: 'center' }}>
+                <Text style={{ color: blue }}>See all</Text>
+            </TouchableOpacity> : null
+            }
         </View>
         <Animated.FlatList
             data={props.data}
@@ -68,10 +70,6 @@ export default function BasicCommonMedia(props: BasicCommonMediaProps) {
             horizontal
             scrollEventThrottle={18}
             showsHorizontalScrollIndicator={false}
-            onScroll={Animated.event(
-                [{ nativeEvent: { contentOffset: { x: scrollX } } }],
-                { useNativeDriver: true }
-            )}
             pagingEnabled
             snapToInterval={props.data.length}
             decelerationRate={0}

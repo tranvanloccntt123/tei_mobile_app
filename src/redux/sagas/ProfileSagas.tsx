@@ -6,7 +6,7 @@ import { VisitProfile } from '../../common/AppInterface';
 function* getUser(action: ProfileReducerAction){
     const r:VisitProfile = yield call(getVisitProfile);
     if(!r) return;
-    let sendSetUserAction: ProfileReducerAction = {type: PROFILE_ACTION_SET_USER, user: r.profile, posts: r.posts, friends: r.friends, relationShip: r.relation_ship};
+    let sendSetUserAction: ProfileReducerAction = {type: PROFILE_ACTION_SET_USER, user: r.profile, posts: r.posts, friends: r.friends};
     yield put(sendSetUserAction);
 }
 function* watchGetUser(){

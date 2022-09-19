@@ -5,6 +5,8 @@ import { AppStyle } from '../../../common/AppStyle';
 import { UserInterface } from "../../../common/AppInterface";
 import { FlatList } from "react-native-gesture-handler";
 import AntDesign from "react-native-vector-icons/AntDesign";
+import { useNavigation } from "@react-navigation/native";
+import { PROFILE_FIND_SCREEN } from "../../../common/RouteName";
 const style = StyleSheet.create({
     container: {
         width: '100%', 
@@ -29,32 +31,39 @@ const style = StyleSheet.create({
     avatar: { width: 55, height: 55, borderRadius: 55 }
 });
 interface BasicHorizontalFriendProps{
-    data: Array<any>
+    data: Array<any>,
+    isVisit: boolean
 }
 export default function BasicHorizontalFriend(props: BasicHorizontalFriendProps){
     const [data, setData] = React.useState<Array<UserInterface>>(props.data);
-    const renderItem = (props: {item: any, index: number}) => <TouchableOpacity activeOpacity={0.5} style={[AppStyle.mr3]}>
-        <View style={[style.avatarContainer]}>
-            <Image source={props.item.avatar} style={style.avatar} />
-        </View>
-    </TouchableOpacity>
+    const navigation = useNavigation();
+    const renderItem = React.useCallback((props: {item: any, index: number}) => <TouchableOpacity activeOpacity={0.5} style={[AppStyle.mr3]}>
+    <View style={[style.avatarContainer]}>
+        <Image source={props.item.avatar} style={style.avatar} />
+    </View>
+</TouchableOpacity>, []);
     const ListHeaderComponent = React.useCallback(() => {
-        return <View style={[AppStyle.ml3]}>
-            <TouchableOpacity activeOpacity={0.5} style={[AppStyle.mr3]}>
+        const onPress = () => {
+            navigation.navigate(PROFILE_FIND_SCREEN, {});
+        }
+        return !props.isVisit? <View style={[AppStyle.ml3]}>
+            <TouchableOpacity onPress={onPress} activeOpacity={0.5} style={[AppStyle.mr3]}>
                 <View style={[style.avatarContainer, {shadowOpacity: 0, elevation: 0, borderColor: red}]}>
                     <View style={[style.avatar, AppStyle.center, {backgroundColor: red + 90}]}>
                         <AntDesign name="plus" size={25} color={white} />
                     </View>
                 </View>
             </TouchableOpacity>
-        </View>
-    }, []);
+        </View> : null
+    }, [props.isVisit]);
     return <View style={style.container}>
         <View style={[{flexDirection: 'row'}, AppStyle.m3]}>
             <Text style={[AppStyle.h3, {flex: 1}]}>Friends</Text>
-            <TouchableOpacity activeOpacity={0.8} style={{alignSelf: 'center'}}>
-                <Text style={{color: blue}}>See all</Text>
-            </TouchableOpacity>
+            {
+                props.data.length > 0? <TouchableOpacity activeOpacity={0.8} style={{ alignSelf: 'center' }}>
+                    <Text style={{ color: blue }}>See all</Text>
+                </TouchableOpacity> : null
+                }
         </View>
         <FlatList
             data={data}
@@ -64,6 +73,10 @@ export default function BasicHorizontalFriend(props: BasicHorizontalFriendProps)
             ListHeaderComponent={ListHeaderComponent}
             horizontal
             showsHorizontalScrollIndicator={false}
+            ListEmptyComponent={() => <View>
+                <Text style={[AppStyle.h5, {color: gray, fontWeight: "bold"}]}>Friend list is empty</Text>
+                <Text style={[AppStyle.p1, {color: black}]}>Connect with people</Text>
+            </View>}
         />
     </View>
 }

@@ -5,13 +5,10 @@ export enum RelationShipEnum{
     me = 3
 }
 
-export const getRelationShipName = (rl: RelationShipEnum) => {
-    switch(rl){
-        case RelationShipEnum.request: return "request";
-        case RelationShipEnum.cancel: return "cancel";
-        case RelationShipEnum.confirm: return "confirm";
-        case RelationShipEnum.me: return "me";
-    }
+export const getRelationShipName = (rl: number) => {
+    const indexOfS = Object.values(RelationShipEnum).indexOf(rl as unknown as RelationShipEnum);
+    const key = Object.keys(RelationShipEnum)[indexOfS];
+    return key;
 }
 
 export type TypeMessage = 'image' | 'text' | 'video' | 'audio' | 'file';

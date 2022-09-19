@@ -1,8 +1,8 @@
 import React from "react";
-import { View, Text, Image, StyleSheet, TouchableOpacity, ImageSourcePropType } from "react-native";
-import { AppStyle } from "@teiresource/commonconfig/AppStyle";
-import { black, blue, brown, gray, grayLightPrimary, grayLightPrimary2, grayPrimary, red, violet, white } from "@teiresource/commonconfig/Colors";
-import { PostInterface, ProfileInterface } from "@teiresource/commonconfig/AppInterface";
+import { View, Text, StyleSheet, TouchableOpacity, ImageSourcePropType } from "react-native";
+import { AppStyle } from "../../../common/AppStyle";
+import { black, gray, grayLightPrimary, red, violet, white } from "../../../common/Colors";
+import { PostInterface, ProfileInterface } from "../../../common/AppInterface";
 import AntDesign from 'react-native-vector-icons/AntDesign'
 import ActionButton from "./ActionButton";
 import FastImage from 'react-native-fast-image';

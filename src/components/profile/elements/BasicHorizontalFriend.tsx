@@ -1,8 +1,8 @@
 import React from "react";
 import { View, StyleSheet, Text, Image, TouchableOpacity } from "react-native";
-import { white, gray, black, blue, red } from '@teiresource/commonconfig/Colors';
-import { AppStyle } from '@teiresource/commonconfig/AppStyle';
-import { UserInterface } from "@teiresource/commonconfig/AppInterface";
+import { white, gray, black, blue, red } from '../../../common/Colors';
+import { AppStyle } from '../../../common/AppStyle';
+import { UserInterface } from "../../../common/AppInterface";
 import { FlatList } from "react-native-gesture-handler";
 import AntDesign from "react-native-vector-icons/AntDesign";
 const style = StyleSheet.create({

@@ -1,15 +1,14 @@
 import React, { ReactNode } from "react";
 import { View, StatusBar, Dimensions, StyleSheet, FlatList, SafeAreaView, Text, ImageBackground, TouchableOpacity } from "react-native";
-import { AppStyle } from "@teiresource/commonconfig/AppStyle";
-import { black, blue, gray, grayLightPrimary, white } from "@teiresource/commonconfig/Colors";
-import { PostInterface, UserInterface } from "@teiresource/commonconfig/AppInterface";
+import { AppStyle } from "../../../common/AppStyle";
+import { black, gray, white } from "../../../common/Colors";
+import { PostInterface, ProfileInterface } from "../../../common/AppInterface";
 import BasicCommonMedia from "../elements/BasicCommonMedia";
 import BasicHeader from "../elements/BasicHeader";
 import ModalSlideShow from "../elements/ModalSlideShow";
 import PostCard from "../elements/PostCard";
 import AntDesign from "react-native-vector-icons/AntDesign";
 import BasicHorizontalFriend from "../elements/BasicHorizontalFriend";
-import { ProfileInterface } from "@teiresource/commonconfig/AppInterface";
 import { Modalize } from "react-native-modalize";
 import FastImage from "react-native-fast-image";
 import { AVATAR_DEFAULT } from "../../../assets/images";

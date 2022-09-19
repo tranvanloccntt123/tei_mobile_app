@@ -1,7 +1,7 @@
 import React from "react";
 import { View, TouchableOpacity, StyleSheet, Image } from "react-native";
-import { black } from "@teiresource/commonconfig/Colors";
-import { CommonMediaInterface } from "../../../common/PostInterface";
+import { black } from "../../../common/Colors";
+import { CommonMediaInterface } from "../../../common/AppInterface";
 interface BasicCommonMediaItemProps {
     item: CommonMediaInterface,
     index: any,

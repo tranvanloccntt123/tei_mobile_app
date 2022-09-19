@@ -1,10 +1,9 @@
 import React from "react";
 import { View, Text, ImageBackground, Dimensions, StyleSheet, Image, TouchableOpacity, ImageSourcePropType } from "react-native";
-import { AppStyle } from "@teiresource/commonconfig/AppStyle";
-import { black, blue, gray, white } from "@teiresource/commonconfig/Colors";
+import { AppStyle } from "../../../common/AppStyle";
+import { black, blue, gray, white } from "../../../common/Colors";
 import { DEV_BACKGROUND, AVATAR_DEFAULT } from "../../../assets/images";
-import { UserInterface } from "@teiresource/commonconfig/AppInterface";
-import { ProfileInterface } from "@teiresource/commonconfig/AppInterface";
+import { ProfileInterface } from "../../../common/AppInterface";
 const { width, height } = Dimensions.get('window');
 const style = StyleSheet.create({
     backgroundContainer: {

@@ -1,13 +1,13 @@
 import React from "react";
 import { Text, View, StyleSheet, Animated, ImageBackground } from "react-native";
 import { TouchableOpacity } from "react-native-gesture-handler";
-import { AppStyle } from "@teiresource/commonconfig/AppStyle";
-import { black, blue, gray, white } from "@teiresource/commonconfig/Colors";
+import { AppStyle } from "../../../common/AppStyle";
+import { black, blue, gray, white } from "../../../common/Colors";
 import { AVATAR_DEFAULT } from "../../../assets/images";
-import { CommonMediaInterface } from "../../../common/PostInterface";
+import { CommonMediaInterface } from "../../../common/AppInterface";
 import BasicCommonMediaItem from "./BasicCommonMediaItem";
 import AntDesign from 'react-native-vector-icons/AntDesign';
-import { POST_CREATE_SCREEN, PROFILE_MODAL_SCREEN } from "@teiresource/commonconfig/RouteName";
+import { POST_CREATE_SCREEN, PROFILE_MODAL_SCREEN } from "../../../common/RouteName";
 import { useNavigation } from "@react-navigation/native";
 const style = StyleSheet.create({
     container: { width: '100%', backgroundColor: white, paddingTop: 25, paddingBottom: 35 },

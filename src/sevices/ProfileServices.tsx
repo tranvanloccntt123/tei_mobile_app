@@ -1,6 +1,6 @@
-import { STOREAGE } from "@teiresource/commonconfig/ApiRoute";
-import { PostInterface, UserInterface, VisitProfile } from "@teiresource/commonconfig/AppInterface";
-import { getListFriend, getListPost, getVisitProfile } from "@teiresource/commonconfig/Until";
+import { STOREAGE } from "../common/ApiRoute";
+import { PostInterface, UserInterface, VisitProfile } from "../common/AppInterface";
+import { getListFriend, getListPost, getVisitProfile } from "../common/Until";
 import React from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { AVATAR_DEFAULT, DEV_BACKGROUND } from "../assets/images";

@@ -1,4 +1,4 @@
-import { ProfileInterface } from '@teiresource/commonconfig/AppInterface';
+import { ProfileInterface } from '../../common/AppInterface';
 import { Action } from 'redux';
 import { PROFILE_ACTION_SET_DATA, PROFILE_ACTION_SET_USER } from '../actions/ProfileAction';
 export interface ProfileReducerInterface{

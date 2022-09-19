@@ -1,12 +1,11 @@
-import { AppStyle } from "@teiresource/commonconfig/AppStyle";
-import { black, blue, gray, violet, white } from "@teiresource/commonconfig/Colors";
+import { AppStyle } from "../../../common/AppStyle";
+import { black, blue, gray, violet, white } from "../../../common/Colors";
 import React from "react";
 import { View, StyleSheet, Text, TouchableOpacity, Image, Dimensions } from "react-native";
 import { TextInput } from "react-native-gesture-handler";
 import AntDesign from 'react-native-vector-icons/AntDesign';
 import { Asset } from 'react-native-image-picker';
 import { LauchImage } from "../../../untils/CameraUntil";
-import { sendPost } from "@teiresource/commonconfig/Until";
 const {width, height} = Dimensions.get('window');
 const style = StyleSheet.create({
     container: {},

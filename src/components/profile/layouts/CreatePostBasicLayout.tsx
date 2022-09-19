@@ -1,5 +1,5 @@
-import { AppStyle } from "@teiresource/commonconfig/AppStyle";
-import { gray, white } from "@teiresource/commonconfig/Colors";
+import { AppStyle } from "../../../common/AppStyle";
+import { gray, white } from "../../../common/Colors";
 import React from "react";
 import { ScrollView, StatusBar, Text, View } from "react-native";
 import CreatePostForm from "../forms/CreatePostForm";

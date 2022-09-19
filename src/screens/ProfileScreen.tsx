@@ -1,10 +1,8 @@
-import { getRelationShipName } from "@teiresource/commonconfig/AppEnum";
-import { ProfileInterface, PostInterface, UserInterface } from "@teiresource/commonconfig/AppInterface";
-import { sendRelationShip } from "@teiresource/commonconfig/Until";
+import { getRelationShipName } from "../common/AppEnum";
+import { ProfileInterface, PostInterface, UserInterface, CommonMediaInterface, ScreenInterface } from "../common/AppInterface";
+import { sendRelationShip } from "../common/Until";
 import React from "react";
 import { DEV_BACKGROUND } from "../assets/images";
-import { CommonMediaInterface } from "../common/PostInterface";
-import { ScreenInterface } from "../common/ScreenInterface";
 import ProfileLayout from "../components/profile/layouts/ProfileBasicLayout";
 import { useLoadPost, useLoadProfile, useProfileSevices } from "../sevices/ProfileServices";
 export default function ProfileScreen(props: ScreenInterface){

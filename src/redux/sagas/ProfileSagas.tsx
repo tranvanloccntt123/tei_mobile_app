@@ -1,8 +1,8 @@
 import { all, call, fork, put, select, takeLatest } from 'redux-saga/effects';
 import { PROFILE_ACTION_GET_USER, PROFILE_ACTION_SET_USER } from '../actions/ProfileAction';
 import { ProfileReducerAction } from '../reducers/ProfileReducer';
-import { getVisitProfile } from '@teiresource/commonconfig/Until';
-import { VisitProfile } from '@teiresource/commonconfig/AppInterface';
+import { getVisitProfile } from '../../common/Until';
+import { VisitProfile } from '../../common/AppInterface';
 function* getUser(action: ProfileReducerAction){
     const r:VisitProfile = yield call(getVisitProfile);
     if(!r) return;

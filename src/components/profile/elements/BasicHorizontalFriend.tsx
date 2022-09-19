@@ -10,7 +10,9 @@ const style = StyleSheet.create({
         width: '100%', 
         backgroundColor: white, 
         paddingTop: 25, 
-        paddingBottom: 15
+        paddingBottom: 15,
+        borderTopEndRadius: 25, 
+        borderTopStartRadius: 25
     },
     avatarContainer: { 
         padding: 3, 

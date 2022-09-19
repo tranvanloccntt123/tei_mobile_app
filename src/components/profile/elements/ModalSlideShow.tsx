@@ -27,9 +27,6 @@ export default function ModalSlideShow(props: ModalSlideShowInterface) {
     }, [props.visible]);
     const scrollX = React.useRef(new Animated.Value(0)).current
     const { data } = props;
-    React.useEffect(() => {
-        console.log(data);
-    },[data]);
     const onClose = () => {
         setVisible(false);
         if (props.onRequestClose)

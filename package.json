@@ -13,7 +13,7 @@
     "@react-navigation/material-bottom-tabs": "^6.2.3",
     "@react-navigation/native": "^6.0.12",
     "@react-navigation/native-stack": "^6.8.0",
-    "@teiresource/commonconfig": "^0.1.7",
+    "@teiresource/commonconfig": "^0.1.9",
     "react": "18.1.0",
     "react-native": "0.69.4",
     "react-native-fast-image": "^8.6.1",

@@ -1428,10 +1428,10 @@
   dependencies:
     "@sinonjs/commons" "^1.7.0"
 
-"@teiresource/commonconfig@^0.1.7":
-  version "0.1.7"
-  resolved "https://registry.npmjs.org/@teiresource/commonconfig/-/commonconfig-0.1.7.tgz#d61721f4674723359a6cb01a4ede9b03f5350f52"
-  integrity sha512-PW0ci7KnP3zUccgQJAWPsDfhWC6sDQIzsc//0PWM4RfKBCRtXCubFPA1TYoAlKqF/ETQpPnvKu24c1wW7727HQ==
+"@teiresource/commonconfig@^0.1.9":
+  version "0.1.9"
+  resolved "https://registry.npmjs.org/@teiresource/commonconfig/-/commonconfig-0.1.9.tgz#7ef05ec60697e75752fc6d965a35286e06910274"
+  integrity sha512-59Q+Z9kb9uh/hiM9GyaNPuKR1ZtbC7xf9oxbMDWudBqAYsPNUcJDVPvA/5iFduBS0NseqY2d9xlOuSA8tmU4RA==
   dependencies:
     axios "^0.27.2"
     react "18.0.0"

@@ -1,26 +1,28 @@
 import { STOREAGE } from "@teiresource/commonconfig/ApiRoute";
-import { PaginateInterface, PostInterface, UserInterface, VisitProfile } from "@teiresource/commonconfig/AppInterface";
+import { PostInterface, UserInterface, VisitProfile } from "@teiresource/commonconfig/AppInterface";
 import { getListFriend, getListPost, getVisitProfile } from "@teiresource/commonconfig/Until";
 import React from "react";
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { AVATAR_DEFAULT, DEV_BACKGROUND } from "../assets/images";
+import { PROFILE_ACTION_GET_USER } from "../redux/actions/ProfileAction";
 import { COMBINE_NAME_PROFILE } from "../redux/reducers/CombineName";
 import { esTime } from '../untils/Time';
-export const useProfileSevices = (user_id: any, setCountFriend: Function, setCountPost: Function, setCurrent: Function, setFriends: Function, onProfileNull: Function) => {
-    const {profile, cFriend, cPost} = useSelector((state: any) => {
+export const useProfileSevices = (user_id: any, setCountFriend: Function, setCountPost: Function, setCurrent: Function, setFriends: Function, setRelationShip: Function) => {
+    const {profile, cFriend, cPost, cRelationShip} = useSelector((state: any) => {
         return {
             'profile': state[`${COMBINE_NAME_PROFILE}`].user,
             'cFriend': state[`${COMBINE_NAME_PROFILE}`].friends,
-            'cPost': state[`${COMBINE_NAME_PROFILE}`].posts
+            'cPost': state[`${COMBINE_NAME_PROFILE}`].posts,
+            'cRelationShip': state [`${COMBINE_NAME_PROFILE}`].relationShip
         }
     });
 
     const getData = async () => {
         let r:VisitProfile | null = await getVisitProfile(user_id);
-        console.log(r);
         if(r == null) return;
         setCountFriend(r.friends);
         setCountPost(r.posts);
+        setRelationShip(r.relation_ship);
         let p = r.profile;
         if(!p.avatar) p.avatar = AVATAR_DEFAULT;
         if(!p.background) p.background = DEV_BACKGROUND;
@@ -35,9 +37,9 @@ export const useProfileSevices = (user_id: any, setCountFriend: Function, setCou
                 setCurrent(profile);
                 setCountFriend(cFriend);
                 setCountPost(cPost);
+                setRelationShip(cRelationShip)
             }
         }
-        else  onProfileNull();
     },[profile]);
     const getFriend = async () => {
         let r = await getListFriend();
@@ -91,4 +93,13 @@ export const useLoadPost = (load: boolean, setLoad: Function, posts: Array<any>,
             getPost()
         }
     }, [load])
+}
+
+export const useLoadProfile = () => {
+    const profile = useSelector((state: any) => state[`${COMBINE_NAME_PROFILE}`].user);
+    const dispatch = useDispatch();
+    React.useEffect(() => {
+        if(!profile)
+            dispatch({type: PROFILE_ACTION_GET_USER});  
+    }, [profile]);
 }

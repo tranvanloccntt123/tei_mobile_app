@@ -3,6 +3,7 @@ import { RelationShipEnum } from "./AppEnum"
 
 export interface BaseApiResponseInterface{
     id: number, 
+    uuid?: string,
     updated_at?: string
     created_at?: string
 }
@@ -12,7 +13,7 @@ export interface GroupChatInterface extends BaseApiResponseInterface{
 }
 export interface UserInterface extends BaseApiResponseInterface{
     name: string,
-    avatar?: string,
+    avatar?: ImageSourcePropType,
     background?: ImageSourcePropType
 }
 export interface GroupChatUserInterface extends BaseApiResponseInterface{
@@ -36,7 +37,7 @@ export interface PostInterface extends BaseApiResponseInterface{
     content: string,
     image?: string,
     video?: string,
-    user: UserInterface
+    user: UserInterface,
 }
 
 export interface VisitProfile{

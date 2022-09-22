@@ -3,7 +3,8 @@ import { Animated, TouchableOpacity, StyleSheet } from "react-native";
 import { AppStyle } from "../../../common/AppStyle";
 interface ActionButtonProps{
     children?: ReactNode | JSX.Element | JSX.Element[],
-    onPress: Function
+    onPress: Function,
+    containerStyle?: any
 };
 const style = StyleSheet.create({
     actionButton: {height: 45, width: 45}
@@ -17,7 +18,7 @@ export default function ActionButton(props: ActionButtonProps){
         ]).start();
         props.onPress()
     }
-    return <TouchableOpacity onPress={onPress} style={[style.actionButton, AppStyle.center]}>
+    return <TouchableOpacity onPress={onPress} style={[style.actionButton, AppStyle.center, props.containerStyle]}>
         <Animated.View style={[{
             transform: [
                 {

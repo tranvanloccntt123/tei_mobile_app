@@ -103,26 +103,35 @@ export const getListFriend = async (left_id?: number, page?: number) : Promise<P
 // api for post
 export const sendPost = async (content: string, name?: string, type?: string, media?: any): Promise<string | null> => {
   let result;
+  let formData = new FormData();
+  formData.append('content', content);
   if(media && name && type){
-    let formData = new FormData();
-    formData.append('content', content);
     formData.append('media', {
       name: name,
       type: type,
       uri: Platform.OS === 'android' ? media : media.replace('file://', ''),
     })
-    result = await ApiRequest.build('POST', 'multipart/form-data')(POST_API_CREATE, formData);
   } 
-  else result = await ApiRequest.build('POST', 'multipart/form-data')(POST_API_CREATE, {content});
+  result = await ApiRequest.build('POST', 'multipart/form-data')(POST_API_CREATE, formData);
   if(result.status < 200 && result.status >= 300) return null;
   if(result.data.status.toLowerCase() == RESPONSE_FAIL) return null;
   return result.data.message.UUID;
 }
 
-export const updatePost = async (uuid: string, content: string) : Promise<boolean> => {
+export const updatePost = async (uuid: string, content: string, name?: string, type?: string, media?: any) : Promise<boolean> => {
   if(!content) return false;
   if(!checkUUIDRegex(uuid)) return false;
-  let result = await ApiRequest.build('POST', 'application/json')(POST_API_UPDATE, { 'uuid': uuid, content});
+  let formData = new FormData();
+  formData.append('content', content);
+  formData.append('uuid', uuid);
+  if(media && name && type){
+    formData.append('media', {
+      name: name,
+      type: type,
+      uri: Platform.OS === 'android' ? media : media.replace('file://', ''),
+    })
+  } 
+  let result = await ApiRequest.build('POST', 'multipart/form-data')(POST_API_UPDATE, formData);
   if(result.status < 200 && result.status >= 300) return false;
   let r: ResponseInterface = result.data;
   if(!r || r.status == undefined || r.status.toLowerCase() == RESPONSE_FAIL)

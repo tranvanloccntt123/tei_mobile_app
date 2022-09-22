@@ -1,35 +1,37 @@
-import { CommonMediaInterface, ScreenInterface } from "../common/AppInterface";
+import { useNavigation } from "@react-navigation/native";
 import React from "react";
-import { DEV_BACKGROUND } from "../assets/images";
-import ProfileLayout from "../components/profile/layouts/ProfileBasicLayout";
-import { onHandleRelationShip, stateManagement, useCheckRelationShip, useLoadPost, useLoadProfile, useProfileSevices } from "../sevices/ProfileServices";
-export default function ProfileScreen(this: any, props: ScreenInterface){
-    useLoadProfile();
-    const user_id: number = props.route? props.route.id? props.route.id : 1 : 1;
-    stateManagement.call(this, user_id);
-    useProfileSevices.call(this);
+import { FlatList, StatusBar, View, SafeAreaView } from "react-native";
+import FastImage from "react-native-fast-image";
+import { TouchableOpacity } from "react-native-gesture-handler";
+import { Text } from "react-native-paper";
+import { ScreenInterface } from "../common/AppInterface";
+import { AppStyle } from "../common/AppStyle";
+import { blue, gray, grayPrimary, orange, white } from "../common/Colors";
+import { POST_CREATE_SCREEN } from "../common/RouteName";
+import BasicProfile from "../components/profile/elements/BasicProfile";
+import PostCard from "../components/profile/elements/PostCard";
+import AppLayout from "../components/profile/layouts/AppLayout";
+import { stateManagement, useLoadPost, useLoadProfile } from "../sevices/ProfileServices";
+export default function ProfileScreen(this: any, props: ScreenInterface) {
+    const navigation = useNavigation();
+    stateManagement.call(this);
+    useLoadProfile.call(this);
     useLoadPost.call(this);
-    useCheckRelationShip.call(this);
-    const common:Array<CommonMediaInterface> = Array.from({length: 10}, (_, i) => {
-        return {
-            id: i,
-            image: DEV_BACKGROUND
-        }
-    });
-    const handleRelationShip = async () => {
-        let newRelation = await onHandleRelationShip(user_id, this.relationShip, this.setRelationShip);
-        return newRelation;
-    }
-    return this.current? <ProfileLayout 
-        user={this.current}
-        data={this.posts} 
-        friends={this.friends}
-        commonMedia={common}
-        countFriend={this.countFriend}
-        countPost={this.countPost}
-        LoadPostFunction={() => this.setIsLoad(true)}
-        relationShip={this.relationShip}
-        handleRelationShip={handleRelationShip}
-        isVisit={this.isVisit}
-    /> : null
+    const onCreatePostPress = () => navigation.navigate(POST_CREATE_SCREEN, {});
+    const RenderHeader = React.useCallback(() => <BasicProfile current={this.current}>
+        <TouchableOpacity activeOpacity={0.8} style={[{ backgroundColor: blue, borderRadius: 35, paddingVertical: 10, width: 150 }, AppStyle.center]}>
+            <Text style={[{ color: white }]}>Create post</Text>
+        </TouchableOpacity>
+    </BasicProfile>, [this.current]);
+    return <AppLayout>
+        <View style={[AppStyle.container, { backgroundColor: gray + 35 }]}>
+            <FlatList
+                ListHeaderComponent={RenderHeader}
+                data={this.posts}
+                keyExtractor={(item: any, index: any) => `[POSTS KEY] ${index}`}
+                renderItem={(props: any) => <PostCard data={props.item} index={props.index} />}
+                showsVerticalScrollIndicator={false}
+            />
+        </View>
+    </AppLayout>
 }

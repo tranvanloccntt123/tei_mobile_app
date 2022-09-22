@@ -8,84 +8,22 @@ import { PROFILE_ACTION_GET_USER } from "../redux/actions/ProfileAction";
 import { COMBINE_NAME_PROFILE } from "../redux/reducers/CombineName";
 import { esTime } from '../untils/Time';
 
-export function stateManagement(this: any, user_id: number){
+export function stateManagement(this: any){
     const [current, setCurrent] = React.useState<ProfileInterface>();
     const [countFriend, setCountFriend] = React.useState<number>(0);
     const [countPost, setCountPost] = React.useState<number>(0);
-    const [friends, setFriends] = React.useState<Array<UserInterface>>([]);
-    const [relationShip, setRelationShip] = React.useState<CheckRelationInterface | null>(null);
     const [posts, setPosts] = React.useState<Array<PostInterface>>([]);
     const [isLoad, setIsLoad] = React.useState<boolean>(true);
-    const [isVisit, setIsVisit] = React.useState<boolean>(false);
-
     this.current = current;
     this.setCurrent = setCurrent;
     this.countFriend = countFriend;
     this.setCountFriend = setCountFriend;
     this.countPost = countPost;
     this.setCountPost = setCountPost;
-    this.friends = friends;
-    this.setFriends = setFriends;
-    this.relationShip = relationShip;
-    this.setRelationShip = setRelationShip;
     this.posts = posts;
     this.setPosts = setPosts;
     this.isLoad = isLoad;
     this.setIsLoad = setIsLoad;
-    this.isVisit = isVisit;
-    this.setIsVisit = setIsVisit;
-    this.user_id = user_id;
-}
-
-export function useProfileSevices(this: any){
-    const {profile, cFriend, cPost} = useSelector((state: any) => {
-        return {
-            'profile': state[`${COMBINE_NAME_PROFILE}`].user,
-            'cFriend': state[`${COMBINE_NAME_PROFILE}`].friends,
-            'cPost': state[`${COMBINE_NAME_PROFILE}`].posts
-        }
-    });
-
-    const getData = async () => {
-        let r:VisitProfile | null = await getVisitProfile(this.user_id);
-        if(r == null) return;
-        this.setCountFriend(r.friends);
-        this.setCountPost(r.posts);
-        let p = r.profile;
-        if(!p.avatar) p.avatar = AVATAR_DEFAULT;
-        if(!p.background) p.background = DEV_BACKGROUND;
-        this.setCurrent(p);
-    }
-    React.useEffect(() => {
-        if(profile){
-            if(profile.id != this.user_id) {
-                getData();
-                this.setIsVisit(true);
-            }
-            else {
-                this.setCurrent(profile);
-                this.setCountFriend(cFriend);
-                this.setCountPost(cPost);
-                this.setIsVisit(false);
-            }
-        }
-    },[profile]);
-    const getFriend = async () => {
-        let r = await getListFriend();
-        if(!r) return;
-        this.setFriends(r.data.map((value: UserInterface) => {
-            let r: UserInterface = {
-                id: value.id,
-                name: value.name,
-                avatar: value.avatar? {uri: `${STOREAGE}/${value.avatar}`} : AVATAR_DEFAULT,
-                background: value.background? {uri: `${STOREAGE}/${value.background}`} : DEV_BACKGROUND
-            }
-            return r;
-        }));
-    }
-    React.useEffect(() => {
-        getFriend()
-    }, []);
 }
 
 export function useLoadPost(this: any) {
@@ -118,19 +56,31 @@ export function useLoadPost(this: any) {
         });
     }
     React.useEffect(() => {
-        console.log(this.isLoad);
         if(this.isLoad){
             getPost()
         }
     }, [this.isLoad])
 }
 
-export function useLoadProfile(){
-    const profile = useSelector((state: any) => state[`${COMBINE_NAME_PROFILE}`].user);
+export function useLoadProfile(this: any){
+    const {profile, cFriend, cPost} = useSelector((state: any) => {
+        return {
+            'profile': state[`${COMBINE_NAME_PROFILE}`].user,
+            'cFriend': state[`${COMBINE_NAME_PROFILE}`].friends,
+            'cPost': state[`${COMBINE_NAME_PROFILE}`].posts
+        }
+    });
     const dispatch = useDispatch();
     React.useEffect(() => {
         if(!profile)
             dispatch({type: PROFILE_ACTION_GET_USER});  
+        else {
+            if(profile){
+                this.setCurrent(profile);
+                this.setCountFriend(cFriend);
+                this.setCountPost(cPost);
+            }
+        }
     }, [profile]);
 }
 
@@ -180,4 +130,9 @@ export async function onHandleRelationShip (user_id: number, relationShip: Check
     }
     setRelationShip({status: oldStatus, personRequest: oldPersonalRequest});
     return {status: oldStatus, personRequest: oldPersonalRequest};
+}
+
+export async function handleRelationShip(this: any){
+    let newRelation = await onHandleRelationShip(this.user_id, this.relationShip, this.setRelationShip);
+    return newRelation;
 }

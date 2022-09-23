@@ -1,14 +1,14 @@
 import React from "react";
 import { View, Text, StyleSheet, TouchableOpacity, ImageSourcePropType, Animated } from "react-native";
-import { AppStyle } from "../../../common/AppStyle";
-import { black, gray, grayLightPrimary, red, violet, white } from "../../../common/Colors";
-import { PostInterface, ProfileInterface } from "../../../common/AppInterface";
+import { AppStyle } from "../../common/AppStyle";
+import { black, gray, grayLightPrimary, red, violet, white } from "../../common/Colors";
+import { PostInterface, ProfileInterface } from "../../common/AppInterface";
 import AntDesign from 'react-native-vector-icons/AntDesign';
 import Feather from 'react-native-vector-icons/Feather';
 import ActionButton from "./ActionButton";
 import FastImage from 'react-native-fast-image';
 import { useSelector } from "react-redux";
-import { COMBINE_NAME_PROFILE } from "../../../redux/reducers/CombineName";
+import { COMBINE_NAME_PROFILE } from "../../redux/reducers/CombineName";
 const style = StyleSheet.create({
     container: {backgroundColor: white, paddingBottom: 25, paddingTop: 15, marginBottom: 15, shadowColor: gray, shadowOffset: {width: 0, height: 3}, shadowOpacity: 0.5, elevation: 5},
     avatarContainer: {backgroundColor: white, width: 60, height: 60, borderRadius: 50, shadowColor: grayLightPrimary, shadowOffset: {width: 3, height: 3}, shadowOpacity: 0.3, elevation: 3},

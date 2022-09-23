@@ -15,8 +15,8 @@ const style = StyleSheet.create({
         backgroundColor: white,
         borderWidth: 1,
         borderColor: gray,
-        borderRadius: 5,
-        height: 45,
+        borderRadius: 15,
+        height: 55,
         marginBottom: 35
     },
     label: {backgroundColor: white, position: 'absolute', top: -12, left: 15, paddingHorizontal: 5, color: grayPrimary},

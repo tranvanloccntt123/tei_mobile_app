@@ -6,7 +6,7 @@ import { useNavigation } from "@react-navigation/native";
 import Feather from 'react-native-vector-icons/Feather';
 import AntDesign from 'react-native-vector-icons/AntDesign';
 import AppLayout from "../components/layouts/AppLayout";
-import ActionButton from "../components/profile/elements/ActionButton";
+import ActionButton from "../components/elements/ActionButton";
 import { ScreenInterface } from "../common/AppInterface";
 import { stateManagement, useMode, useSelectImage, useSendPost } from "../sevices/PostServices";
 import FastImage from "react-native-fast-image";

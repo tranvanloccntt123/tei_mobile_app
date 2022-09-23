@@ -1,6 +1,6 @@
 import React, { ReactNode } from "react";
 import { Animated, TouchableOpacity, StyleSheet } from "react-native";
-import { AppStyle } from "../../../common/AppStyle";
+import { AppStyle } from "../../common/AppStyle";
 interface ActionButtonProps{
     children?: ReactNode | JSX.Element | JSX.Element[],
     onPress: Function,

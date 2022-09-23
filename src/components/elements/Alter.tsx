@@ -1,7 +1,7 @@
 import React from "react";
 import { Text, StyleSheet, Animated, Easing, TouchableOpacity } from "react-native";
-import { AppStyle } from "@teiresource/commonconfig/AppStyle";
-import { red, white } from "@teiresource/commonconfig/Colors";
+import { AppStyle } from "../../common/AppStyle";
+import { red, white } from "../../common/Colors";
 const style = StyleSheet.create({
     from: {position: "absolute", bottom: 25},
     alterContainer: {

@@ -1,10 +1,10 @@
 import React, { ReactNode } from "react";
 import { Text, StyleSheet, View } from "react-native";
 import FastImage from "react-native-fast-image";
-import { AVATAR_DEFAULT } from "../../../assets/images";
-import { ProfileInterface } from "../../../common/AppInterface";
-import { AppStyle } from "../../../common/AppStyle";
-import { blue, gray, orange, violet, white } from "../../../common/Colors";
+import { AVATAR_DEFAULT } from "../../assets/images";
+import { ProfileInterface } from "../../common/AppInterface";
+import { AppStyle } from "../../common/AppStyle";
+import { blue, gray, orange, violet, white } from "../../common/Colors";
 interface PropsInterface {
     children?: ReactNode | JSX.Element | JSX.Element[],
     current: ProfileInterface,

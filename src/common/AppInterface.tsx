@@ -31,7 +31,8 @@ export interface ProfileInterface extends BaseApiResponseInterface{
     name: string,
     email?: string,
     avatar?: string | ImageSourcePropType,
-    background?: string | ImageSourcePropType
+    background?: string | ImageSourcePropType,
+    description?: string
 }
 export interface PostInterface extends BaseApiResponseInterface{
     content: string,

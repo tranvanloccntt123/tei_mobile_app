@@ -1,7 +1,7 @@
 import React from "react";
 import { Dimensions, Animated, Modal, View, StyleSheet, FlatList, Text, TouchableOpacity } from "react-native";
-import { AppStyle } from "../../../common/AppStyle";
-import { black, gray, white } from "../../../common/Colors";
+import { AppStyle } from "../../common/AppStyle";
+import { black, gray, white } from "../../common/Colors";
 import AntDesign from 'react-native-vector-icons/AntDesign'
 import FastImage from "react-native-fast-image";
 const { width, height } = Dimensions.get('window');

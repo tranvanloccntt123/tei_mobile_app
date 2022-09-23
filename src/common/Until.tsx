@@ -10,12 +10,16 @@ export const RESPONSE_FAIL:string = "fail";
 export const Authentication = async (user: string, pass: string) => {
     let result = await ApiRequest.build("POST", "application/json")(LOGIN_API_SIGNIN, {username: user, password: pass});
     if(result.status < 200 && result.status >= 300) return false;
+    let r: ResponseInterface = result.data;
+    if(!r || r.status == undefined || r.status.toLowerCase() == RESPONSE_FAIL) return false;
     return result.data;
 }
 
 export const Registration = async (name: string, username: string, password: string) => {
     let result = await ApiRequest.build("POST", "application/json")(LOGIN_API_SIGNUP, {name: name, username: username, password: password});
     if(result.status < 200 && result.status >= 300) return false;
+    let r: ResponseInterface = result.data;
+    if(!r || r.status == undefined || r.status.toLowerCase() == RESPONSE_FAIL) return false;
     return result.data;
 }
 

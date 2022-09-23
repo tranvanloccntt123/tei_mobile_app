@@ -11,18 +11,14 @@
  import React from 'react';
  import { Provider } from 'react-redux';
  import { applyMiddleware, combineReducers, createStore, ReducersMapObject } from 'redux';
- import { COMBINE_NAME_LOGIN, COMBINE_NAME_PROFILE, COMBINE_NAME_REGISTER } from './src/redux/reducers/CombineName';
+ import { COMBINE_NAME_PROFILE } from './src/redux/reducers/CombineName';
  import ProfileReducer from './src/redux/reducers/ProfileReducer';
  import createSagaMiddleware from '@redux-saga/core';
  import { ApiRequest } from './src/common/ApiRequest';
 import AppNavigation from './src/navigations';
 import AppSaga from './src/redux/sagas';
-import LoginReducer from './src/redux/reducers/LoginReducer';
-import RegisterReducer from './src/redux/reducers/RegisterReducer';
  const combine: ReducersMapObject = {};
  combine[`${COMBINE_NAME_PROFILE}`] = ProfileReducer;
- combine[`${COMBINE_NAME_LOGIN}`] = LoginReducer;
- combine[`${COMBINE_NAME_REGISTER}`] = RegisterReducer;
  const sagaMiddleware = createSagaMiddleware();
  const store = createStore(combineReducers(combine), applyMiddleware(sagaMiddleware));
  const App = () => {

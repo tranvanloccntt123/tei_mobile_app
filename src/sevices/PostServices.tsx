@@ -1,7 +1,5 @@
 import React from "react";
-import { Alert, Keyboard } from "react-native";
 import { Asset } from "react-native-image-picker";
-import { sendPost, updatePost } from "../common/Until";
 import { LauchImage } from "../untils/CameraUntil";
 
 export function stateManagement(this: any, route: any) {
@@ -27,9 +25,6 @@ export function stateManagement(this: any, route: any) {
     this.setUUID = setUUID;
     this.oldImage = oldImage;
     this.setOldImage = setOldImage;
-}
-
-export function useMode(this: any) {
 
     React.useEffect(() => {
         this.setModeTitle(this.mode ? "Create" : "Update");
@@ -43,31 +38,4 @@ export function useSelectImage(this: any) {
         if (result[0])
             props.setFile(result[0]);
     });
-}
-
-export async function useSendPost(this: any) {
-    Keyboard.dismiss();
-    if (!this.content) {
-        Alert.alert("FAIL", `Content post not empty`, [{ text: "OK", style: "cancel" }]);
-        return;
-    }
-    this.setVisible(true);
-    let r = null;
-    if (this.mode) r = await sendPost(this.content, this.file?.fileName, this.file?.type, this.file?.uri);
-    else r = await updatePost(this.uuid, this.content, this.file?.fileName, this.file?.type, this.file?.uri);
-    await setTimeout(() => {}, 1000);
-    this.setVisible(false);
-    if (!r) {
-        Alert.alert("FAIL", `${this.modeTitle} post fail!`, [{ text: "OK", style: "cancel" }, { text: "Retry", style: "destructive" }]);
-    } else {
-        Alert.alert("SUCCESS", `${this.modeTitle} post success!`, [{ text: "OK", style: "cancel" }]);
-        if(this.mode){
-            this.setContent("");
-        } 
-        else 
-        {
-            if(this.file) this.setOldImage(this.file.uri);
-        }
-        this.setFile(null);
-    }
 }

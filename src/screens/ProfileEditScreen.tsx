@@ -3,13 +3,13 @@ import { TouchableOpacity, Text, View, StyleSheet } from "react-native";
 import { useSelector } from "react-redux";
 import { ProfileInterface } from "../common/AppInterface";
 import { AppStyle } from "../common/AppStyle";
-import { orange, red, white } from "../common/Colors";
+import { blue, orange, red, white } from "../common/Colors";
 import ActionButton from "../components/elements/ActionButton";
 import Input from "../components/elements/Input";
 import AppLayout from "../components/layouts/AppLayout";
 import { COMBINE_NAME_PROFILE } from "../redux/reducers/CombineName";
 const style = StyleSheet.create({
-    saveContainer: {width: "100%", height: 55, backgroundColor: orange, borderRadius: 10}
+    saveContainer: {width: "100%", height: 55, backgroundColor: blue, borderRadius: 10}
 })
 export default function ProfileEditScreen(){
     const profile: ProfileInterface = useSelector((state: any) => state[`${COMBINE_NAME_PROFILE}`].user);

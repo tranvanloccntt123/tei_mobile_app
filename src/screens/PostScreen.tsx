@@ -8,9 +8,10 @@ import AntDesign from 'react-native-vector-icons/AntDesign';
 import AppLayout from "../components/layouts/AppLayout";
 import ActionButton from "../components/elements/ActionButton";
 import { ScreenInterface } from "../common/AppInterface";
-import { stateManagement, useMode, useSelectImage, useSendPost } from "../sevices/PostServices";
+import { stateManagement, useSelectImage } from "../sevices/PostServices";
 import FastImage from "react-native-fast-image";
-import { STOREAGE } from "../common/ApiRoute";
+import { SendPostCommand } from "../command/SendPostCommand";
+import { CommandInvoker } from "../command/Command";
 const { width, height } = Dimensions.get('window');
 const style = StyleSheet.create({
     container: {},
@@ -29,9 +30,11 @@ const style = StyleSheet.create({
 export default function CreatePostScreen(this: any, props: ScreenInterface) {
     const navigation = useNavigation();
     stateManagement.call(this, props.route);
-    useMode.call(this);
+    let sendPostCommand = new SendPostCommand(this);
+
     const onSelectImage = () => useSelectImage.call(this);
-    const onSendPost = () => useSendPost.call(this);
+    const onSendPost = () => CommandInvoker(sendPostCommand, {});
+
     const FileView = React.useCallback(() => {
         return this.file ? <View style={[style.fileContainer, AppStyle.mt3]}>
             <TouchableOpacity onPress={() => this.setFile(null)} activeOpacity={0.8} style={style.fileCloseContainer}>
@@ -40,11 +43,13 @@ export default function CreatePostScreen(this: any, props: ScreenInterface) {
             <FastImage source={{ uri: this.file.uri }} style={style.fileViewImage} />
         </View> : null
     }, [this.file]);
+
     const OldFileView = React.useCallback(() => {
         return !this.file && this.oldImage ? <View style={[style.fileContainer, AppStyle.mt3]}>
             <FastImage source={{ uri: this.oldImage }} style={style.fileViewImage} />
         </View> : null
     }, [this.file, this.oldImage]);
+
     const SenddingView = () => <View>
         <View style={{ flexDirection: "row" }}>
             {

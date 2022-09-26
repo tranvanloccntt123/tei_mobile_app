@@ -1,3 +1,4 @@
+//https://material.io/resources/color/#!/?view.left=0&view.right=0&primary.color=CE93D8
 export const orange="#FC6A03";
 export const black="#000000";
 export const gray="#C7C7C7";

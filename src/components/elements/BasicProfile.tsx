@@ -40,10 +40,6 @@ export default function BasicProfile(props: PropsInterface) {
             getData()
     }, [props.user_id]);
 
-    React.useEffect(() => {
-        console.log(relationShip);
-    }, [relationShip]);
-
     const onRequest = async () => {
         let r = await sendRelationShip(props.user_id? props.user_id : 0 , 0);
         if(r) setRelationShip(r);

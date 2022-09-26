@@ -16,7 +16,7 @@ const style = StyleSheet.create({
     button: {
         backgroundColor: blue,
         borderRadius: 15,
-        shadowColor: blackPrimary,
+        shadowColor: blue,
         shadowOffset: { width: 3, height: 3 },
         shadowOpacity: 0.3,
         elevation: 5

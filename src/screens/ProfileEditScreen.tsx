@@ -1,38 +1,29 @@
 import React from "react";
-import { TouchableOpacity, Text, View, StyleSheet } from "react-native";
+import { View } from "react-native";
 import { useSelector } from "react-redux";
+import { CommandInvoker } from "../command/Command";
+import { SaveProfileCommand } from "../command/SaveProfileCommand";
 import { ProfileInterface } from "../common/AppInterface";
 import { AppStyle } from "../common/AppStyle";
-import { blue, orange, red, white } from "../common/Colors";
-import ActionButton from "../components/elements/ActionButton";
-import Input from "../components/elements/Input";
+import EditProfileForm from "../components/forms/EditProfileForm";
 import AppLayout from "../components/layouts/AppLayout";
 import { COMBINE_NAME_PROFILE } from "../redux/reducers/CombineName";
-const style = StyleSheet.create({
-    saveContainer: {width: "100%", height: 55, backgroundColor: blue, borderRadius: 10}
-})
-export default function ProfileEditScreen(){
+import { stateManagement } from "../sevices/EditProfileServices";
+export default function ProfileEditScreen(this: any){
     const profile: ProfileInterface = useSelector((state: any) => state[`${COMBINE_NAME_PROFILE}`].user);
-    const [name, setName] = React.useState("");
-    const [email, setEmail] = React.useState("");
-    const [description, setDescription] = React.useState("");
-    React.useEffect(() => {
-        if(profile){
-            setName(profile.name);
-            if(profile.email)
-                setEmail(profile.email);
-            if(profile.description)
-                setDescription(profile.description)
-        }
-    }, []);
-    return <AppLayout>
+    stateManagement.call(this);
+    let saveProfileCommand = new SaveProfileCommand(this);
+    
+    const onSavePress = (name: string, email: string, description: string) => CommandInvoker(saveProfileCommand, {id: profile.id, name, email, description});
+    return <AppLayout alterStatus={this.alterStatus} alterID={this.alterId} alterMessage={this.alter}>
         <View style={[AppStyle.center, AppStyle.p3, {paddingTop: 25}]}>
-            <Input label="Name" value={name} onChangeText={(text) => setName(text)} keyboardType="default" />
-            <Input label="Email" value={email} onChangeText={(text) => setEmail(text)} keyboardType="email-address"  />
-            <Input label="Description" onChangeText={(text) => setDescription(text)} value={description} />
-            <ActionButton containerStyle={style.saveContainer} onPress={() => {}}>
-                <Text style={[AppStyle.h5, {color: white}]}>Save and Continue</Text>
-            </ActionButton>
+            <EditProfileForm  
+                onSavePress={onSavePress} 
+                profile={profile} 
+                errorName={this.errorName}
+                errorEmail={this.errorEmail}
+                errorDescription={this.errorDescription}
+            />
         </View>
     </AppLayout>
 }

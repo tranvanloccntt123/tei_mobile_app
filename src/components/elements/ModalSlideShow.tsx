@@ -33,7 +33,6 @@ export default function ModalSlideShow(props: ModalSlideShowInterface) {
             props.onRequestClose(false);
     }
     const renderItem = React.useCallback((itemProps: { item: any, index: any }) => {
-        const inputRange = [(itemProps.index - 1) * width, itemProps.index * width, (itemProps.index + 1) * width]
         return <View style={[style.itemContainer]}>
             <FastImage resizeMode="contain" source={{uri: props.isImage? itemProps.item[`${props.isImage}`] : itemProps.item.image}} style={[style.itemImage]} />
             {

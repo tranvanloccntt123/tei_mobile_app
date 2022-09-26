@@ -22,7 +22,6 @@ import AppSaga from './src/redux/sagas';
  const sagaMiddleware = createSagaMiddleware();
  const store = createStore(combineReducers(combine), applyMiddleware(sagaMiddleware));
  const App = () => {
-   ApiRequest.token = "H3FizGTaUakQUQjlFAtki41lOjHOURTyXATmxsXV";
    ApiRequest.applicationId = "10";
    return <Provider store={store}>
      <AppNavigation />

@@ -10,7 +10,7 @@ import FastImage from 'react-native-fast-image';
 import { useSelector } from "react-redux";
 import { COMBINE_NAME_PROFILE } from "../../redux/reducers/CombineName";
 const style = StyleSheet.create({
-    container: {backgroundColor: white, paddingBottom: 25, paddingTop: 15, marginBottom: 15, shadowColor: gray, shadowOffset: {width: 0, height: 3}, shadowOpacity: 0.5, elevation: 5},
+    container: {backgroundColor: white, paddingTop: 15, marginBottom: 15, shadowColor: gray, shadowOffset: {width: 0, height: 3}, shadowOpacity: 0.5, elevation: 5},
     avatarContainer: {backgroundColor: white, width: 60, height: 60, borderRadius: 50, shadowColor: grayLightPrimary, shadowOffset: {width: 3, height: 3}, shadowOpacity: 0.3, elevation: 3},
     commentButton: {flex: 1, height: 45, borderRadius: 30, backgroundColor: gray, justifyContent: 'center', paddingHorizontal: 15},
     actionButton: {height: 45, width: 45}
@@ -26,6 +26,7 @@ export default function PostCard(props: PostCardProps){
     const PostCardOpacity = React.useRef(new Animated.Value(1)).current;
     const avatar:ImageSourcePropType | undefined = props.data.user.avatar
     const [isLike, setIsLike] = React.useState<boolean>(false);
+    const disiable = true;
     const onPressToImage = () => {
         if(props.onPressToImage) props.onPressToImage(props.data);
     }
@@ -59,13 +60,15 @@ export default function PostCard(props: PostCardProps){
             </TouchableOpacity> : null
         }
         
-        <View style={[AppStyle.p2, {flexDirection: 'row'}]}>
-            <TouchableOpacity activeOpacity={0.9} style={[style.commentButton]}>
-                <Text style={{fontSize: 16, color: black}}>Write comment...</Text>
-            </TouchableOpacity>
-            <ActionButton onPress={() => setIsLike(!isLike)}>
-                <AntDesign name={isLike? 'heart' : 'hearto'} color={isLike? red : black} size={25} />
-            </ActionButton>
-        </View>
+        {
+            disiable? null : <View style={[AppStyle.p2, AppStyle.mb3, {flexDirection: 'row'}]}>
+                <TouchableOpacity activeOpacity={0.9} style={[style.commentButton]}>
+                    <Text style={{fontSize: 16, color: black}}>Write comment...</Text>
+                </TouchableOpacity>
+                <ActionButton onPress={() => setIsLike(!isLike)}>
+                    <AntDesign name={isLike? 'heart' : 'hearto'} color={isLike? red : black} size={25} />
+                </ActionButton>
+            </View>
+        }
     </Animated.View>
 }

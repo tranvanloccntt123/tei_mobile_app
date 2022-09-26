@@ -1,6 +1,6 @@
 import { CommonActions, useNavigation } from "@react-navigation/native";
 import React from "react";
-import { PROFILE_INFO_SCREEN } from "../common/RouteName";
+import { MAIN_SCREEN, PROFILE_INFO_SCREEN } from "../common/RouteName";
 
 export function stateManagement(this: any, route?: any) {
     const navigation = useNavigation();
@@ -11,6 +11,9 @@ export function stateManagement(this: any, route?: any) {
     const [errorUserName, setErrorUserName] = React.useState<string>("");
     const [errorPassword, setErrorPassword] = React.useState<string>("");
     const [errorConfirmPassword, setErrorConfirmPassword] = React.useState<string>("");
+    const [alter, setAlter] = React.useState("");
+    const [alterId, setAlterId] = React.useState(0);
+    const [sending, setSending] = React.useState<boolean>(false);
 
     this.auth = checkAuth;
     this.setAuth = setCheckAuth;
@@ -26,6 +29,12 @@ export function stateManagement(this: any, route?: any) {
     this.setErrorPassword = setErrorPassword;
     this.errorConfirmPassword = errorConfirmPassword;
     this.setErrorConfirmPassword = setErrorConfirmPassword;
+    this.alter = alter;
+    this.setAlter = setAlter;
+    this.alterId = alterId;
+    this.setAlterId = setAlterId;
+    this.sending = sending;
+    this.setSending = setSending;
 
     React.useEffect(() => {
         if(this.auth)
@@ -35,7 +44,7 @@ export function stateManagement(this: any, route?: any) {
                     index: 0,
                     routes: [
                         {
-                            name: PROFILE_INFO_SCREEN
+                            name: MAIN_SCREEN
                         }
                     ]
                 })

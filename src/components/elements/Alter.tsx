@@ -1,7 +1,7 @@
 import React from "react";
 import { Text, StyleSheet, Animated, Easing, TouchableOpacity } from "react-native";
 import { AppStyle } from "../../common/AppStyle";
-import { red, white } from "../../common/Colors";
+import { green, red, white } from "../../common/Colors";
 const style = StyleSheet.create({
     from: {position: "absolute", bottom: 25},
     alterContainer: {
@@ -27,7 +27,8 @@ const style = StyleSheet.create({
 });
 interface AlterProps{
     message: string | undefined,
-    _id: string | number
+    _id: string | number,
+    status?: number
 }
 export default function Alter(props: AlterProps){
     const fade = React.useRef(new Animated.Value(0)).current;
@@ -43,7 +44,7 @@ export default function Alter(props: AlterProps){
         Animated.timing(fade, {toValue: 0, useNativeDriver: true}).stop();
         fade.setValue(0);
     }
-    return <Animated.View style={[style.alterContainer, {opacity: fade}, AppStyle.pt2, AppStyle.pb2, AppStyle.pr3, AppStyle.pl3]}>
+    return <Animated.View style={[style.alterContainer, {backgroundColor: props.status? green : red, shadowColor: props.status? green : red}, {opacity: fade}, AppStyle.pt2, AppStyle.pb2, AppStyle.pr3, AppStyle.pl3]}>
         <Text style={[{color: white, marginRight: 5}]}>{props.message}</Text>
         <TouchableOpacity style={{paddingHorizontal: 5}} onPress={closeAnimation}>
             <Text style={style.closeButton}>x</Text>

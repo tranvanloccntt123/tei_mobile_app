@@ -11,3 +11,4 @@ export const violet="#3d1e6d";
 export const blue="#005b96";
 export const green="#3BB54A";
 export const white="#ffffff"
+export const pink="#ef4fa6";

@@ -1,6 +1,6 @@
 import { STOREAGE } from "../common/ApiRoute";
-import { CheckRelationInterface, PostInterface, ProfileInterface, UserInterface, VisitProfile } from "../common/AppInterface";
-import { checkRelationShip, deletePost, getListFriend, getListPost, getVisitProfile, sendRelationShip } from "../common/Until";
+import { CheckRelationInterface, PostInterface, ProfileInterface } from "../common/AppInterface";
+import { checkRelationShip, deletePost, getListPost, getVisitProfile } from "../common/Until";
 import React from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { AVATAR_DEFAULT, DEV_BACKGROUND } from "../assets/images";
@@ -8,13 +8,18 @@ import { PROFILE_ACTION_GET_USER } from "../redux/actions/ProfileAction";
 import { COMBINE_NAME_PROFILE } from "../redux/reducers/CombineName";
 import { esTime } from '../untils/Time';
 
-export function stateManagement(this: any){
+export function stateManagement(this: any, route?: any){
     const [current, setCurrent] = React.useState<ProfileInterface>();
     const [countFriend, setCountFriend] = React.useState<number>(0);
     const [countPost, setCountPost] = React.useState<number>(0);
     const [posts, setPosts] = React.useState<Array<PostInterface>>([]);
     const [isLoad, setIsLoad] = React.useState<boolean>(true);
     const [pickPost, setPickPost] = React.useState<PostInterface | null>(null);
+    const [visibleShowModal, setVisibleShowModal] = React.useState<boolean>(false);
+    const [dataShowModal, setDataShowModal] = React.useState<PostInterface | null>(null);
+    const [visit, setVisit] = React.useState<boolean>(route?.params?.visit? true : false);
+    const [user_id, setUserId] = React.useState<number>(route?.params?.id? route?.params?.id : undefined );
+
     this.current = current;
     this.setCurrent = setCurrent;
     this.countFriend = countFriend;
@@ -27,6 +32,14 @@ export function stateManagement(this: any){
     this.setIsLoad = setIsLoad;
     this.pickPost = pickPost;
     this.setPickPost = setPickPost;
+    this.visibleShowModal = visibleShowModal;
+    this.setVisibleShowModal = setVisibleShowModal;
+    this.dataShowModal = dataShowModal;
+    this.setDataShowModal = setDataShowModal;
+    this.visit = visit;
+    this.setVisit = setVisit;
+    this.user_id = user_id;
+    this.setUserId = setUserId;
 
     const {profile, cFriend, cPost} = useSelector((state: any) => {
         return {
@@ -35,18 +48,30 @@ export function stateManagement(this: any){
             'cPost': state[`${COMBINE_NAME_PROFILE}`].posts
         }
     });
+
+    const setVisitData = async () => {
+        let r = await getVisitProfile(this.user_id);
+        this.setCurrent(r?.profile);
+        this.setCountFriend(r?.friends);
+        this.setCountPost(r?.posts);
+    }
+
     React.useEffect(() => {
-        if(profile){
+        if(profile && !this.visit){
             this.setCurrent(profile);
             this.setCountFriend(cFriend);
             this.setCountPost(cPost);
         }
     }, [profile]);
+
+    React.useEffect(() => {
+        setVisitData();
+    }, [this.visit]);
 }
 
 export function useLoadPost(this: any) {
     const getPost = async () => {
-        let r = await getListPost(this.posts.length? this.posts[this.posts.length - 1].id : 0, this.user_id);
+        let r = await getListPost(this.posts.length? this.posts[this.posts.length - 1].id : 0, 1, this.user_id);
         this.setIsLoad(false);
         if(!r){
             return;
@@ -60,7 +85,7 @@ export function useLoadPost(this: any) {
                 user: {
                     id: value.user_id,
                     name: value.name,
-                    avatar: AVATAR_DEFAULT,
+                    avatar: value.avatar? value.avatar : AVATAR_DEFAULT,
                     background: DEV_BACKGROUND
                 },
                 uuid: value.UUID,
@@ -85,17 +110,6 @@ export function useLoadProfile(){
         if(!profile)
             dispatch({type: PROFILE_ACTION_GET_USER});  
     }, [profile]);
-}
-
-export function useCheckRelationShip(this: any){
-    const getData = async () => {
-        let result = await checkRelationShip(this.user_id);
-        if(result == null) return;
-        this.setRelationShip(result);
-    }
-    React.useEffect(() => {
-        getData()
-    }, [this.user_id])
 }
 
 export async function sendDeletePost(this: any){

@@ -5,6 +5,8 @@ export enum RelationShipEnum{
     me = 3
 }
 
+export type RelationShipDescriptionEnum = 'friend' | 'daughter' | 'husband' | 'wife' | 'son' | 'grandfather' | 'grandmother' | 'father' | 'mother' | 'lover'
+
 export const getRelationShipName = (rl: number) => {
     const indexOfS = Object.values(RelationShipEnum).indexOf(rl as unknown as RelationShipEnum);
     const key = Object.keys(RelationShipEnum)[indexOfS];

@@ -1,5 +1,5 @@
 import { ApiRequest } from "./ApiRequest";
-import { LOGIN_API_SIGNIN, LOGIN_API_SIGNUP, POST_API_CREATE, POST_API_DELETE, POST_API_LIST, POST_API_UPDATE, PROFILE_API_RELATION_LIST, PROFILE_API_VISIT, PROFILE_API_RELATION_REQUEST, PROFILE_API_RELATION_CHECK } from "./ApiRoute";
+import { LOGIN_API_SIGNIN, LOGIN_API_SIGNUP, POST_API_CREATE, POST_API_DELETE, POST_API_LIST, POST_API_UPDATE, PROFILE_API_RELATION_LIST, PROFILE_API_VISIT, PROFILE_API_RELATION_REQUEST, PROFILE_API_RELATION_CHECK, PROFILE_API_CHANGE_DETAIL, PROFILE_API_SEARCH } from "./ApiRoute";
 
 let regex = /^[a-zA-Z0-9]{6,15}/;
 
@@ -39,7 +39,7 @@ export const CheckAuthentication = (user: string, pass: string) : boolean => {
 // until for chat
 import { Platform } from "react-native";
 import { CHAT_API_GET_LIST, CHAT_API_GET_MESSAGES, CHAT_API_SEND_MESSAGE, STOREAGE } from "./ApiRoute"
-import { CheckRelationInterface, PaginateInterface, ResponseInterface, VisitProfile } from "./AppInterface";
+import { CheckRelationInterface, PaginateInterface, ProfileInterface, ResponseInterface, VisitProfile } from "./AppInterface";
 import { getCacheUser, setCacheUser } from "./LocalCache";
 import { getRelationShipName, RelationShipEnum, TypeMessage } from "./AppEnum";
 
@@ -90,6 +90,14 @@ export const getVisitProfile = async (id?: number): Promise<VisitProfile | null>
   if(!r || r.status == undefined || r.status.toLowerCase() == RESPONSE_FAIL) return null;
   setCacheUser(id? id : 0, r.message);
   return r.message;
+}
+
+export const updateProfile = async (user: ProfileInterface): Promise<ProfileInterface | null> =>  {
+  let result = await ApiRequest.build('POST', 'application/json')(PROFILE_API_CHANGE_DETAIL, {name: user.name, email: user.email, description: user.description});
+  if(result.status < 200 && result.status >= 300) return null;
+  let r: ResponseInterface = result.data;
+  setCacheUser(r.message.id? r.message.id : 0, r.message.user);
+  return r.message.user;
 }
 
 export const getListFriend = async (left_id?: number, page?: number) : Promise<PaginateInterface | null> => {
@@ -171,14 +179,22 @@ export const checkUUIDRegex = (r: string) => {
 
 export const sendRelationShip = async (id: number, status: RelationShipEnum) => {
   let result = await ApiRequest.build('POST', 'application/json')(PROFILE_API_RELATION_REQUEST, {friend: id, status: getRelationShipName(status)});
-  if(result.status < 200 && result.status >= 300) return false;
+  if(result.status < 200 && result.status >= 300) return null;
   let r: ResponseInterface = result.data;
-  if(!r || r.status == undefined || r.status.toLowerCase() == RESPONSE_FAIL) return false;
-  return true;
+  if(!r || r.status == undefined || r.status.toLowerCase() == RESPONSE_FAIL) return null;
+  return r.message;
 }
 
 export const checkRelationShip = async (id: number) : Promise<CheckRelationInterface | null> => {
   let result = await ApiRequest.build('GET', 'text/html')(PROFILE_API_RELATION_CHECK, {user_id: id});
+  if(result.status < 200 && result.status >= 300) return null;
+  let r: ResponseInterface = result.data;
+  if(!r || r.status == undefined || r.status.toLowerCase() == RESPONSE_FAIL) return null;
+  return r.message;
+}
+
+export const searchUser = async(keyword: string) : Promise<any | null> => {
+  let result = await ApiRequest.build('GET', 'application/json')(PROFILE_API_SEARCH, {keyword: keyword});
   if(result.status < 200 && result.status >= 300) return null;
   let r: ResponseInterface = result.data;
   if(!r || r.status == undefined || r.status.toLowerCase() == RESPONSE_FAIL) return null;

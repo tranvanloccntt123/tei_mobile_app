@@ -13,9 +13,10 @@ export default function LoginScreen(this: any, props: ScreenInterface){
     let loginCommand = new LoginCommand(this);
     const onLoginPress = () =>  CommandInvoker(loginCommand, {username: this.username, password: this.password})
     
-    return <LoginLayout alterMessage={""} alterID={""}>
+    return <LoginLayout alterMessage={this.alter} alterID={this.alterId}>
         <Text style={[AppStyle.h1, AppStyle.mb5]}>Sign In</Text>    
         <LoginForm 
+            isSending={this.sending}
             user={this.username} 
             password={this.password} 
             setUser={this.setUserName}

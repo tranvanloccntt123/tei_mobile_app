@@ -8,11 +8,13 @@ import { AppStyle } from "../common/AppStyle";
 import EditProfileForm from "../components/forms/EditProfileForm";
 import AppLayout from "../components/layouts/AppLayout";
 import { COMBINE_NAME_PROFILE } from "../redux/reducers/CombineName";
-import { stateManagement } from "../sevices/EditProfileServices";
+import { renderSaveProfileCommand, stateManagement } from "../sevices/EditProfileServices";
 export default function ProfileEditScreen(this: any){
     const profile: ProfileInterface = useSelector((state: any) => state[`${COMBINE_NAME_PROFILE}`].user);
+
     stateManagement.call(this);
-    let saveProfileCommand = new SaveProfileCommand(this);
+
+    let saveProfileCommand = renderSaveProfileCommand.call(this);
     
     const onSavePress = (name: string, email: string, description: string) => CommandInvoker(saveProfileCommand, {id: profile.id, name, email, description});
     return <AppLayout alterStatus={this.alterStatus} alterID={this.alterId} alterMessage={this.alter}>

@@ -1,6 +1,9 @@
 import { CommonActions, useNavigation } from "@react-navigation/native";
 import React from "react";
+import { LoginCommand } from "../command/LoginCommand";
+import { ApiRequest } from "../common/ApiRequest";
 import { MAIN_SCREEN, PROFILE_INFO_SCREEN } from "../common/RouteName";
+import { saveToken } from "../untils/AuthUntils";
 
 export function stateManagement(this: any, route?: any) {
     const navigation = useNavigation();
@@ -51,4 +54,25 @@ export function stateManagement(this: any, route?: any) {
             );
         }
     }, [this.auth]);
+}
+
+export function renderLoginCommand(this: any){
+
+    let loginCommand = new LoginCommand(this);
+    loginCommand.beforeExecute(() => {
+        this.setSending(true);
+    });
+    loginCommand.afterExecute(() => {
+        this.setSending(false);
+    });
+    loginCommand.resolve(async (result: any) => {
+        this.setAuth(true);
+        ApiRequest.token = result;
+        await saveToken(result);
+    });
+    loginCommand.reject((result: any) => {
+        this.setAlter("Please check username or password again");
+        this.setAlterId(this.alterId + 1);
+    });
+    return loginCommand;
 }

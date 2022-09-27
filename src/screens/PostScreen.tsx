@@ -1,5 +1,5 @@
 import React from "react";
-import { ScrollView, View, TouchableOpacity, TextInput, StyleSheet, Dimensions, Image, TouchableWithoutFeedback, Keyboard, Text } from "react-native";
+import { ScrollView, View, TouchableOpacity, TextInput, StyleSheet, Dimensions, Image, TouchableWithoutFeedback, Keyboard, Text, Alert } from "react-native";
 import { AppStyle } from "../common/AppStyle";
 import { black, blue, gray, violet, white } from "../common/Colors";
 import { useNavigation } from "@react-navigation/native";
@@ -8,7 +8,7 @@ import AntDesign from 'react-native-vector-icons/AntDesign';
 import AppLayout from "../components/layouts/AppLayout";
 import ActionButton from "../components/elements/ActionButton";
 import { ScreenInterface } from "../common/AppInterface";
-import { stateManagement, useSelectImage } from "../sevices/PostServices";
+import { renderSendPostCommand, stateManagement, useSelectImage } from "../sevices/PostServices";
 import FastImage from "react-native-fast-image";
 import { SendPostCommand } from "../command/SendPostCommand";
 import { CommandInvoker } from "../command/Command";
@@ -30,10 +30,12 @@ const style = StyleSheet.create({
 export default function CreatePostScreen(this: any, props: ScreenInterface) {
     const navigation = useNavigation();
     stateManagement.call(this, props.route);
-    let sendPostCommand = new SendPostCommand(this);
+
+    let sendPostCommand = renderSendPostCommand.call(this);
 
     const onSelectImage = () => useSelectImage.call(this);
-    const onSendPost = () => CommandInvoker(sendPostCommand, {});
+
+    const onSendPost = () => CommandInvoker(sendPostCommand, {uuid: this.uuid, content: this.content, file: this.file, mode: this.mode});
 
     const FileView = React.useCallback(() => {
         return this.file ? <View style={[style.fileContainer, AppStyle.mt3]}>

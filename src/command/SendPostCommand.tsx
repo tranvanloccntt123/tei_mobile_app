@@ -1,40 +1,32 @@
 import { sendPost, updatePost } from "../common/Until";
 import { Alert, Keyboard } from "react-native";
 import { Command } from "./Command";
-export class SendPostCommand implements Command {
-    context: any
-    constructor(context: any) {
-        this.context = context
-    }
+import { CommandBuilder } from "./CommandBuilder";
+import { Asset } from "react-native-image-picker";
+export interface SendPostCommandParams{
+    content: string,
+    file: Asset | null,
+    mode: boolean,
+    uuid?: string
+}
+export class SendPostCommand extends CommandBuilder implements Command<SendPostCommandParams> {
 
-    reject(callback?: Function) {
-        Alert.alert("FAIL", `${this.context.modeTitle} post fail!`, [{ text: "OK", style: "cancel" }, { text: "Retry", style: "destructive" }]);
-    }
-
-    resolve(callback?: Function) {
-        Alert.alert("SUCCESS", `${this.context.modeTitle} post success!`, [{ text: "OK", style: "cancel" }]);
-        if (this.context.mode) {
-            this.context.setContent("");
-        }
-        else {
-            if (this.context.file) this.context.setOldImage(this.context.file.uri);
-        }
-        this.context.setFile(null);
-    }
-
-    canExecute(params?: any, callback?: Function | undefined): boolean {
-        if (!this.context.content) return false;
+    canExecute(params: SendPostCommandParams, callback?: Function | undefined): boolean {
+        if (!params.content) return false;
         return true;
     }
-    async execute(params?: any, callback?: Function | undefined): Promise<void> {
-        Keyboard.dismiss();
-        this.context.setVisible(true);
+    async execute(params: SendPostCommandParams, callback?: Function | undefined): Promise<void> {
         let r = null;
-        if (this.context.mode) r = await sendPost(this.context.content, this.context.file?.fileName, this.context.file?.type, this.context.file?.uri);
-        else r = await updatePost(this.context.uuid, this.context.content, this.context.file?.fileName, this.context.file?.type, this.context.file?.uri);
-        await setTimeout(() => { }, 1000);
-        this.context.setVisible(false);
-        if (!r) this.reject() 
-        else this.resolve();
+        if (params.mode) r = await sendPost(params.content, params.file?.fileName, params.file?.type, params.file?.uri);
+        else r = await updatePost(params.uuid? params.uuid : "", params.content, params.file?.fileName, params.file?.type, params.file?.uri);
+        await setTimeout(() => { console.log("TIMEOUT") }, 1000);
+        if (!r){
+            if(this.rejectFunction)
+                this.rejectFunction(r);
+        }
+        else {
+            if(this.resolveFunction)
+                this.resolveFunction(r);
+        }
     }
 }

@@ -1,5 +1,7 @@
 import React from "react";
+import { Alert, Keyboard } from "react-native";
 import { Asset } from "react-native-image-picker";
+import { SendPostCommand } from "../command/SendPostCommand";
 import { LauchImage } from "../untils/CameraUntil";
 
 export function stateManagement(this: any, route: any) {
@@ -38,4 +40,34 @@ export function useSelectImage(this: any) {
         if (result[0])
             props.setFile(result[0]);
     });
+}
+
+export function renderSendPostCommand (this: any){
+    let sendPostCommand = new SendPostCommand(this);
+
+    sendPostCommand.beforeExecute(() => {
+        Keyboard.dismiss();
+        this.setVisible(true);
+    });
+
+    sendPostCommand.afterExecute(() => {
+        this.setVisible(false);
+    });
+
+    sendPostCommand.resolve((result: any) => {
+        Alert.alert("SUCCESS", `${this.modeTitle} post success!`, [{ text: "OK", style: "cancel" }]);
+        if (this.mode) {
+            this.setContent("");
+        }
+        else {
+            if (this.file) this.setOldImage(this.file.uri);
+        }
+        this.setFile(null);
+    });
+
+    sendPostCommand.reject((result: any) => {
+        Alert.alert("FAIL", `${this.context.modeTitle} post fail!`, [{ text: "OK", style: "cancel" }, { text: "Retry", style: "destructive" }]);
+    })
+
+    return sendPostCommand;
 }

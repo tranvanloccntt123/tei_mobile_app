@@ -1,6 +1,7 @@
 import React from "react";
 import { ActivityIndicator, StyleSheet, View } from "react-native";
 import { ProfileInterface } from "../../common/AppInterface";
+import { AppStyle } from "../../common/AppStyle";
 import { blue, white } from "../../common/Colors";
 import Button from "../elements/Button";
 import Input from "../elements/Input";
@@ -40,6 +41,6 @@ export default function EditProfileForm(props:PropsInterface) {
         <Input label="Name" error={props.errorName} value={name} onChangeText={(text) => setName(text)} keyboardType="default" />
         <Input label="Email" error={props.errorEmail} value={email} onChangeText={(text) => setEmail(text)} keyboardType="email-address" />
         <Input label="Description" error={props.errorDescription} onChangeText={(text) => setDescription(text)} value={description} />
-        <Button label="Save and Continue" onPress={onPress} childrenLeft={visible? <ActivityIndicator color={white} /> : null} />
+        <Button label="Save and Continue" onPress={onPress} childrenLeft={visible? <ActivityIndicator style={AppStyle.ml3} color={white} /> : null} />
     </View>
 }

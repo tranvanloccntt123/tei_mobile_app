@@ -5,12 +5,16 @@ import { blue } from "../common/Colors";
 import { ScreenInterface } from "../common/AppInterface";
 import LoginForm from "../components/forms/LoginForm";
 import LoginLayout from "../components/layouts/AuthLayout";
-import { stateManagement } from "../sevices/AuthServices";
+import { renderLoginCommand, stateManagement } from "../sevices/AuthServices";
 import { LoginCommand } from "../command/LoginCommand";
 import { CommandInvoker } from "../command/Command";
+import { ApiRequest } from "../common/ApiRequest";
+import { saveToken } from "../untils/AuthUntils";
 export default function LoginScreen(this: any, props: ScreenInterface){
     stateManagement.call(this);
-    let loginCommand = new LoginCommand(this);
+
+    let loginCommand = renderLoginCommand.call(this);
+    
     const onLoginPress = () =>  CommandInvoker(loginCommand, {username: this.username, password: this.password})
     
     return <LoginLayout alterMessage={this.alter} alterID={this.alterId}>

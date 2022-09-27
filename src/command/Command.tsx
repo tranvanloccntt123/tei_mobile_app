@@ -1,10 +1,18 @@
 export interface Command<Params = any>{
-    execute(params?: Params, callback?: Function): Promise<void>,
+    execute(params?: Params, callback?: Function): Promise<void>
     canExecute(params?: Params, callback?: Function): boolean
-    reject(params?: any, callback?: Function): any
-    resolve(params?: any, callback?: Function): any
+    reject?(callback?: Function): any
+    resolve?(callback?: Function): any
+    beforeExecute(callback: Function): void
+    afterExecute(callback: Function): void
+    before(): any
+    after(): any
 }
 
-export const CommandInvoker = <Params = any>(command: Command<Params>, params: Params) => {
-    if(command.canExecute(params)) command.execute(params);
+export const CommandInvoker = async <Params = any>(command: Command<Params>, params: Params) => {
+    command.before();
+    if(command.canExecute(params)){
+        await command.execute(params);
+    }
+    command.after();
 }

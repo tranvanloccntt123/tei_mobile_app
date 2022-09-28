@@ -11,6 +11,7 @@ import { black, grayPrimary, pink, white } from "../../common/Colors";
 import { PROFILE_FIND_SCREEN, PROFILE_INFO_SCREEN } from "../../common/RouteName";
 import AppLayout from "../../components/layouts/AppLayout";
 import { COMBINE_NAME_PROFILE } from "../../redux/reducers/CombineName";
+import { stateManagement } from "../../sevices/HomeLoverServices";
 const { width, height } = Dimensions.get('window');
 const style = StyleSheet.create({
     loveBoxContainer: {
@@ -31,12 +32,17 @@ const style = StyleSheet.create({
         overflow: "hidden"
     }
 });
-export default function HomeLoveScreen() {
+export default function HomeLoveScreen(this: any) {
     const profile: ProfileInterface = useSelector((state: any) => state[`${COMBINE_NAME_PROFILE}`].user);
-    const [profileLover, setProfileLover] = React.useState<ProfileInterface | null>(null);
+    stateManagement.call(this);
+    
     const navigation = useNavigation();
     const onOpenAndSelectLover = () => {
-        if(profileLover) return;
+        if(this.loadProfile) return;
+        if(this.profileLover) {
+            navigation.navigate(PROFILE_INFO_SCREEN as never, {visit: true, id: this.profileLover.id} as never)
+            return;
+        }
         navigation.navigate(PROFILE_FIND_SCREEN as never);
     }
     return <AppLayout>
@@ -51,21 +57,29 @@ export default function HomeLoveScreen() {
             </View>
             <View style={[style.loveBoxContainer, AppStyle.m3]}>
                 <View style={[{ flex: 1 }, AppStyle.center]}>
-                    <Text style={[AppStyle.h1, { color: white, textAlign: "center" }]}>2000 days</Text>
+                    <Text style={[AppStyle.h3, { color: white, textAlign: "center" }]}>Love <Text style={AppStyle.h1}>{this.countDay}</Text> days</Text>
                 </View>
                 <View style={{ flexDirection: "row" }}>
                     <View style={{ flex: 1 }} />
-                    <TouchableOpacity onPress={() => navigation.navigate(PROFILE_INFO_SCREEN as never)} activeOpacity={0.8} style={{ flexDirection: "row" }}>
-                        <View style={[style.loveBoxAvatarContainer, AppStyle.center]}>
-                            <FastImage resizeMode="contain" style={{ width: "100%", height: "100%" }} source={profile?.avatar ? profile.avatar : AVATAR_DEFAULT} />
-                        </View>
-                    </TouchableOpacity>
+                    <View>
+                        <TouchableOpacity onPress={() => navigation.navigate(PROFILE_INFO_SCREEN as never)} activeOpacity={0.8} style={{ flexDirection: "row", marginBottom: 15 }}>
+                            <View style={[style.loveBoxAvatarContainer, AppStyle.center]}>
+                                <FastImage resizeMode="contain" style={{ width: "100%", height: "100%" }} source={profile?.avatar ? profile.avatar : AVATAR_DEFAULT} />
+                            </View>
+                        </TouchableOpacity>
+                        <Text style={{color: white, textAlign: 'center', fontWeight: 'bold'}}>{profile.name}</Text>
+                    </View>
                     <View style={{ flex: 1 }} />
-                    <TouchableOpacity onPress={onOpenAndSelectLover} activeOpacity={0.8} style={{ flexDirection: "row" }}>
-                        <View style={[style.loveBoxAvatarContainer, AppStyle.center]}>
-                            <Text style={{ fontSize: 35 }}>+</Text>
-                        </View>
-                    </TouchableOpacity>
+                    <View>
+                        <TouchableOpacity onPress={onOpenAndSelectLover} activeOpacity={0.8} style={{ flexDirection: "row", marginBottom: 15 }}>
+                            <View style={[style.loveBoxAvatarContainer, AppStyle.center]}>
+                                {
+                                this.profileLover? <FastImage resizeMode="contain" style={{ width: "100%", height: "100%" }} source={this.profileLover?.avatar ? this.profileLover.avatar : AVATAR_DEFAULT} /> : <Text style={{ fontSize: 35 }}>+</Text>
+                                }
+                            </View>
+                        </TouchableOpacity>
+                        <Text style={{color: white, textAlign: 'center', fontWeight: 'bold'}}>{this.profileLover?.name}</Text>
+                    </View>
                     <View style={{ flex: 1 }} />
                 </View>
             </View>

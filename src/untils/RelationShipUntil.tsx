@@ -28,7 +28,11 @@ export const loadALlRelationShip = () => {
 
 export const loadRelationShipToStorage = async(relation: RelationShipDescriptionEnum) => {
     let result = await AsyncStorage.getItem(`${RELATION_STORAGE}.${relation}`);
-    if(result) setCacheRelationShip(parseInt(result), relation);
+    if(result) {
+        setCacheRelationShip(parseInt(result), relation);
+        return result;
+    }
+    return null;
 }
 
 export const setCacheRelationShip = (userId: number, relation: RelationShipDescriptionEnum) => {
@@ -46,4 +50,9 @@ export const deleteCacheRelation = (userId: number) => {
 
 export const clearCacheRelationShip = () => {
     _relationShipCache.clear();
+}
+
+export const loadStartDayInStorage = async (relation: RelationShipDescriptionEnum) => {
+    let result = await AsyncStorage.getItem(`${START_RELATION_STORAGE}.${relation}`);
+    return result;
 }

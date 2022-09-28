@@ -2,7 +2,7 @@ import { CommonActions, useNavigation } from "@react-navigation/native";
 import React from "react";
 import { LoginCommand } from "../command/LoginCommand";
 import { ApiRequest } from "../common/ApiRequest";
-import { MAIN_SCREEN, PROFILE_INFO_SCREEN } from "../common/RouteName";
+import { MAIN_SCREEN } from "../common/RouteName";
 import { saveToken } from "../untils/AuthUntils";
 
 export function stateManagement(this: any, route?: any) {

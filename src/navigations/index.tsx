@@ -5,7 +5,7 @@ import { TouchableOpacity } from 'react-native';
 import { CommonActions, NavigationContainer, useNavigation, useNavigationContainerRef } from '@react-navigation/native';
 import { createNativeStackNavigator, NativeStackNavigationOptions } from '@react-navigation/native-stack';
 import ProfileScreen from '../screens/ProfileScreen';
-import { LOGIN_SCREEN, MAIN_SCREEN, POST_CREATE_SCREEN, PROFILE_ADD_RELATION_SHIP_SCREEN, PROFILE_EDIT_SCREEN, PROFILE_FIND_SCREEN, PROFILE_FIND_TITLE, PROFILE_INFO_SCREEN, PROFILE_INFO_TITLE, PROFILE_MODAL_SCREEN, SPLASH_SCREEN } from '../common/RouteName';
+import { LOGIN_SCREEN, MAIN_SCREEN, POST_CREATE_SCREEN, PROFILE_ADD_RELATION_SHIP_SCREEN, PROFILE_EDIT_SCREEN, PROFILE_FIND_SCREEN, PROFILE_FIND_TITLE, PROFILE_INFO_SCREEN, PROFILE_INFO_TITLE, PROFILE_MODAL_SCREEN, SETTING_SCREEN, SPLASH_SCREEN } from '../common/RouteName';
 import ProfileSlideShow from '../screens/ProfileSlideShow';
 import CreatePostScreen from '../screens/PostScreen';
 import AntDesign from 'react-native-vector-icons/AntDesign';
@@ -18,6 +18,7 @@ import { AUTH_ACTION_CHECK_LOGIN } from '../redux/actions/ProfileAction';
 import { COMBINE_NAME_PROFILE } from '../redux/reducers/CombineName';
 import MainNavigation from './main';
 import ProfileAddRelationShipScreen from '../screens/ProfileAddRelationShipScreen';
+import SettingScreen from '../screens/SettingScreen';
 const Stack = createNativeStackNavigator();
 
 const AppHeaderLeft = (props: any) => { 

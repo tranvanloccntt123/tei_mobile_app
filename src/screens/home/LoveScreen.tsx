@@ -7,7 +7,7 @@ import { useSelector } from "react-redux";
 import { AVATAR_DEFAULT } from "../../assets/images";
 import { ProfileInterface } from "../../common/AppInterface";
 import { AppStyle } from "../../common/AppStyle";
-import { black, grayPrimary, pink, white } from "../../common/Colors";
+import { black, blue, grayPrimary, pink, red, white } from "../../common/Colors";
 import { PROFILE_FIND_SCREEN, PROFILE_INFO_SCREEN } from "../../common/RouteName";
 import AppLayout from "../../components/layouts/AppLayout";
 import { COMBINE_NAME_PROFILE } from "../../redux/reducers/CombineName";
@@ -30,12 +30,15 @@ const style = StyleSheet.create({
         borderRadius: width,
         backgroundColor: white,
         overflow: "hidden"
+    },
+    eventBoxContainer: {
+        width: width * 0.4, 
+        height: width * 0.4,
     }
 });
 export default function HomeLoveScreen(this: any) {
     const profile: ProfileInterface = useSelector((state: any) => state[`${COMBINE_NAME_PROFILE}`].user);
     stateManagement.call(this);
-    
     const navigation = useNavigation();
     const onOpenAndSelectLover = () => {
         if(this.loadProfile) return;
@@ -67,7 +70,7 @@ export default function HomeLoveScreen(this: any) {
                                 <FastImage resizeMode="contain" style={{ width: "100%", height: "100%" }} source={profile?.avatar ? profile.avatar : AVATAR_DEFAULT} />
                             </View>
                         </TouchableOpacity>
-                        <Text style={{color: white, textAlign: 'center', fontWeight: 'bold'}}>{profile.name}</Text>
+                        <Text style={{color: white, textAlign: 'center', fontWeight: 'bold'}}>{profile?.name}</Text>
                     </View>
                     <View style={{ flex: 1 }} />
                     <View>
@@ -82,6 +85,16 @@ export default function HomeLoveScreen(this: any) {
                     </View>
                     <View style={{ flex: 1 }} />
                 </View>
+            </View>
+            <View style={[{flexDirection: "row", width: "100%"}, AppStyle.center]}>
+                <TouchableOpacity activeOpacity={0.8} style={[style.loveBoxContainer, style.eventBoxContainer, {backgroundColor: "#ba68c8", shadowColor: "#ba68c8"}, AppStyle.m3, AppStyle.center]}>
+                    <Text style={[AppStyle.h5, AppStyle.mb2, {color: black, fontWeight: "bold"}]}>Events</Text>
+                    <Text style={[AppStyle.p, {color: white, textAlign: 'center'}]}>Create new schedual</Text>
+                </TouchableOpacity>
+                <TouchableOpacity activeOpacity={0.8} style={[style.loveBoxContainer, style.eventBoxContainer, {backgroundColor: "#f06292", shadowColor: "#f06292"}, AppStyle.m3, AppStyle.center]}>
+                    <Text style={[AppStyle.h5, AppStyle.mb2, {color: black, fontWeight: "bold"}]}>Messages</Text>
+                    <Text style={[AppStyle.p, {color: white, textAlign: 'center'}]}>Send messages together</Text>
+                </TouchableOpacity>
             </View>
         </ScrollView>
     </AppLayout>

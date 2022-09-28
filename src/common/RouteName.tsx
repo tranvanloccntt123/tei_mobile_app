@@ -16,7 +16,8 @@ export const PROFILE_ADD_RELATION_SHIP_SCREEN: string = "[PROFILE SCREEN] ADD RE
 export const POST_CREATE_SCREEN: string = "[POST SCREEN] POST CREATE";
 //splash
 export const SPLASH_SCREEN: string = "[SPLASH SCREEN]";
-
+//setting
+export const SETTING_SCREEN: string = "[SETTING SCREEN]";
 //lover module
 //home
 export const HOME_LOVE_SCREEN: string = "[HOME LOVE SCREEN] HOME LOVE";

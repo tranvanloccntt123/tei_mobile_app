@@ -202,6 +202,9 @@ export const searchUser = async(keyword: string) : Promise<any | null> => {
 }
 
 export const sendDetailRelationShip = async (user_id: number, description: string, start: any) => {
-  let result = await ApiRequest.build('POST', 'application/json')(PROFILE_API_RELATION_NEAR_CREATE, {id: user_id, description, start});
-  console.log(result);
+  let result = await ApiRequest.build('POST', 'application/json')(PROFILE_API_RELATION_NEAR_CREATE, {user_id: user_id, description, start});
+  if(result.status < 200 && result.status >= 300) return null;
+  let r: ResponseInterface = result.data;
+  if(!r || r.status == undefined || r.status.toLowerCase() == RESPONSE_FAIL) return null;
+  return r.message;
 }

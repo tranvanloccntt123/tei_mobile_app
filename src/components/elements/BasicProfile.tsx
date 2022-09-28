@@ -4,11 +4,13 @@ import FastImage from "react-native-fast-image";
 import { AVATAR_DEFAULT } from "../../assets/images";
 import { CheckRelationInterface, ProfileInterface } from "../../common/AppInterface";
 import { AppStyle } from "../../common/AppStyle";
-import { black, blue, gray, green, orange, red, violet, white } from "../../common/Colors";
+import { black, blue, gray, green, orange, pink, red, violet, white } from "../../common/Colors";
 import Feather from 'react-native-vector-icons/Feather';
 import { checkRelationShip, sendRelationShip } from "../../common/Until";
 import { useNavigation } from "@react-navigation/native";
 import { POST_CREATE_SCREEN, PROFILE_ADD_RELATION_SHIP_SCREEN, PROFILE_EDIT_SCREEN } from "../../common/RouteName";
+import { deleteCacheRelation, deleteRelationShipInStorage, getCacheRelationShip } from "../../untils/RelationShipUntil";
+import { RelationShipDescriptionEnum } from "../../common/AppEnum";
 interface PropsInterface {
     children?: ReactNode | JSX.Element | JSX.Element[],
     current: ProfileInterface,
@@ -28,6 +30,8 @@ const style = StyleSheet.create({
 });
 export default function BasicProfile(props: PropsInterface) {
     const [relationShip, setRelationShip] = React.useState<CheckRelationInterface>();
+    const [relationInStorage, setRelationInStorage] = React.useState<RelationShipDescriptionEnum>();
+
     const navigation = useNavigation();
     const getData = async () => {
         if(!props.user_id) return;
@@ -37,7 +41,9 @@ export default function BasicProfile(props: PropsInterface) {
     }
     React.useEffect(() => {
         if(props.visit)
+        {
             getData()
+        }
     }, [props.user_id]);
 
     const onRequest = async () => {
@@ -47,13 +53,29 @@ export default function BasicProfile(props: PropsInterface) {
 
     const onCancel = async () => {
         let r = await sendRelationShip(props.user_id? props.user_id : 0 , -1);
-        if(r) setRelationShip(r);
+        if(r){
+
+            if(relationInStorage){
+                await deleteRelationShipInStorage(relationInStorage);
+                deleteCacheRelation(props.user_id? props.user_id : 0);
+            }
+            setRelationShip(r);
+        }
     }
 
     const onAccept = async () => {
         let r = await sendRelationShip(props.user_id? props.user_id : 0, 1);
         if(r) setRelationShip(r);
     }
+
+    const getLocalRelationShipStorage = async () => {
+        let result = await getCacheRelationShip(props.user_id? props.user_id : 0);
+        if(result) setRelationInStorage(result);
+    }
+
+    React.useEffect(() => {
+        getLocalRelationShipStorage();
+    }, []);
 
     const renderButton = () => {
         if(!relationShip) return null;
@@ -69,6 +91,14 @@ export default function BasicProfile(props: PropsInterface) {
         if( relationShip.status == 1 ) return <TouchableOpacity onPress={onCancel} activeOpacity={0.8} style={[style.createPostButtonContainer, style.cancelButtonContainer, AppStyle.center]}>
                 <Text style={[{ color: black }, AppStyle.h5]}>Unfriend</Text>
         </TouchableOpacity>
+        return null;
+    }
+
+    const renderRelationShipIcon = () => {
+        if(relationInStorage == "lover")
+            return <View style={[style.actionButtonContainer, AppStyle.center, AppStyle.mr3, { backgroundColor: pink + 90, shadowColor: red }]}>
+                <Feather name="heart" size={20} color={white} />
+            </View>
         return null;
     }
 
@@ -100,6 +130,9 @@ export default function BasicProfile(props: PropsInterface) {
                         <Feather name="edit" size={20} color={white} />
                     </TouchableOpacity></> 
                 : <>
+                    {
+                        renderRelationShipIcon()
+                    }
                     {
                         renderButton()
                     }

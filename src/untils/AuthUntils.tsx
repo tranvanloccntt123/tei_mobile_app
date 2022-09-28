@@ -14,3 +14,7 @@ export const getToken = async () =>{
         return null;
     }
 }
+
+export const logOut = async () => {
+    await AsyncStorage.clear();
+}

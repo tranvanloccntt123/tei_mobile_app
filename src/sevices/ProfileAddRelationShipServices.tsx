@@ -1,6 +1,8 @@
+import { useNavigation } from "@react-navigation/native";
 import React from "react";
 import { SendRelationShipCommand } from "../command/SendRelationShipCommand";
 import { RelationShipDescriptionEnum } from "../common/AppEnum";
+import { saveRelationShipToStorage, setCacheRelationShip } from "../untils/RelationShipUntil";
 
 export function stateManagement(this: any){
     const [visible, setVisible] = React.useState<boolean>(false);
@@ -28,6 +30,7 @@ export function stateManagement(this: any){
 }
 
 export function renderSendRelationShipCommand(this: any){
+    const navigation = useNavigation();
     let sendRelationShipCommand = new SendRelationShipCommand(this);
     sendRelationShipCommand.beforeExecute(() => {
         this.setSending(true);
@@ -35,8 +38,11 @@ export function renderSendRelationShipCommand(this: any){
     sendRelationShipCommand.afterExecute(() => {
         this.setSending(false);
     });
-    sendRelationShipCommand.resolve((result: any) => {
-        console.log(result);
+    sendRelationShipCommand.resolve(async (result: any) => {
+        let r = result.relation;
+        setCacheRelationShip(r.friend, r.description);
+        await saveRelationShipToStorage(r.description, r.friend, r.start);
+        navigation.goBack();
     });
     return sendRelationShipCommand;
 }

@@ -11,12 +11,6 @@ export interface SendRelationShipCommandParams{
 }
 
 export class SendRelationShipCommand extends CommandBuilder implements Command<SendRelationShipCommandParams>{
-    reject(params?: any, callback?: Function | undefined) {
-        
-    }
-    resolve(params?: any, callback?: Function | undefined) {
-        
-    }
     canExecute(params: SendRelationShipCommandParams, callback?: Function | undefined): boolean {
         if(params.id && params?.description && params.day && params.month && params.year) return true;
         return false
@@ -26,7 +20,14 @@ export class SendRelationShipCommand extends CommandBuilder implements Command<S
         date.setUTCDate(parseInt(params?.day));
         date.setUTCMonth(parseInt(params?.month) - 1);
         date.setUTCFullYear(parseInt(params?.year));
-        console.log(date.toString());
-        await sendDetailRelationShip(params.id, params.description, date.toString());
+        let r = await sendDetailRelationShip(params.id, params.description, date.toString());
+        if (!r){
+            if(this.rejectFunction)
+                this.rejectFunction(r);
+        }
+        else {
+            if(this.resolveFunction)
+                this.resolveFunction(r);
+        }
     }
 }

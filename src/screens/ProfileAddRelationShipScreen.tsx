@@ -11,7 +11,7 @@ import { AppStyle } from "../common/AppStyle";
 import { black, blue, gray, green, pink, red, violet, white } from "../common/Colors";
 import Button from "../components/elements/Button";
 import AppLayout from "../components/layouts/AppLayout";
-import { stateManagement } from "../sevices/ProfileAddRelationShipServices";
+import { renderSendRelationShipCommand, stateManagement } from "../sevices/ProfileAddRelationShipServices";
 const { width, height } = Dimensions.get('window');
 const style = StyleSheet.create({
     input: {
@@ -34,7 +34,7 @@ export default function ProfileAddRelationShipScreen(this: any, props: ScreenInt
         this.setSelected(item);
         scrollRef.current?.scrollTo({ x: width, y: 0, animated: true });
     }
-    let sendRelationShipCommand = new SendRelationShipCommand(this);
+    let sendRelationShipCommand = renderSendRelationShipCommand.call(this);
     const disableButton = () => !sendRelationShipCommand.canExecute({id: props.route.params.id ,description: this.selected, day: this.day, month: this.month, year: this.year});
     const onSendRequest = () => CommandInvoker(sendRelationShipCommand, {id: props.route.params.id, description: this.selected, day: this.day, month: this.month, year: this.year});
     return <Provider>

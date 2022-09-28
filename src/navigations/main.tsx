@@ -3,6 +3,7 @@ import { BottomTabNavigationOptions, createBottomTabNavigator } from '@react-nav
 import { View } from "react-native";
 import { HOME_LOVE_SCREEN } from "../common/RouteName";
 import HomeLoveScreen from "../screens/home/LoveScreen";
+import { loadALlRelationShip } from "../untils/RelationShipUntil";
 
 const CommonConfigTabNavigation = (headerShown: boolean = true, title: string = ""): BottomTabNavigationOptions => {
     return {
@@ -14,6 +15,9 @@ const CommonConfigTabNavigation = (headerShown: boolean = true, title: string = 
 
 const Tab = createBottomTabNavigator();
 export default function MainNavigation(){
+    React.useEffect(() => { 
+        loadALlRelationShip();
+    }, []);
     return <Tab.Navigator>
     <Tab.Screen options={CommonConfigTabNavigation(false, "Home")} name={HOME_LOVE_SCREEN} component={HomeLoveScreen} />
   </Tab.Navigator>

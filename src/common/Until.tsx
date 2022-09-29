@@ -39,9 +39,10 @@ export const CheckAuthentication = (user: string, pass: string) : boolean => {
 // until for chat
 import { Platform } from "react-native";
 import { CHAT_API_GET_LIST, CHAT_API_GET_MESSAGES, CHAT_API_SEND_MESSAGE, STOREAGE } from "./ApiRoute"
-import { CheckRelationInterface, PaginateInterface, ProfileInterface, ResponseInterface, VisitProfile } from "./AppInterface";
+import { CheckRelationInterface, GroupMessageInterface, PaginateInterface, ProfileInterface, ResponseInterface, VisitProfile } from "./AppInterface";
 import { getCacheUser, setCacheUser } from "./LocalCache";
 import { getRelationShipName, RelationShipEnum, TypeMessage } from "./AppEnum";
+import { IMessage } from "react-native-gifted-chat";
 
 export const getListChat = async (): Promise<PaginateInterface | null> => {
   let result = await ApiRequest.build('GET')(CHAT_API_GET_LIST);
@@ -207,4 +208,31 @@ export const sendDetailRelationShip = async (user_id: number, description: strin
   let r: ResponseInterface = result.data;
   if(!r || r.status == undefined || r.status.toLowerCase() == RESPONSE_FAIL) return null;
   return r.message;
+}
+
+function renderStorage(content:string = ""){
+  let result: string | null | undefined = undefined;
+  if(content) result = `${STOREAGE}/${content}`;
+  return result;
+}
+
+function renderDate(data: string | undefined){
+  let date;
+  if(data) date =  new Date(data);
+  else date = new Date();
+  return date;
+}
+
+export const renderIMessage = (value: GroupMessageInterface, index: number): IMessage => {
+  return {
+    _id: value.id,
+    text: value.type == 'text' ? value.content : '',
+    image: value.type == 'image'? renderStorage(value.content) : undefined,
+    user: {
+      _id: value.user.id,
+      name: value.user.name,
+      avatar: 'https://placeimg.com/140/140/any'
+    },
+    createdAt: renderDate(value.created_at)
+  }
 }

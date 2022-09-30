@@ -77,7 +77,7 @@ function AppNavigation() {
         <Stack.Screen options={CommonConfigStackNavigation(true, PROFILE_FIND_TITLE)} name={PROFILE_FIND_SCREEN} component={ProfileFindUserScreen} />
         <Stack.Screen options={CommonConfigStackNavigation(true, PROFILE_INFO_TITLE)} name={PROFILE_EDIT_SCREEN} component={ProfileEditScreen} />
         <Stack.Screen options={CommonConfigStackNavigation(true, PROFILE_INFO_TITLE)} name={PROFILE_ADD_RELATION_SHIP_SCREEN} component={ProfileAddRelationShipScreen} />
-        <Stack.Screen options={CommonConfigStackNavigation(true)} name={CHAT_DETAIL_SCREEN} component={ChatDetailScreen} />
+        <Stack.Screen options={CommonConfigStackNavigation(false)} name={CHAT_DETAIL_SCREEN} component={ChatDetailScreen} />
       </Stack.Navigator>
     </NavigationContainer>
   );

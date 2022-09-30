@@ -43,6 +43,7 @@ import { CheckRelationInterface, GroupMessageInterface, PaginateInterface, Profi
 import { getCacheUser, setCacheUser } from "./LocalCache";
 import { getRelationShipName, RelationShipEnum, TypeMessage } from "./AppEnum";
 import { IMessage } from "react-native-gifted-chat";
+import { MessageFactory } from "../command/MessageFactory";
 
 export const getListChat = async (): Promise<PaginateInterface | null> => {
   let result = await ApiRequest.build('GET')(CHAT_API_GET_LIST);
@@ -224,15 +225,16 @@ function renderDate(data: string | undefined){
 }
 
 export const renderIMessage = (value: GroupMessageInterface, index: number): IMessage => {
+  let user = new MessageFactory("user", value.user).build();
+  user = user? user : {
+    _id: 0, 
+    name: '',
+  };
   return {
     _id: value.id,
     text: value.type == 'text' ? value.content : '',
     image: value.type == 'image'? renderStorage(value.content) : undefined,
-    user: {
-      _id: value.user.id,
-      name: value.user.name,
-      avatar: 'https://placeimg.com/140/140/any'
-    },
+    user: user,
     createdAt: renderDate(value.created_at)
   }
 }

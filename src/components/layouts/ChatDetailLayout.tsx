@@ -1,13 +1,10 @@
 import React, { ReactNode } from "react";
-import { SafeAreaView, StyleSheet, Text, TouchableOpacity, View } from "react-native";
+import { StyleSheet, Text, TouchableOpacity, View } from "react-native";
 import { GiftedChat, IMessage, Bubble, Send, InputToolbar, Day, Composer, User } from "react-native-gifted-chat";
-import { black, blue, gray, grayLightPrimary2, grayPrimary, violet, white } from "../../common/Colors";
+import { black, blue, gray, grayLightPrimary2, grayPrimary, red, violet, white } from "../../common/Colors";
 import { AppStyle } from "../../common/AppStyle";
 import { esTime } from "../../untils/Time";
 import Ionicons from 'react-native-vector-icons/Ionicons'
-import { useSelector } from "react-redux";
-import { COMBINE_NAME_PROFILE } from "../../redux/reducers/CombineName";
-import { ProfileInterface } from "../../common/AppInterface";
 const style = StyleSheet.create({
   sendButtonContainer: { justifyContent: "center", alignItems: "center", backgroundColor: grayLightPrimary2, borderRadius: 100, width: 45, height: 45 },
   inputStyle: { borderRadius: 100, fontSize: 18, flex: 1, backgroundColor: gray, paddingHorizontal: 15, marginRight: 10, height: 45, paddingTop: 13, paddingBottom: 13 },
@@ -21,21 +18,12 @@ interface LayoutProps {
   messages: Array<IMessage>,
   isSend: boolean,
   onLoadMessages: Function,
-  onAvatarPress: Function
+  onAvatarPress: Function,
+  currentUser?: User
 };
 export default function ChatDetailLayout(props: LayoutProps) {
   const isDarkMode = false;
-  const profile: ProfileInterface = useSelector((state: any) => state[`${COMBINE_NAME_PROFILE}`].user);
-  const [currentUser, setCurrentUser] = React.useState<User>();
-  React.useEffect(() => {
-    if (profile) {
-      setCurrentUser({
-        _id: profile.id,
-        avatar: 'https://placeimg.com/140/140/any',
-        name: profile.name
-      });
-    }
-  }, [profile]);
+  
   const onPlush = () => {
     props.onMore()
   }
@@ -118,11 +106,24 @@ export default function ChatDetailLayout(props: LayoutProps) {
   const renderComposer = (props: any) => <Composer {...props} textInputStyle={[style.inputStyle]} />
 
   return <View style={{ flex: 1, backgroundColor: isDarkMode ? grayPrimary : white }}>
+    {
+      props.children
+    }
     <GiftedChat
+      listViewProps={{
+        style: {marginTop: -45},
+        showsVerticalScrollIndicator: false
+      }}
+      user={props.currentUser}
       messages={props.messages}
-      onSend={messages => props.onSend(messages)}
+      showUserAvatar={true}
+      infiniteScroll={true}
+      textInputProps={{
+        style: style.inputStyle
+      }}
+      loadEarlier={true}
       alwaysShowSend={true}
-      user={currentUser}
+      onSend={messages => props.onSend(messages)}
       renderFooter={renderFooter}
       renderBubble={renderBubble}
       renderSend={renderSend}
@@ -130,17 +131,9 @@ export default function ChatDetailLayout(props: LayoutProps) {
       renderDay={renderDay}
       renderTime={renderTime}
       renderComposer={renderComposer}
-      textInputProps={{
-        style: style.inputStyle
-      }}
-      loadEarlier={true}
       renderLoadEarlier={renderLoadEarlier}
       onLoadEarlier={() => props.onLoadMessages()}
-      infiniteScroll={true}
       onPressAvatar={(user) => props.onAvatarPress(user)}
     />
-    {
-      props.children
-    }
   </View>
 }

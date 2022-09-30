@@ -52,7 +52,7 @@ export default function HomeLoveScreen(this: any) {
     const onOpenMessage = async () => {
         if(this.loadProfile) return;
         let result = await getOrCreateRoomMessage(this.profileLover.id);
-        navigation.navigate(CHAT_DETAIL_SCREEN as never, {item: result} as never);
+        navigation.navigate(CHAT_DETAIL_SCREEN as never, {item: {...result, name: this.profileLover.name}} as never);
     }
     return <AppLayout>
         <ScrollView showsVerticalScrollIndicator={false}>
@@ -68,8 +68,7 @@ export default function HomeLoveScreen(this: any) {
                 <View style={[{ flex: 1 }, AppStyle.center]}>
                     <Text style={[AppStyle.h3, { color: white, textAlign: "center" }]}>Love <Text style={AppStyle.h1}>{this.countDay}</Text> days</Text>
                 </View>
-                <View style={{ flexDirection: "row" }}>
-                    <View style={{ flex: 1 }} />
+                <View style={[{ flexDirection: "row" }, AppStyle.ml3, AppStyle.mr3]}>
                     <View>
                         <TouchableOpacity onPress={() => navigation.navigate(PROFILE_INFO_SCREEN as never)} activeOpacity={0.8} style={{ flexDirection: "row", marginBottom: 15 }}>
                             <View style={[style.loveBoxAvatarContainer, AppStyle.center]}>
@@ -89,7 +88,6 @@ export default function HomeLoveScreen(this: any) {
                         </TouchableOpacity>
                         <Text style={{color: white, textAlign: 'center', fontWeight: 'bold'}}>{this.profileLover?.name}</Text>
                     </View>
-                    <View style={{ flex: 1 }} />
                 </View>
             </View>
             <View style={[{flexDirection: "row", width: "100%"}, AppStyle.center]}>
@@ -97,10 +95,15 @@ export default function HomeLoveScreen(this: any) {
                     <Text style={[AppStyle.h5, AppStyle.mb2, {color: black, fontWeight: "bold"}]}>Events</Text>
                     <Text style={[AppStyle.p, {color: white, textAlign: 'center'}]}>Create new schedual</Text>
                 </TouchableOpacity>
-                <TouchableOpacity onPress={onOpenMessage} activeOpacity={0.8} style={[style.loveBoxContainer, style.eventBoxContainer, {backgroundColor: "#f06292", shadowColor: "#f06292"}, AppStyle.m3, AppStyle.center]}>
-                    <Text style={[AppStyle.h5, AppStyle.mb2, {color: black, fontWeight: "bold"}]}>Messages</Text>
-                    <Text style={[AppStyle.p, {color: white, textAlign: 'center'}]}>Send messages together</Text>
-                </TouchableOpacity>
+                {
+                    this.profileLover? <TouchableOpacity onPress={onOpenMessage} activeOpacity={0.8} style={[style.loveBoxContainer, style.eventBoxContainer, {backgroundColor: "#f06292", shadowColor: "#f06292"}, AppStyle.m3, AppStyle.center]}>
+                        <Text style={[AppStyle.h5, AppStyle.mb2, {color: black, fontWeight: "bold"}]}>Messages</Text>
+                        <Text style={[AppStyle.p, {color: white, textAlign: 'center'}]}>Send messages together</Text>
+                    </TouchableOpacity> : <TouchableOpacity activeOpacity={0.8} style={[style.loveBoxContainer, style.eventBoxContainer, {backgroundColor: "#f06292", shadowColor: "#f06292"}, AppStyle.m3, AppStyle.center]}>
+                        <Text style={[AppStyle.h5, AppStyle.mb2, {color: black, fontWeight: "bold"}]}>Messages</Text>
+                        <Text style={[AppStyle.p, {color: white, textAlign: 'center'}]}>You need connect your couple</Text>
+                    </TouchableOpacity>
+                }
             </View>
         </ScrollView>
     </AppLayout>

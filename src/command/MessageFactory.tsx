@@ -7,7 +7,7 @@ export class MessageFactory{
     type: MessageFactoryType = 'user';
     constructor(type: MessageFactoryType, data: any){
         this.type = type;
-        data = data;
+        this.data = data;
     }
     build(){
         if(this.type == 'user')
@@ -20,6 +20,6 @@ export class MessageFactory{
             };
             return user;
         }
-        return null;
+        return undefined;
     }
 }

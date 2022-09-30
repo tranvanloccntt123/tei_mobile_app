@@ -1,10 +1,13 @@
 import React, { ReactNode } from "react";
 import { SafeAreaView, StyleSheet, Text, TouchableOpacity, View } from "react-native";
-import { GiftedChat, IMessage, Bubble, Send, InputToolbar, Day, Composer } from "react-native-gifted-chat";
+import { GiftedChat, IMessage, Bubble, Send, InputToolbar, Day, Composer, User } from "react-native-gifted-chat";
 import { black, blue, gray, grayLightPrimary2, grayPrimary, violet, white } from "../../common/Colors";
 import { AppStyle } from "../../common/AppStyle";
 import { esTime } from "../../untils/Time";
 import Ionicons from 'react-native-vector-icons/Ionicons'
+import { useSelector } from "react-redux";
+import { COMBINE_NAME_PROFILE } from "../../redux/reducers/CombineName";
+import { ProfileInterface } from "../../common/AppInterface";
 const style = StyleSheet.create({
   sendButtonContainer: { justifyContent: "center", alignItems: "center", backgroundColor: grayLightPrimary2, borderRadius: 100, width: 45, height: 45 },
   inputStyle: { borderRadius: 100, fontSize: 18, flex: 1, backgroundColor: gray, paddingHorizontal: 15, marginRight: 10, height: 45, paddingTop: 13, paddingBottom: 13 },
@@ -22,6 +25,17 @@ interface LayoutProps {
 };
 export default function ChatDetailLayout(props: LayoutProps) {
   const isDarkMode = false;
+  const profile: ProfileInterface = useSelector((state: any) => state[`${COMBINE_NAME_PROFILE}`].user);
+  const [currentUser, setCurrentUser] = React.useState<User>();
+  React.useEffect(() => {
+    if (profile) {
+      setCurrentUser({
+        _id: profile.id,
+        avatar: 'https://placeimg.com/140/140/any',
+        name: profile.name
+      });
+    }
+  }, [profile]);
   const onPlush = () => {
     props.onMore()
   }
@@ -104,31 +118,29 @@ export default function ChatDetailLayout(props: LayoutProps) {
   const renderComposer = (props: any) => <Composer {...props} textInputStyle={[style.inputStyle]} />
 
   return <View style={{ flex: 1, backgroundColor: isDarkMode ? grayPrimary : white }}>
-    <SafeAreaView style={{ flex: 1 }}>
-      <GiftedChat
-        messages={props.messages}
-        onSend={messages => props.onSend(messages)}
-        alwaysShowSend={true}
-        user={user()}
-        renderFooter={renderFooter}
-        renderBubble={renderBubble}
-        renderSend={renderSend}
-        renderInputToolbar={renderInputToolbar}
-        renderDay={renderDay}
-        renderTime={renderTime}
-        renderComposer={renderComposer}
-        textInputProps={{
-          style: style.inputStyle
-        }}
-        loadEarlier={true}
-        renderLoadEarlier={renderLoadEarlier}
-        onLoadEarlier={() => props.onLoadMessages()}
-        infiniteScroll={true}
-        onPressAvatar={(user) => props.onAvatarPress(user)}
-      />
-      {
-        props.children
-      }
-    </SafeAreaView>
+    <GiftedChat
+      messages={props.messages}
+      onSend={messages => props.onSend(messages)}
+      alwaysShowSend={true}
+      user={currentUser}
+      renderFooter={renderFooter}
+      renderBubble={renderBubble}
+      renderSend={renderSend}
+      renderInputToolbar={renderInputToolbar}
+      renderDay={renderDay}
+      renderTime={renderTime}
+      renderComposer={renderComposer}
+      textInputProps={{
+        style: style.inputStyle
+      }}
+      loadEarlier={true}
+      renderLoadEarlier={renderLoadEarlier}
+      onLoadEarlier={() => props.onLoadMessages()}
+      infiniteScroll={true}
+      onPressAvatar={(user) => props.onAvatarPress(user)}
+    />
+    {
+      props.children
+    }
   </View>
 }

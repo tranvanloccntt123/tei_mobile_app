@@ -1,21 +1,17 @@
 import React from "react";
 import ChatDetailLayout from "../components/layouts/ChatDetailLayout";
-import { ScreenInterface } from "../common/ScreenInterface";
+import { ScreenInterface, GroupChatInterface } from "../common/AppInterface";
 import { IMessage } from "react-native-gifted-chat";
 import { GiftedChat } from "react-native-gifted-chat";
 import { Modalize } from "react-native-modalize";
 import ChatDetailOptions from "../components/elements/ChatDetailOptions";
 import { StatusBar } from "react-native";
 import { Asset } from "react-native-image-picker";
-import { user } from "../sevices/ChatConfig";
 import { getMessages, renderIMessage, sendMessages } from "../common/Until";
-import { GroupChatInterface } from "../common/GroupChatInterface";
-import { PROFILE_INFO_SCREEN } from "@teiresource/commonconfig/RouteName";
-import { COMBINE_NAME_CHAT_CONFIG } from "../redux/reducers/CombineName";
-import { useSelector } from "react-redux";
+import { PROFILE_INFO_SCREEN } from "../common/RouteName";
 
 export default function ChatDetailScreen(props: ScreenInterface) {
-  const isDarkMode = useSelector((s: any) => s[`${COMBINE_NAME_CHAT_CONFIG}`].isDarkMode)
+  const isDarkMode = false;
   const [messages, setMessages] = React.useState<Array<IMessage>>([]);
   const [room, setCurrentRoom] = React.useState<GroupChatInterface>();
   const [leftId, setLeftId] = React.useState<string | number>(0);
@@ -61,20 +57,20 @@ export default function ChatDetailScreen(props: ScreenInterface) {
 
   const onSelectImage = (result: Asset[]) => {
     if (!result || result.length == 0) return
-    result.forEach(item => {
-      onSend([{
-        _id: Math.random(),
-        text: "",
-        createdAt: new Date(),
-        image: item.uri,
-        user: user()
-      }], item.fileName, item.type);
-    });
+    // result.forEach(item => {
+    //   onSend([{
+    //     _id: Math.random(),
+    //     text: "",
+    //     createdAt: new Date(),
+    //     image: item.uri,
+    //     user: user()
+    //   }], item.fileName, item.type);
+    // });
   }
 
   const onOpenProfile = (user: any) => {
     if(props.navigation){
-      props.navigation.navigate(PROFILE_INFO_SCREEN, {user: user});
+      props.navigation.navigate(PROFILE_INFO_SCREEN as never, {user: user} as never);
     }
   }
 

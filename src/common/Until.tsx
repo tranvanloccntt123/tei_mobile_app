@@ -1,5 +1,5 @@
 import { ApiRequest } from "./ApiRequest";
-import { LOGIN_API_SIGNIN, LOGIN_API_SIGNUP, POST_API_CREATE, POST_API_DELETE, POST_API_LIST, POST_API_UPDATE, PROFILE_API_RELATION_LIST, PROFILE_API_VISIT, PROFILE_API_RELATION_REQUEST, PROFILE_API_RELATION_CHECK, PROFILE_API_CHANGE_DETAIL, PROFILE_API_SEARCH, PROFILE_API_RELATION_NEAR_CREATE } from "./ApiRoute";
+import { LOGIN_API_SIGNIN, LOGIN_API_SIGNUP, POST_API_CREATE, POST_API_DELETE, POST_API_LIST, POST_API_UPDATE, PROFILE_API_RELATION_LIST, PROFILE_API_VISIT, PROFILE_API_RELATION_REQUEST, PROFILE_API_RELATION_CHECK, PROFILE_API_CHANGE_DETAIL, PROFILE_API_SEARCH, PROFILE_API_RELATION_NEAR_CREATE, CHAT_API_GET_ROOM } from "./ApiRoute";
 
 let regex = /^[a-zA-Z0-9]{6,15}/;
 
@@ -235,4 +235,10 @@ export const renderIMessage = (value: GroupMessageInterface, index: number): IMe
     },
     createdAt: renderDate(value.created_at)
   }
+}
+
+export const getOrCreateRoomMessage = async (user_id: number) => {
+  let result = await ApiRequest.build('GET', 'text/html')(CHAT_API_GET_ROOM, {single: true, user_id});
+  if(result.status < 200 && result.status >= 300) return null;
+  return result.data;
 }

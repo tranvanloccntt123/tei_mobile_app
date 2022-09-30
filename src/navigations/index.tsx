@@ -5,7 +5,7 @@ import { TouchableOpacity } from 'react-native';
 import { CommonActions, NavigationContainer, useNavigation, useNavigationContainerRef } from '@react-navigation/native';
 import { createNativeStackNavigator, NativeStackNavigationOptions } from '@react-navigation/native-stack';
 import ProfileScreen from '../screens/ProfileScreen';
-import { LOGIN_SCREEN, MAIN_SCREEN, POST_CREATE_SCREEN, PROFILE_ADD_RELATION_SHIP_SCREEN, PROFILE_EDIT_SCREEN, PROFILE_FIND_SCREEN, PROFILE_FIND_TITLE, PROFILE_INFO_SCREEN, PROFILE_INFO_TITLE, PROFILE_MODAL_SCREEN, SETTING_SCREEN, SPLASH_SCREEN } from '../common/RouteName';
+import { CHAT_DETAIL_SCREEN, LOGIN_SCREEN, MAIN_SCREEN, POST_CREATE_SCREEN, PROFILE_ADD_RELATION_SHIP_SCREEN, PROFILE_EDIT_SCREEN, PROFILE_FIND_SCREEN, PROFILE_FIND_TITLE, PROFILE_INFO_SCREEN, PROFILE_INFO_TITLE, PROFILE_MODAL_SCREEN, SETTING_SCREEN, SPLASH_SCREEN } from '../common/RouteName';
 import ProfileSlideShow from '../screens/ProfileSlideShow';
 import CreatePostScreen from '../screens/PostScreen';
 import AntDesign from 'react-native-vector-icons/AntDesign';
@@ -19,6 +19,7 @@ import { COMBINE_NAME_PROFILE } from '../redux/reducers/CombineName';
 import MainNavigation from './main';
 import ProfileAddRelationShipScreen from '../screens/ProfileAddRelationShipScreen';
 import SettingScreen from '../screens/SettingScreen';
+import ChatDetailScreen from '../screens/ChatDetailScreen';
 const Stack = createNativeStackNavigator();
 
 const AppHeaderLeft = (props: any) => { 
@@ -76,6 +77,7 @@ function AppNavigation() {
         <Stack.Screen options={CommonConfigStackNavigation(true, PROFILE_FIND_TITLE)} name={PROFILE_FIND_SCREEN} component={ProfileFindUserScreen} />
         <Stack.Screen options={CommonConfigStackNavigation(true, PROFILE_INFO_TITLE)} name={PROFILE_EDIT_SCREEN} component={ProfileEditScreen} />
         <Stack.Screen options={CommonConfigStackNavigation(true, PROFILE_INFO_TITLE)} name={PROFILE_ADD_RELATION_SHIP_SCREEN} component={ProfileAddRelationShipScreen} />
+        <Stack.Screen options={CommonConfigStackNavigation(true)} name={CHAT_DETAIL_SCREEN} component={ChatDetailScreen} />
       </Stack.Navigator>
     </NavigationContainer>
   );

@@ -8,7 +8,8 @@ import { AVATAR_DEFAULT } from "../../assets/images";
 import { ProfileInterface } from "../../common/AppInterface";
 import { AppStyle } from "../../common/AppStyle";
 import { black, blue, grayPrimary, pink, red, white } from "../../common/Colors";
-import { PROFILE_FIND_SCREEN, PROFILE_INFO_SCREEN } from "../../common/RouteName";
+import { CHAT_DETAIL_SCREEN, PROFILE_FIND_SCREEN, PROFILE_INFO_SCREEN } from "../../common/RouteName";
+import { getOrCreateRoomMessage } from "../../common/Until";
 import AppLayout from "../../components/layouts/AppLayout";
 import { COMBINE_NAME_PROFILE } from "../../redux/reducers/CombineName";
 import { stateManagement } from "../../sevices/HomeLoverServices";
@@ -47,6 +48,11 @@ export default function HomeLoveScreen(this: any) {
             return;
         }
         navigation.navigate(PROFILE_FIND_SCREEN as never);
+    }
+    const onOpenMessage = async () => {
+        if(this.loadProfile) return;
+        let result = await getOrCreateRoomMessage(this.profileLover.id);
+        navigation.navigate(CHAT_DETAIL_SCREEN as never, {item: result} as never);
     }
     return <AppLayout>
         <ScrollView showsVerticalScrollIndicator={false}>
@@ -91,7 +97,7 @@ export default function HomeLoveScreen(this: any) {
                     <Text style={[AppStyle.h5, AppStyle.mb2, {color: black, fontWeight: "bold"}]}>Events</Text>
                     <Text style={[AppStyle.p, {color: white, textAlign: 'center'}]}>Create new schedual</Text>
                 </TouchableOpacity>
-                <TouchableOpacity activeOpacity={0.8} style={[style.loveBoxContainer, style.eventBoxContainer, {backgroundColor: "#f06292", shadowColor: "#f06292"}, AppStyle.m3, AppStyle.center]}>
+                <TouchableOpacity onPress={onOpenMessage} activeOpacity={0.8} style={[style.loveBoxContainer, style.eventBoxContainer, {backgroundColor: "#f06292", shadowColor: "#f06292"}, AppStyle.m3, AppStyle.center]}>
                     <Text style={[AppStyle.h5, AppStyle.mb2, {color: black, fontWeight: "bold"}]}>Messages</Text>
                     <Text style={[AppStyle.p, {color: white, textAlign: 'center'}]}>Send messages together</Text>
                 </TouchableOpacity>

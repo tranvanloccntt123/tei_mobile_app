@@ -1,6 +1,4 @@
-import { ApiRequest } from "../common/ApiRequest";
 import { Authentication, CheckPass, CheckUser } from "../common/Until";
-import { saveToken } from "../untils/AuthUntils";
 import { Command } from "./Command";
 import { CommandBuilder } from "./CommandBuilder";
 export interface LoginCommandParams{
@@ -16,12 +14,12 @@ export class LoginCommand extends CommandBuilder implements Command<LoginCommand
         if(this.context.setErrorUserName)
         {
             if(checkUser) this.context.setErrorUserName("");
-            else this.context.setErrorUserName("* User's length is 6 - 15");
+            else this.context.setErrorUserName("* Tài khoản đăng nhập phải từ 6 - 15 ký tự");
         }
 
         if(this.context.setErrorPassword){
             if(checkPass) this.context.setErrorPassword("");
-            else this.context.setErrorPassword("* Pass's length is 6 - 15");
+            else this.context.setErrorPassword("* Mật khẩu phải từ 6 - 15 ký tự");
         }
 
         if(!checkUser || !checkPass) return false;

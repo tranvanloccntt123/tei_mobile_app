@@ -11,7 +11,6 @@ import { ApiRequest } from '../src/common/ApiRequest';
 import { getListFriend, getListPost, getVisitProfile, sendPost, deletePost, getListChat, updatePost, checkUUIDRegex, sendRelationShip, checkRelationShip, updateProfile, searchUser } from '../src/common/Until';
 import { PaginateInterface, VisitProfile } from '../src/common/AppInterface';
 import axios from 'axios';
-import { getCacheUser } from '../src/common/LocalCache';
 jest.spyOn(axios, 'post');
 jest.spyOn(axios, 'get');
 jest.setTimeout(30000);
@@ -32,13 +31,6 @@ describe('TEST API', () => {
     expect(r?.posts).not.toBeNull();
     expect(r?.posts).not.toBeNaN();
     expect(r).toHaveProperty('profile.id', 5);
-    //check profile not found
-    let r1 = await getVisitProfile(-1);
-    expect(r1).toBeNull();
-    let cacheUser = getCacheUser(5);
-    expect(r).toEqual(cacheUser);
-    let cacheUserNotFound = getCacheUser(-1);
-    expect(cacheUserNotFound).toBeUndefined();
     //check person profile
     let rProfile = await getVisitProfile();
     let rUpdate = await updateProfile({ id: 1, name: "Tran Van Loc" });

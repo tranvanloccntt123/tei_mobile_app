@@ -72,6 +72,7 @@ export default function ChatDetailScreen(this: any, props: ScreenInterface) {
   const onPlush = () => {
     onMore()
   }
+
   const renderSend = (props: any) => <View style={{ flexDirection: "row" }}>
     <Send {...props} containerStyle={{ marginRight: 10 }} >
       <View style={style.sendButtonContainer}>
@@ -87,7 +88,6 @@ export default function ChatDetailScreen(this: any, props: ScreenInterface) {
     return (
       <Bubble
         {...props}
-
         textStyle={{
           right: {
             color: isDarkMode ? black : white
@@ -104,6 +104,7 @@ export default function ChatDetailScreen(this: any, props: ScreenInterface) {
             backgroundColor: isDarkMode ? gray : violet,
           },
         }}
+        
         renderTime={renderTime}
       />
     );

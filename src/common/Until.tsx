@@ -3,6 +3,8 @@ import { LOGIN_API_SIGNIN, LOGIN_API_SIGNUP, POST_API_CREATE, POST_API_DELETE, P
 
 let regex = /^[a-zA-Z0-9]{6,15}/;
 
+let regexURL = /^https:\/\/tei-source\.com\/storage\/app(\/[a-z]+)+/
+
 export const RESPONSE_SUCCESS:string = "success";
 
 export const RESPONSE_FAIL:string = "fail";
@@ -27,6 +29,8 @@ export const CheckUser = (user: string) => regex.test(user);
 
 export const CheckPass = (pass: string) => regex.test(pass);
 
+export const CheckUrl = (url: string) => regexURL.test(url);
+
 export const CheckAuthentication = (user: string, pass: string) : boolean => {
     let checkUser = regex.test(user);
     if(!checkUser) return false;
@@ -40,7 +44,6 @@ export const CheckAuthentication = (user: string, pass: string) : boolean => {
 import { Platform } from "react-native";
 import { CHAT_API_GET_LIST, CHAT_API_GET_MESSAGES, CHAT_API_SEND_MESSAGE, STOREAGE } from "./ApiRoute"
 import { CheckRelationInterface, GroupMessageInterface, PaginateInterface, ProfileInterface, ResponseInterface, VisitProfile } from "./AppInterface";
-import { getCacheUser, setCacheUser } from "./LocalCache";
 import { getRelationShipName, RelationShipEnum, TypeMessage } from "./AppEnum";
 import { IMessage } from "react-native-gifted-chat";
 import { MessageFactory } from "../Factory/MessageFactory";

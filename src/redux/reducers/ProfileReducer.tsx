@@ -39,7 +39,13 @@ export default function ProfileReducer(state: any = store, action: any){
             return {...s, isLogged: true }
         }
         case AUTH_ACTION_LOGOUT: {
-            return {...s, isLogged: false }
+            return {
+                user: undefined,
+                cacheUser: [],
+                posts: 0,
+                friends: 0,
+                isLogged: false
+            }
         }  
         default: return s;
     }

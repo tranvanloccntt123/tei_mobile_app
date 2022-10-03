@@ -10,8 +10,10 @@ import { black, gray, white } from "../common/Colors";
 import { changeAvatar } from "../common/Until";
 import AppLayout from "../components/layouts/AppLayout";
 import { UserFactory } from "../Factory/UserFactory";
-import { PROFILE_ACTION_SET_USER } from "../redux/actions/ProfileAction";
+import { AUTH_ACTION_LOGOUT, PROFILE_ACTION_SET_USER } from "../redux/actions/ProfileAction";
+import { RELATION_ACTION_CLEAR } from "../redux/actions/RelationAction";
 import { COMBINE_NAME_PROFILE } from "../redux/reducers/CombineName";
+import { logOut } from "../untils/AuthUntils";
 import { LauchImage } from "../untils/CameraUntil";
 const style = StyleSheet.create({
    cardContainer: {
@@ -43,6 +45,12 @@ export default function SettingScreen(this: any) {
       }
    });
 
+   const onLogout = async () => {
+      await logOut();
+      dispatch({type: RELATION_ACTION_CLEAR});
+      dispatch({type: AUTH_ACTION_LOGOUT});
+   }
+
    return <AppLayout containerStyle={{ backgroundColor: Colors.grey100 }}>
       <View style={style.cardContainer}>
          <View style={{ flexDirection: "row" }}>
@@ -56,7 +64,7 @@ export default function SettingScreen(this: any) {
          </View>
          <View style={[{ flexDirection: "row", alignItems: "center" }, AppStyle.mt3]}>
             <Text style={{ color: gray, flex: 1 }}>version 1.0.0</Text>
-            <Button style={[{ alignSelf: "flex-end" },]} labelStyle={{ color: black }}>Logout</Button>
+            <Button onPress={onLogout} style={[{ alignSelf: "flex-end" },]} labelStyle={{ color: black }}>Đăng xuất</Button>
          </View>
       </View>
    </AppLayout>

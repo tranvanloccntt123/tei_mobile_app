@@ -19,7 +19,7 @@ export default function LoginForm(props: LoginFormProps){
         <Input value={props.user} onChangeText={(text) => props.setUser(text)} label="Username" maxLength={25} error={props.errorUser} />
         <Input value={props.password} onChangeText={(text) => props.setPassword(text)} label="Password" secureTextEntry={true} maxLength={25} error={props.errorPassword} />
         <Button 
-            label="Sign In" 
+            label="Đăng nhập" 
             onPress={() => props.onLoginPress()} 
             childrenLeft={props.isSending? <ActivityIndicator color={white} style={[AppStyle.ml3]} /> : null}
         />

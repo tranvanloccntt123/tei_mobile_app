@@ -51,7 +51,7 @@ export default function ProfileFindUserScreen(){
     return <AppLayout>
         <View style={[AppStyle.m3, style.searchContainer]}>
             <Icon name="search" size={25} color={gray} style={[{alignSelf: "center"}, AppStyle.m3]} />
-            <TextInput value={keyword} onChangeText={setKeyWord} placeholder="Enter a keyword" style={[AppStyle.pl2, AppStyle.pr3, {flex: 1, fontSize: 18}]} />
+            <TextInput value={keyword} onChangeText={setKeyWord} placeholder="Nhập vào từ khoá tìm kiếm" style={[AppStyle.pl2, AppStyle.pr3, {flex: 1, fontSize: 18}]} />
         </View>
         <FlatList 
             data={data}

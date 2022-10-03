@@ -30,6 +30,7 @@ export default function ProfileAddRelationShipScreen(this: any, props: ScreenInt
     const scrollRef = React.useRef<any>();
     stateManagement.call(this);
     let selectRelationShip = ['friend', 'daughter', 'husband', 'wife', 'son', 'grandfather', 'grandmother', 'father', 'mother', 'lover'];
+    let titleRelationShip = ['Bạn', 'Con gái', 'Chồng', 'Vợ', 'Con trai', 'Ông', 'Bà', 'Bố', 'Mẹ', 'Người yêu'];
     const onSelectRelationShip = (item: any) => {
         this.setSelected(item);
         scrollRef.current?.scrollTo({ x: width, y: 0, animated: true });
@@ -42,8 +43,8 @@ export default function ProfileAddRelationShipScreen(this: any, props: ScreenInt
             <ScrollView scrollEnabled={false} showsHorizontalScrollIndicator={false} ref={(ref) => scrollRef.current = ref} horizontal>
                 <View style={{ width: width, height: height }}>
                     {
-                        selectRelationShip.map((item: any) => <View key={item} >
-                            <List.Item onPress={() => onSelectRelationShip(item)} title={item} />
+                        selectRelationShip.map((item: any, index: any) => <View key={item} >
+                            <List.Item onPress={() => onSelectRelationShip(item)} title={titleRelationShip[index]} />
                             <Divider />
                         </View>)
                     }
@@ -53,15 +54,15 @@ export default function ProfileAddRelationShipScreen(this: any, props: ScreenInt
                     <View style={{ flexDirection: "row", alignItems: "flex-start" }}>
                         <View style={[{ flex: 1 }, AppStyle.center, AppStyle.p3]}>
                             <TextInput value={this.day} onChangeText={this.setDay} placeholder="0x" style={style.input} maxLength={2} />
-                            <Text style={AppStyle.h5}>Day</Text>
+                            <Text style={AppStyle.h5}>Ngày</Text>
                         </View>
                         <View style={[{ flex: 1 }, AppStyle.center, AppStyle.p3]}>
                             <TextInput value={this.month} onChangeText={this.setMonth} placeholder="0x" style={style.input} maxLength={2} />
-                            <Text style={AppStyle.h5}>Month</Text>
+                            <Text style={AppStyle.h5}>Tháng</Text>
                         </View>
                         <View style={[{ flex: 1.5 }, AppStyle.center, AppStyle.p3]}>
                             <TextInput value={this.year} onChangeText={this.setYear} placeholder="1xxx" style={style.input} maxLength={4} />
-                            <Text style={AppStyle.h5}>Year</Text>
+                            <Text style={AppStyle.h5}>Năm</Text>
                         </View>
                     </View>
                     <View style={AppStyle.p3}>
@@ -70,7 +71,7 @@ export default function ProfileAddRelationShipScreen(this: any, props: ScreenInt
                 </View>
             </ScrollView>
             <Dialog style={{borderRadius: 30, backgroundColor: white}} visible={this.visible}>
-                <Dialog.Title style={{color: black}}>Alert</Dialog.Title>
+                <Dialog.Title style={{color: black}}>Cảnh báo</Dialog.Title>
                 <Dialog.Content>
                     <Paragraph style={{color: black}}>This is simple dialog</Paragraph>
                 </Dialog.Content>

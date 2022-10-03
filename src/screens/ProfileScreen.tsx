@@ -79,13 +79,13 @@ export default function ProfileScreen(this: any, props: ScreenInterface) {
                 <TouchableOpacity onPress={editPost} activeOpacity={0.8} style={[{backgroundColor: white, padding: 15}, AppStyle.center]}>
                     <View style={{flexDirection: "row"}}>
                         <Feather name="edit" size={20} color={black} />
-                        <Text style={[AppStyle.h5, AppStyle.ml2, {color: black}]}>Edit</Text>
+                        <Text style={[AppStyle.h5, AppStyle.ml2, {color: black}]}>Chỉnh sửa</Text>
                     </View>
                 </TouchableOpacity>
                 <TouchableOpacity onPress={deletePost} activeOpacity={0.8} style={[{backgroundColor: red, padding: 15}, AppStyle.center]}>
                     <View style={{flexDirection: "row"}}>
                         <Feather name="trash-2" size={20} color={white} />
-                        <Text style={[AppStyle.h5, AppStyle.ml2, {color: white}]}>Delete</Text>
+                        <Text style={[AppStyle.h5, AppStyle.ml2, {color: white}]}>Xoá</Text>
                     </View>
                 </TouchableOpacity>
             </View>

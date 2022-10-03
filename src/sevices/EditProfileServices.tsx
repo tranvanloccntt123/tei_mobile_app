@@ -30,14 +30,14 @@ export function renderSaveProfileCommand(this: any){
     let saveProfileCommand = new SaveProfileCommand(this);
     saveProfileCommand.reject(() => {
         this.setAlterStatus(0);
-        this.setAlter("update profile fail");
+        this.setAlter("Cập nhật thông tin thất bại");
         this.setAlterId(this.context.alterId + 1);
     });
 
     saveProfileCommand.resolve((result: any) => {
         dispatch({type: PROFILE_ACTION_SET_USER, user: result});
         this.setAlterStatus(1);
-        this.setAlter("Profile updated");
+        this.setAlter("Thông tin cá nhân đã được cập nhật");
         this.setAlterId(this.alterId + 1);
     })
     return saveProfileCommand;

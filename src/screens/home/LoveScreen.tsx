@@ -59,7 +59,7 @@ export default function HomeLoveScreen(this: any) {
         <ScrollView showsVerticalScrollIndicator={false}>
             <View style={[{ flexDirection: "row" }, AppStyle.p3]}>
                 <View style={{ flex: 1 }}>
-                    <Text style={[AppStyle.h5, { color: grayPrimary }]}>Hello, </Text>
+                    <Text style={[AppStyle.h5, { color: grayPrimary }]}>Xin chào, </Text>
                     {
                         profile?.name ? <Text style={[AppStyle.h3, { color: black }]}>{profile.name}!</Text> : null
                     }
@@ -67,7 +67,7 @@ export default function HomeLoveScreen(this: any) {
             </View>
             <View style={[style.loveBoxContainer, AppStyle.m3]}>
                 <View style={[{ flex: 1 }, AppStyle.center]}>
-                    <Text style={[AppStyle.h3, { color: white, textAlign: "center" }]}>Love <Text style={AppStyle.h1}>{this.countDay}</Text> days</Text>
+                    <Text style={[AppStyle.h2, { color: white, textAlign: "center" }]}>{this.countDay} Ngày yêu</Text>
                 </View>
                 <View style={[{ flexDirection: "row" }, AppStyle.ml3, AppStyle.mr3]}>
                     <View>
@@ -93,16 +93,16 @@ export default function HomeLoveScreen(this: any) {
             </View>
             <View style={[{flexDirection: "row", width: "100%"}, AppStyle.center]}>
                 <TouchableOpacity activeOpacity={0.8} style={[style.loveBoxContainer, style.eventBoxContainer, {backgroundColor: "#ba68c8", shadowColor: "#ba68c8"}, AppStyle.m3, AppStyle.center]}>
-                    <Text style={[AppStyle.h5, AppStyle.mb2, {color: black, fontWeight: "bold"}]}>Events</Text>
-                    <Text style={[AppStyle.p, {color: white, textAlign: 'center'}]}>Create new schedual</Text>
+                    <Text style={[AppStyle.h5, AppStyle.mb2, {color: black, fontWeight: "bold"}]}>Sự kiện</Text>
+                    <Text style={[AppStyle.p, {color: white, textAlign: 'center'}]}>Lên lịch trình và tạo sự kiện đáng nhớ</Text>
                 </TouchableOpacity>
                 {
                     this.profileLover? <TouchableOpacity onPress={onOpenMessage} activeOpacity={0.8} style={[style.loveBoxContainer, style.eventBoxContainer, {backgroundColor: "#f06292", shadowColor: "#f06292"}, AppStyle.m3, AppStyle.center]}>
-                        <Text style={[AppStyle.h5, AppStyle.mb2, {color: black, fontWeight: "bold"}]}>Messages</Text>
-                        <Text style={[AppStyle.p, {color: white, textAlign: 'center'}]}>Send messages together</Text>
+                        <Text style={[AppStyle.h5, AppStyle.mb2, {color: black, fontWeight: "bold"}]}>Tin nhắn</Text>
+                        <Text style={[AppStyle.p, {color: white, textAlign: 'center'}]}>Trao nhau những lời yêu thương</Text>
                     </TouchableOpacity> : <TouchableOpacity activeOpacity={0.8} style={[style.loveBoxContainer, style.eventBoxContainer, {backgroundColor: "#f06292", shadowColor: "#f06292"}, AppStyle.m3, AppStyle.center]}>
-                        <Text style={[AppStyle.h5, AppStyle.mb2, {color: black, fontWeight: "bold"}]}>Messages</Text>
-                        <Text style={[AppStyle.p, {color: white, textAlign: 'center'}]}>You need connect your couple</Text>
+                        <Text style={[AppStyle.h5, AppStyle.mb2, {color: black, fontWeight: "bold"}]}>Tin nhắn</Text>
+                        <Text style={[AppStyle.p, {color: white, textAlign: 'center'}]}>Bạn cần kết nối tới người thương</Text>
                     </TouchableOpacity>
                 }
             </View>

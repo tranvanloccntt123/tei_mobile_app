@@ -23,10 +23,10 @@ export const SETTING_SCREEN: string = "[SETTING SCREEN]";
 export const HOME_LOVE_SCREEN: string = "[HOME LOVE SCREEN] HOME LOVE";
 
 //title for route name
-export const PROFILE_INFO_TITLE = "Profile";
+export const PROFILE_INFO_TITLE = "Cá nhân";
 export const PROFILE_MODAL_TITLE = "";
-export const POST_CREATE_TITLE = "Create Post";
+export const POST_CREATE_TITLE = "Tạo bài đăng";
 export const CHAT_LIST_TITLE = "";
 export const CHAT_DETAIL_TITLE = "";
-export const PROFILE_FIND_TITLE = "Search";
+export const PROFILE_FIND_TITLE = "Tìm kiếm";
  

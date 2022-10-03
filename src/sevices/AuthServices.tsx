@@ -71,7 +71,7 @@ export function renderLoginCommand(this: any){
         await saveToken(result);
     });
     loginCommand.reject((result: any) => {
-        this.setAlter("Please check username or password again");
+        this.setAlter("Kiểm trả lại tài khoản đăng nhập hoặc mật khẩu");
         this.setAlterId(this.alterId + 1);
     });
     return loginCommand;

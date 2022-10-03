@@ -73,16 +73,16 @@ export default function BasicProfile(props: PropsInterface) {
     const renderButton = () => {
         if(!relationShip) return null;
         if(relationShip.status == 0 && relationShip.personRequest) return <TouchableOpacity onPress={onCancel} activeOpacity={0.8} style={[style.createPostButtonContainer, style.cancelButtonContainer, AppStyle.center]}>
-            <Text style={[{ color: black }, AppStyle.h5]}>Cancel</Text>
+            <Text style={[{ color: black }, AppStyle.h5]}>Huỷ</Text>
         </TouchableOpacity>
         if(relationShip.status == 0 && !relationShip.personRequest) return <TouchableOpacity onPress={onAccept} activeOpacity={0.8} style={[style.createPostButtonContainer, style.acceptButtonContainer, AppStyle.center]}>
-            <Text style={[{ color: white }, AppStyle.h5]}>Accept</Text>
+            <Text style={[{ color: white }, AppStyle.h5]}>Chấp nhận</Text>
         </TouchableOpacity>
         if(relationShip.status == -1 ) return <TouchableOpacity onPress={onRequest} activeOpacity={0.8} style={[style.createPostButtonContainer, AppStyle.center]}>
-            <Text style={[{ color: white }, AppStyle.h5]}>Request</Text>
+            <Text style={[{ color: white }, AppStyle.h5]}>Kết bạn</Text>
         </TouchableOpacity>
         if( relationShip.status == 1 ) return <TouchableOpacity onPress={onCancel} activeOpacity={0.8} style={[style.createPostButtonContainer, style.cancelButtonContainer, AppStyle.center]}>
-                <Text style={[{ color: black }, AppStyle.h5]}>Unfriend</Text>
+                <Text style={[{ color: black }, AppStyle.h5]}>Huỷ kết bạn</Text>
         </TouchableOpacity>
         return null;
     }
@@ -117,7 +117,7 @@ export default function BasicProfile(props: PropsInterface) {
             {
                 !props.visit ? <>
                     <TouchableOpacity onPress={() => navigation.navigate(POST_CREATE_SCREEN as never, {} as never)} activeOpacity={0.8} style={[style.createPostButtonContainer, AppStyle.center, AppStyle.mr3]}>
-                        <Text style={[{ color: white }, AppStyle.h5]}>Create post</Text>
+                        <Text style={[{ color: white }, AppStyle.h5]}>Tạo bài đăng</Text>
                     </TouchableOpacity>
                     <TouchableOpacity onPress={() => navigation.navigate(PROFILE_EDIT_SCREEN as never)} activeOpacity={0.8} style={[style.actionButtonContainer, AppStyle.center, { backgroundColor: red, shadowColor: red }]}>
                         <Feather name="edit" size={20} color={white} />
@@ -140,15 +140,15 @@ export default function BasicProfile(props: PropsInterface) {
         <View style={style.profileContainer}>
             <View style={[{ flex: 1, borderRightWidth: 1, borderRightColor: violet + 65 }, AppStyle.center]}>
                 <Text style={[AppStyle.h3, { color: orange }]}>{props.countFriend}</Text>
-                <Text>Friends</Text>
+                <Text>Kết nối</Text>
             </View>
             <View style={[{ flex: 1 }, AppStyle.center]}>
                 <Text style={[AppStyle.h3, { color: orange }]}>0</Text>
-                <Text>Images</Text>
+                <Text>Ảnh</Text>
             </View>
             <View style={[{ flex: 1, borderLeftWidth: 1, borderLeftColor: violet + 65 }, AppStyle.center]}>
                 <Text style={[AppStyle.h3, { color: orange }]}>{props.countPost}</Text>
-                <Text>Posts</Text>
+                <Text>Bài đăng</Text>
             </View>
         </View>
     </View>

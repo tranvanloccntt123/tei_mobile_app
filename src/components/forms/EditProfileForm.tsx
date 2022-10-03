@@ -5,9 +5,6 @@ import { AppStyle } from "../../common/AppStyle";
 import { blue, white } from "../../common/Colors";
 import Button from "../elements/Button";
 import Input from "../elements/Input";
-const style = StyleSheet.create({
-    saveContainer: {width: "100%", height: 55, backgroundColor: blue}
-})
 interface PropsInterface{
     profile: ProfileInterface,
     onSavePress?: Function,
@@ -38,9 +35,9 @@ export default function EditProfileForm(props:PropsInterface) {
         setVisible(false);
     }
     return <View style={{width: "100%"}}>
-        <Input label="Name" error={props.errorName} value={name} onChangeText={(text) => setName(text)} keyboardType="default" />
+        <Input label="Tên" error={props.errorName} value={name} onChangeText={(text) => setName(text)} keyboardType="default" />
         <Input label="Email" error={props.errorEmail} value={email} onChangeText={(text) => setEmail(text)} keyboardType="email-address" />
-        <Input label="Description" error={props.errorDescription} onChangeText={(text) => setDescription(text)} value={description} />
-        <Button label="Save and Continue" onPress={onPress} childrenLeft={visible? <ActivityIndicator style={AppStyle.ml3} color={white} /> : null} />
+        <Input label="Mô tả" error={props.errorDescription} onChangeText={(text) => setDescription(text)} value={description} />
+        <Button label="Lưu và tiếp tục" onPress={onPress} childrenLeft={visible? <ActivityIndicator style={AppStyle.ml3} color={white} /> : null} />
     </View>
 }

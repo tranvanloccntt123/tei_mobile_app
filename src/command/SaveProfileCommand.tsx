@@ -10,13 +10,13 @@ export class SaveProfileCommand extends CommandBuilder implements Command{
     pending: boolean = false;
 
     canExecute(params: ProfileInterface, callback?: Function | undefined): boolean {
-        if(!params.name) this.context.setErrorName("* Name isn't empty");
+        if(!params.name) this.context.setErrorName("* Tên không được bỏ trống");
         else this.context.setErrorName("");
 
-        if(!params.email) this.context.setErrorEmail("* Email isn't empty");
+        if(!params.email) this.context.setErrorEmail("* Email không được bỏ trống");
         else this.context.setErrorEmail("");
 
-        if(!params.description) this.context.setErrorDescription("* Description isn't empty");
+        if(!params.description) this.context.setErrorDescription("* Mô tả Không được bỏ trống");
         else this.context.setErrorDescription("");
 
         if(!params.name || !params.email || !params.description) return false;

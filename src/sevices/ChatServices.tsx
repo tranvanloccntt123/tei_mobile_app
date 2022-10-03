@@ -28,6 +28,7 @@ export function stateManagement(this: any, route: any){
 
     React.useEffect(() => {
         if (profile) {
+          let factory = new MessageFactory("user", profile).build();
           this.setCurrentUser(new MessageFactory("user", profile).build());
         }
     }, [profile]);

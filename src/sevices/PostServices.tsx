@@ -55,7 +55,7 @@ export function renderSendPostCommand (this: any){
     });
 
     sendPostCommand.resolve((result: any) => {
-        Alert.alert("SUCCESS", `${this.modeTitle} post success!`, [{ text: "OK", style: "cancel" }]);
+        Alert.alert("Thành công", `Gửi bài đăng ${this.modeTitle} thành công!`, [{ text: "Chấp nhận", style: "cancel" }]);
         if (this.mode) {
             this.setContent("");
         }
@@ -66,7 +66,7 @@ export function renderSendPostCommand (this: any){
     });
 
     sendPostCommand.reject((result: any) => {
-        Alert.alert("FAIL", `${this.context.modeTitle} post fail!`, [{ text: "OK", style: "cancel" }, { text: "Retry", style: "destructive" }]);
+        Alert.alert("Thất bại", `Gửi bài đăng ${this.context.modeTitle} thất bại!`, [{ text: "Chấp nhận", style: "cancel" }, { text: "Thử lại", style: "destructive" }]);
     })
 
     return sendPostCommand;

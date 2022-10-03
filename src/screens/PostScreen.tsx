@@ -62,7 +62,7 @@ export default function CreatePostScreen(this: any, props: ScreenInterface) {
             <Text style={{ flex: 1 }}>{this.content}</Text>
         </View>
         <View style={[style.sendingViewOverlay, AppStyle.center]}>
-            <Text style={{color: black, paddingVertical: 5, paddingHorizontal: 10, backgroundColor: white}}>Sending...</Text>
+            <Text style={{color: black, paddingVertical: 5, paddingHorizontal: 10, backgroundColor: white}}>Đang tạo bài đăng...</Text>
         </View>
     </View>
     return <AppLayout>
@@ -87,7 +87,7 @@ export default function CreatePostScreen(this: any, props: ScreenInterface) {
                     </View>
                     <TouchableWithoutFeedback onPress={Keyboard.dismiss} accessible={false}>
                         <View style={[style.inputContainer]}>
-                            <TextInput placeholder="what do you think about ... ?" style={[style.input]} textAlign='left' value={this.content} onChangeText={(text) => this.setContent(text)} multiline />
+                            <TextInput placeholder="Bạn đang nghĩ gì ... ?" style={[style.input]} textAlign='left' value={this.content} onChangeText={(text) => this.setContent(text)} multiline />
                         </View>
                     </TouchableWithoutFeedback>
                 </>

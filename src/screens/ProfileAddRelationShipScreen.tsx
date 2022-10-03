@@ -76,7 +76,7 @@ export default function ProfileAddRelationShipScreen(this: any, props: ScreenInt
                 </Dialog.Content>
                 <Dialog.Actions style={[AppStyle.ml3, AppStyle.mr3]}>
                     <ButtonPaper labelStyle={{color: red}} onPress={() => this.setVisible(false)}>Cancel</ButtonPaper>
-                    <ButtonPaper labelStyle={{color: green}} onPress={() => console.log('Cancel')}>Accept</ButtonPaper>
+                    <ButtonPaper labelStyle={{color: green}} onPress={() => {}}>Accept</ButtonPaper>
                 </Dialog.Actions>
             </Dialog>
         </AppLayout>

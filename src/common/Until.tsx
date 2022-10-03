@@ -1,5 +1,5 @@
 import { ApiRequest } from "./ApiRequest";
-import { LOGIN_API_SIGNIN, LOGIN_API_SIGNUP, POST_API_CREATE, POST_API_DELETE, POST_API_LIST, POST_API_UPDATE, PROFILE_API_RELATION_LIST, PROFILE_API_VISIT, PROFILE_API_RELATION_REQUEST, PROFILE_API_RELATION_CHECK, PROFILE_API_CHANGE_DETAIL, PROFILE_API_SEARCH, PROFILE_API_RELATION_NEAR_CREATE, CHAT_API_GET_ROOM } from "./ApiRoute";
+import { LOGIN_API_SIGNIN, LOGIN_API_SIGNUP, POST_API_CREATE, POST_API_DELETE, POST_API_LIST, POST_API_UPDATE, PROFILE_API_RELATION_LIST, PROFILE_API_VISIT, PROFILE_API_RELATION_REQUEST, PROFILE_API_RELATION_CHECK, PROFILE_API_CHANGE_DETAIL, PROFILE_API_SEARCH, PROFILE_API_RELATION_NEAR_CREATE, CHAT_API_GET_ROOM, PROFILE_API_CHANGE_AVATAR } from "./ApiRoute";
 
 let regex = /^[a-zA-Z0-9]{6,15}/;
 
@@ -43,7 +43,7 @@ import { CheckRelationInterface, GroupMessageInterface, PaginateInterface, Profi
 import { getCacheUser, setCacheUser } from "./LocalCache";
 import { getRelationShipName, RelationShipEnum, TypeMessage } from "./AppEnum";
 import { IMessage } from "react-native-gifted-chat";
-import { MessageFactory } from "../command/MessageFactory";
+import { MessageFactory } from "../Factory/MessageFactory";
 
 export const getListChat = async (): Promise<PaginateInterface | null> => {
   let result = await ApiRequest.build('GET')(CHAT_API_GET_LIST);
@@ -81,16 +81,10 @@ export const sendMessages = async (id: number, type: TypeMessage, content: any, 
 }
 
 export const getVisitProfile = async (id?: number): Promise<VisitProfile | null> => {
-  let findUserInCache;
-  if(id){
-    findUserInCache = getCacheUser(id);
-    if(findUserInCache) return findUserInCache;
-  } 
   let result = await ApiRequest.build('GET')(PROFILE_API_VISIT, id? {user_id: id} : {});
   if(result.status < 200 && result.status >= 300) return null;
   let r: ResponseInterface = result.data;
   if(!r || r.status == undefined || r.status.toLowerCase() == RESPONSE_FAIL) return null;
-  setCacheUser(id? id : 0, r.message);  
   return r.message;
 }
 
@@ -98,7 +92,6 @@ export const updateProfile = async (user: ProfileInterface): Promise<ProfileInte
   let result = await ApiRequest.build('POST', 'application/json')(PROFILE_API_CHANGE_DETAIL, {name: user.name, email: user.email, description: user.description});
   if(result.status < 200 && result.status >= 300) return null;
   let r: ResponseInterface = result.data;
-  setCacheUser(r.message.id? r.message.id : 0, r.message.user);
   return r.message.user;
 }
 
@@ -227,8 +220,9 @@ function renderDate(data: string | undefined){
 export const renderIMessage = (value: GroupMessageInterface, index: number): IMessage => {
   let user = new MessageFactory("user", value.user).build();
   user = user? user : {
-    _id: 0, 
+    _id: '0', 
     name: '',
+    avatar: "https://placeimg.com/140/140/any"
   };
   return {
     _id: value.id,
@@ -242,5 +236,22 @@ export const renderIMessage = (value: GroupMessageInterface, index: number): IMe
 export const getOrCreateRoomMessage = async (user_id: number) => {
   let result = await ApiRequest.build('GET', 'text/html')(CHAT_API_GET_ROOM, {single: true, user_id});
   if(result.status < 200 && result.status >= 300) return null;
-  return result.data;
+  let r: ResponseInterface = result.data;
+  if(!r || r.status == undefined || r.status.toLowerCase() == RESPONSE_FAIL) return null;
+  return r.message;
+}
+
+export const changeAvatar = async (path: any, name?: string, typeFile?: string) => {
+  let formData = new FormData();
+  formData.append('avatar', {
+    name: name,
+    type: typeFile,
+    uri:
+      Platform.OS === 'android' ? path : path.replace('file://', ''),
+  });
+  let result = await ApiRequest.build('POST', 'multipart/form-data')(PROFILE_API_CHANGE_AVATAR, formData);
+  if(result.status < 200 && result.status >= 300) return null;
+  let r: ResponseInterface = result.data;
+  if(!r || r.status == undefined || r.status.toLowerCase() == RESPONSE_FAIL) return null;
+  return r.message;
 }

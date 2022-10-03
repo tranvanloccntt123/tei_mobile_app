@@ -9,8 +9,10 @@ import Feather from 'react-native-vector-icons/Feather';
 import { checkRelationShip, sendRelationShip } from "../../common/Until";
 import { useNavigation } from "@react-navigation/native";
 import { POST_CREATE_SCREEN, PROFILE_ADD_RELATION_SHIP_SCREEN, PROFILE_EDIT_SCREEN } from "../../common/RouteName";
-import { deleteCacheRelation, deleteRelationShipInStorage, getCacheRelationShip } from "../../untils/RelationShipUntil";
-import { RelationShipDescriptionEnum } from "../../common/AppEnum";
+import { deleteRelationShipInStorage } from "../../untils/RelationShipUntil";
+import { useDispatch, useSelector } from "react-redux";
+import { COMBINE_NAME_RELATION } from "../../redux/reducers/CombineName";
+import { RELATION_ACTION_DELETE } from "../../redux/actions/RelationAction";
 interface PropsInterface {
     children?: ReactNode | JSX.Element | JSX.Element[],
     current: ProfileInterface,
@@ -30,8 +32,8 @@ const style = StyleSheet.create({
 });
 export default function BasicProfile(props: PropsInterface) {
     const [relationShip, setRelationShip] = React.useState<CheckRelationInterface>();
-    const [relationInStorage, setRelationInStorage] = React.useState<RelationShipDescriptionEnum>();
-
+    const relationInStorage = useSelector((state:any) => state[`${COMBINE_NAME_RELATION}`]._relationShipCache.get(`${props.user_id}`));
+    const dispatch = useDispatch();
     const navigation = useNavigation();
     const getData = async () => {
         if(!props.user_id) return;
@@ -57,7 +59,7 @@ export default function BasicProfile(props: PropsInterface) {
 
             if(relationInStorage){
                 await deleteRelationShipInStorage(relationInStorage);
-                deleteCacheRelation(props.user_id? props.user_id : 0);
+                dispatch({type: RELATION_ACTION_DELETE, userId: props.user_id});
             }
             setRelationShip(r);
         }
@@ -67,15 +69,6 @@ export default function BasicProfile(props: PropsInterface) {
         let r = await sendRelationShip(props.user_id? props.user_id : 0, 1);
         if(r) setRelationShip(r);
     }
-
-    const getLocalRelationShipStorage = async () => {
-        let result = await getCacheRelationShip(props.user_id? props.user_id : 0);
-        if(result) setRelationInStorage(result);
-    }
-
-    React.useEffect(() => {
-        getLocalRelationShipStorage();
-    }, []);
 
     const renderButton = () => {
         if(!relationShip) return null;
@@ -107,7 +100,7 @@ export default function BasicProfile(props: PropsInterface) {
     return <View style={[style.container, AppStyle.pt3]}>
         <View style={[AppStyle.center]}>
             <View style={style.avatarContainer}>
-                <FastImage resizeMode="contain" style={{ width: "100%", height: "100%", borderRadius: 80 }} source={AVATAR_DEFAULT} />
+                <FastImage resizeMode="contain" style={{ width: "100%", height: "100%", borderRadius: 80 }} source={props.current?.avatar? props.current?.avatar : AVATAR_DEFAULT}/>
             </View>
             <View style={[AppStyle.p3]}>
                 <Text style={[AppStyle.h5, { fontWeight: "bold", textAlign: "center"}]}>{props.current ? props.current.name : ""}</Text>

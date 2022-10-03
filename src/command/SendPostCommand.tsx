@@ -19,7 +19,7 @@ export class SendPostCommand extends CommandBuilder implements Command<SendPostC
         let r = null;
         if (params.mode) r = await sendPost(params.content, params.file?.fileName, params.file?.type, params.file?.uri);
         else r = await updatePost(params.uuid? params.uuid : "", params.content, params.file?.fileName, params.file?.type, params.file?.uri);
-        await setTimeout(() => { console.log("TIMEOUT") }, 1000);
+        await setTimeout(() => {  }, 1000);
         if (!r){
             if(this.rejectFunction)
                 this.rejectFunction(r);

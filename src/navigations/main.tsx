@@ -2,10 +2,12 @@ import React from "react";
 import { BottomTabNavigationOptions, createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import { HOME_LOVE_SCREEN, SETTING_SCREEN } from "../common/RouteName";
 import HomeLoveScreen from "../screens/home/LoveScreen";
-import { loadALlRelationShip } from "../untils/RelationShipUntil";
+import { loadALlRelationShip, loadRelationShipToStorage } from "../untils/RelationShipUntil";
 import AntDesign from 'react-native-vector-icons/AntDesign';
-import { black, pink, white } from "../common/Colors";
+import { pink, white } from "../common/Colors";
 import SettingScreen from "../screens/SettingScreen";
+import { useDispatch } from "react-redux";
+import { RELATION_ACTION_SET } from "../redux/actions/RelationAction";
 const CommonConfigTabNavigation = (headerShown: boolean = true, title: string = ""): BottomTabNavigationOptions => {
     return {
         title,
@@ -15,8 +17,13 @@ const CommonConfigTabNavigation = (headerShown: boolean = true, title: string = 
 
 const Tab = createBottomTabNavigator();
 export default function MainNavigation(){
+    const dispatch = useDispatch();
     React.useEffect(() => { 
-        loadALlRelationShip();
+        loadALlRelationShip(async (item: any) => {
+            let result = await loadRelationShipToStorage(item);
+            if(result)
+                dispatch({type: RELATION_ACTION_SET, userId: result, relation: item});
+        });
     }, []);
     return <Tab.Navigator screenOptions={{
         tabBarActiveTintColor: pink,

@@ -1,7 +1,9 @@
 import { useNavigation } from "@react-navigation/native";
 import React from "react";
+import { useDispatch } from "react-redux";
 import { SendRelationShipCommand } from "../command/SendRelationShipCommand";
 import { RelationShipDescriptionEnum } from "../common/AppEnum";
+import { RELATION_ACTION_SET } from "../redux/actions/RelationAction";
 import { saveRelationShipToStorage, setCacheRelationShip } from "../untils/RelationShipUntil";
 
 export function stateManagement(this: any){
@@ -31,6 +33,7 @@ export function stateManagement(this: any){
 
 export function renderSendRelationShipCommand(this: any){
     const navigation = useNavigation();
+    const dispatch = useDispatch();
     let sendRelationShipCommand = new SendRelationShipCommand(this);
     sendRelationShipCommand.beforeExecute(() => {
         this.setSending(true);
@@ -40,7 +43,7 @@ export function renderSendRelationShipCommand(this: any){
     });
     sendRelationShipCommand.resolve(async (result: any) => {
         let r = result.relation;
-        setCacheRelationShip(r.friend, r.description);
+        dispatch({type: RELATION_ACTION_SET, userId: r.friend, relation: r.description});
         await saveRelationShipToStorage(r.description, r.friend, r.start);
         navigation.goBack();
     });

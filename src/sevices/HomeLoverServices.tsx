@@ -1,6 +1,8 @@
 import React from "react";
 import { ProfileInterface } from "../common/AppInterface";
+import { getCacheUser } from "../common/LocalCache";
 import { getVisitProfile } from "../common/Until";
+import { UserFactory } from "../Factory/UserFactory";
 import { loadRelationShipToStorage, loadStartDayInStorage } from "../untils/RelationShipUntil";
 
 export function stateManagement(this: any){
@@ -27,7 +29,9 @@ export function stateManagement(this: any){
         if(userId){
             let resultProfile = await getVisitProfile(parseInt(userId));
             if(resultProfile)
-                this.setProfileLover(resultProfile.profile);
+            {
+                this.setProfileLover(new UserFactory("ProfileInterface", resultProfile.profile).build());
+            }
         }
         this.setLoadProfile(false);
     }

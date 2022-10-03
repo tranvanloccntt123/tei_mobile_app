@@ -24,7 +24,7 @@ interface PostCardProps{
 export default function PostCard(props: PostCardProps){
     const profile: ProfileInterface = useSelector((state: any) => state[`${COMBINE_NAME_PROFILE}`].user);
     const PostCardOpacity = React.useRef(new Animated.Value(1)).current;
-    const avatar:ImageSourcePropType | undefined = props.data.user.avatar
+    const avatar:any = props.data.user.avatar;
     const [isLike, setIsLike] = React.useState<boolean>(false);
     const disiable = true;
     const onPressToImage = () => {

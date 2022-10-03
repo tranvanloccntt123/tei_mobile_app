@@ -19,6 +19,7 @@ export const PROFILE_API_RELATION_CHECK: string = `${BASE_PROFILE}/relation/chec
 export const PROFILE_API_CHANGE_DETAIL: string = `${BASE_PROFILE}/change/detail`;
 export const PROFILE_API_RELATION_NEAR_CREATE: string = `${BASE_PROFILE}/relation/near/description`;
 export const PROFILE_API_SEARCH: string = `${BASE_PROFILE}/search`;
+export const PROFILE_API_CHANGE_AVATAR: string = `${BASE_PROFILE}/change/avatar`;
 //api for post
 const BASE_POST = `${BASE}/post`;
 export const POST_API_CREATE: string = `${BASE_POST}/create`;

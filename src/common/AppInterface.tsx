@@ -30,7 +30,7 @@ export interface GroupMessageInterface extends BaseApiResponseInterface{
 export interface ProfileInterface extends BaseApiResponseInterface{
     name: string,
     email?: string,
-    avatar?: string | ImageSourcePropType,
+    avatar?: ImageSourcePropType,
     background?: string | ImageSourcePropType,
     description?: string
 }

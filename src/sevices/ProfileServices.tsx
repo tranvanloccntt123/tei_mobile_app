@@ -7,6 +7,7 @@ import { AVATAR_DEFAULT, DEV_BACKGROUND } from "../assets/images";
 import { PROFILE_ACTION_GET_USER } from "../redux/actions/ProfileAction";
 import { COMBINE_NAME_PROFILE } from "../redux/reducers/CombineName";
 import { esTime } from '../untils/Time';
+import { UserFactory } from "../Factory/UserFactory";
 
 export function stateManagement(this: any, route?: any){
     const [current, setCurrent] = React.useState<ProfileInterface>();
@@ -51,7 +52,7 @@ export function stateManagement(this: any, route?: any){
 
     const setVisitData = async () => {
         let r = await getVisitProfile(this.user_id);
-        this.setCurrent(r?.profile);
+        this.setCurrent(new UserFactory("ProfileInterface", r?.profile).build());
         this.setCountFriend(r?.friends);
         this.setCountPost(r?.posts);
     }
@@ -82,12 +83,12 @@ export function useLoadPost(this: any) {
                 id: value.id,
                 content: value.content,
                 image: value.media? `${STOREAGE}/${value.media}` : undefined,
-                user: {
+                user: new UserFactory("UserInterface", {
                     id: value.user_id,
                     name: value.name,
-                    avatar: value.avatar? value.avatar : AVATAR_DEFAULT,
+                    avatar: value.avatar,
                     background: DEV_BACKGROUND
-                },
+                }).build(),
                 uuid: value.UUID,
                 created_at: `${esTime(createdAt.getHours())}:${esTime(createdAt.getMinutes())} ${esTime(createdAt.getDate())}/${esTime(createdAt.getMonth())}/${createdAt.getFullYear()}`
             });

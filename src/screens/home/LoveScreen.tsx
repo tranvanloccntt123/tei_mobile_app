@@ -52,7 +52,8 @@ export default function HomeLoveScreen(this: any) {
     const onOpenMessage = async () => {
         if(this.loadProfile) return;
         let result = await getOrCreateRoomMessage(this.profileLover.id);
-        navigation.navigate(CHAT_DETAIL_SCREEN as never, {item: {...result, name: this.profileLover.name}} as never);
+        if(result && result.room)
+            navigation.navigate(CHAT_DETAIL_SCREEN as never, {item: {...result.room, name: this.profileLover.name}} as never);
     }
     return <AppLayout>
         <ScrollView showsVerticalScrollIndicator={false}>

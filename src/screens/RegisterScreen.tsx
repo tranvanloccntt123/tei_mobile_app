@@ -19,7 +19,6 @@ export default function RegisterScreen(props: ScreenInterface){
     });
 
     React.useEffect(() => {
-        console.log(alter)
     }, [alter])
 
     React.useEffect(() => {

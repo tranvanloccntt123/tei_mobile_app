@@ -30,10 +30,10 @@ export default function ProfileReducer(state: any = store, action: any){
     const s: ProfileReducerInterface = state;
     switch(a.type){
         case PROFILE_ACTION_SET_USER: {
-            return { ...s, user: a.user, posts: a.posts? a.posts : s.posts, friends: a.friends? a.friends : s.friends };
+            return { ...s, user: a.user? a.user : s.user};
         }
         case PROFILE_ACTION_SET_DATA: {
-            return {...s, friends: a.friends, posts: a.posts};
+            return {...s, friends: a.friends? a.friends : s.friends, posts: a.posts? a.posts : s.posts};
         }
         case AUTH_ACTION_LOGGED: {
             return {...s, isLogged: true }

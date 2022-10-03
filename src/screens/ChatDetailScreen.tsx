@@ -1,62 +1,45 @@
 import React from "react";
-import { SafeAreaView, Text, TouchableOpacity, View } from "react-native";
+import { SafeAreaView, Text, TouchableOpacity, View, StyleSheet } from "react-native";
 import ChatDetailLayout from "../components/layouts/ChatDetailLayout";
-import { ScreenInterface, GroupChatInterface, ProfileInterface } from "../common/AppInterface";
-import { IMessage, User } from "react-native-gifted-chat";
+import { ScreenInterface } from "../common/AppInterface";
+import { Bubble, Composer, Day, IMessage, InputToolbar, Send, User } from "react-native-gifted-chat";
 import { GiftedChat } from "react-native-gifted-chat";
 import { Modalize } from "react-native-modalize";
 import ChatDetailOptions from "../components/elements/ChatDetailOptions";
 import { StatusBar } from "react-native";
 import { Asset } from "react-native-image-picker";
-import { getMessages, renderIMessage, sendMessages } from "../common/Until";
+import { sendMessages } from "../common/Until";
 import { PROFILE_INFO_SCREEN } from "../common/RouteName";
-import { useSelector } from "react-redux";
-import { COMBINE_NAME_PROFILE } from "../redux/reducers/CombineName";
 import { AppStyle } from "../common/AppStyle";
 import AntDesign from "react-native-vector-icons/AntDesign";
 import { useNavigation } from "@react-navigation/native";
-import { blue, red, white } from "../common/Colors";
-import { MessageFactory } from "../command/MessageFactory";
-export default function ChatDetailScreen(props: ScreenInterface) {
-  const profile: ProfileInterface = useSelector((state: any) => state[`${COMBINE_NAME_PROFILE}`].user);
-  const [currentUser, setCurrentUser] = React.useState<User>();
-  React.useEffect(() => {
-    if (profile) {
-      setCurrentUser(new MessageFactory("user", profile).build());
-    }
-  }, [profile]);
-  const [messages, setMessages] = React.useState<Array<IMessage>>([]);
-  const [room, setCurrentRoom] = React.useState<GroupChatInterface>();
-  const [leftId, setLeftId] = React.useState<string | number>(0);
-  const [isSend, setIsSend] = React.useState<boolean>(false);
+import { black, blue, gray, grayLightPrimary2, grayPrimary, red, violet, white } from "../common/Colors";
+import { getData, stateManagement } from "../sevices/ChatServices";
+
+import { esTime } from "../untils/Time";
+import Ionicons from 'react-native-vector-icons/Ionicons'
+const style = StyleSheet.create({
+  sendButtonContainer: { justifyContent: "center", alignItems: "center", backgroundColor: grayLightPrimary2, borderRadius: 100, width: 45, height: 45 },
+  inputStyle: { borderRadius: 100, fontSize: 18, flex: 1, backgroundColor: gray, paddingHorizontal: 15, marginRight: 10, height: 45, paddingTop: 13, paddingBottom: 13 },
+  headerImage: { width: 150, height: 150, backgroundColor: white, borderRadius: 150 },
+  footerContainer: { backgroundColor: blue, alignSelf: "center", alignItems: "center", height: 30, margin: 10, borderRadius: 5, justifyContent: "center", paddingHorizontal: 15 }
+});
+export default function ChatDetailScreen(this: any, props: ScreenInterface) {
+  const isDarkMode = false;
+  stateManagement.call(this, props.route);
+
   const modalizeRef = React.useRef<Modalize>(null);
+  
   const navigation = useNavigation();
-  React.useEffect(() => {
-    setCurrentRoom(props.route?.params.item);
-  }, [])
-
-  React.useEffect(() => {
-    if (room) getData();
-  }, [room]);
-
-  const getData = async () => {
-    if (!room) return
-    let result = await getMessages(room.id, leftId);
-    if(!result) return;
-    let collection = result.data.map(renderIMessage);
-    if(!collection || !collection.length) return
-    setMessages(previousMessages => GiftedChat.prepend(previousMessages, collection));
-    setLeftId(collection[collection.length - 1]._id);
-  }
 
   const onSend = React.useCallback(async (messages: Array<IMessage> = [], fileName?: string, typeFile?: string) => {
-    if (room) {
-      setIsSend(true);
-      setMessages(previousMessages => GiftedChat.append(previousMessages, messages));
-      await sendMessages(room.id, messages[0].image? 'image' : 'text', messages[0].image? messages[0].image : messages[0].text, fileName, typeFile);
-      setIsSend(false);
+    if (this.room) {
+      this.setIsSend(true);
+      this.setMessages((previousMessages: any) => GiftedChat.append(previousMessages, messages));
+      await sendMessages(this.room.id, messages[0].image? 'image' : 'text', messages[0].image? messages[0].image : messages[0].text, fileName, typeFile);
+      this.setIsSend(false);
     }
-  }, [room])
+  }, [this.room])
 
   const onMore = () => {
     modalizeRef.current?.open();
@@ -67,7 +50,7 @@ export default function ChatDetailScreen(props: ScreenInterface) {
   }
 
   const onSelectImage = (result: Asset[]) => {
-    if(!currentUser) return;
+    if(!this.currentUser) return;
     if (!result || result.length == 0) return
     result.forEach(item => {
       onSend([{
@@ -75,7 +58,7 @@ export default function ChatDetailScreen(props: ScreenInterface) {
         text: "",
         createdAt: new Date(),
         image: item.uri,
-        user: currentUser
+        user: this.currentUser
       }], item.fileName, item.type);
     });
   }
@@ -85,6 +68,86 @@ export default function ChatDetailScreen(props: ScreenInterface) {
       props.navigation.navigate(PROFILE_INFO_SCREEN as never, {user: user} as never);
     }
   }
+
+  const onPlush = () => {
+    onMore()
+  }
+  const renderSend = (props: any) => <View style={{ flexDirection: "row" }}>
+    <Send {...props} containerStyle={{ marginRight: 10 }} >
+      <View style={style.sendButtonContainer}>
+        <Ionicons name={"send-outline"} size={20} />
+      </View>
+    </Send>
+    <TouchableOpacity onPress={onPlush} style={[style.sendButtonContainer]}>
+      <Ionicons name={"ellipsis-vertical-outline"} size={20} />
+    </TouchableOpacity>
+  </View>
+
+  const renderBubble = (props: any) => {
+    return (
+      <Bubble
+        {...props}
+
+        textStyle={{
+          right: {
+            color: isDarkMode ? black : white
+          },
+          left: {
+            color: isDarkMode ? black : white,
+          },
+        }}
+        wrapperStyle={{
+          left: {
+            backgroundColor: isDarkMode ? grayLightPrimary2 : blue,
+          },
+          right: {
+            backgroundColor: isDarkMode ? gray : violet,
+          },
+        }}
+        renderTime={renderTime}
+      />
+    );
+  }
+
+  const renderInputToolbar = (props: any) => <InputToolbar
+    {...props}
+    primaryStyle={{
+      marginHorizontal: 25
+    }}
+    accessoryStyle={{ color: "red" }}
+    containerStyle={{
+      borderTopColor: gray,
+      backgroundColor: isDarkMode ? grayPrimary : white,
+      paddingTop: 10
+    }}
+  />
+
+  const renderDay = (props: any) => <Day {...props} textStyle={{ color: gray }} />
+
+  const renderTime = (props: any) => {
+    return <View style={[AppStyle.mb2, AppStyle.ml3, AppStyle.mr3]}>
+      <Text style={{ fontSize: 13, color: isDarkMode ? violet : gray }}>{esTime(props.currentMessage.createdAt.getHours())}:{esTime(props.currentMessage.createdAt.getMinutes())}</Text>
+    </View>
+  }
+
+  const renderFooter = React.useMemo(() => () => {
+    return <View style={{ marginBottom: 25 }}>
+      {
+        this.isSend ? <View style={style.footerContainer}>
+          <Text style={{ color: white, fontSize: 18 }}>Đang gửi</Text>
+        </View> : null
+      }
+    </View>
+  }, [this.isSend]);
+
+  const renderLoadEarlier = React.useCallback(() => {
+    return <View style={[{ alignItems: "center" }, AppStyle.mb3, AppStyle.pt3]}>
+      <Text style={[{ fontSize: 18, fontWeight: "bold", }, { color: isDarkMode ? white : black }]}>Get Started</Text>
+    </View>
+  }, []);
+
+  const renderComposer = (props: any) => <Composer {...props} textInputStyle={[style.inputStyle]} />
+
 
   return <View style={[AppStyle.container, {backgroundColor: blue}]}>
     <StatusBar translucent={false} barStyle={"light-content"} />
@@ -98,15 +161,34 @@ export default function ChatDetailScreen(props: ScreenInterface) {
         </Text>
       </View>
     </SafeAreaView>
-    <ChatDetailLayout 
-      onLoadMessages={getData}
-      isSend={isSend} 
-      messages={messages} 
-      onSend={onSend} 
-      onMore={onMore}
-      onAvatarPress={onOpenProfile}
-      currentUser={currentUser}
-     />
+    <View style={{backgroundColor: white, flex: 1}}>
+      <GiftedChat
+        listViewProps={{
+          style: {marginTop: -45},
+          showsVerticalScrollIndicator: false
+        }}
+        user={this.currentUser}
+        messages={this.messages}
+        showUserAvatar={true}
+        infiniteScroll={true}
+        textInputProps={{
+          style: style.inputStyle
+        }}
+        loadEarlier={true}
+        alwaysShowSend={true}
+        onSend={messages => onSend(messages)}
+        renderFooter={renderFooter}
+        renderBubble={renderBubble}
+        renderSend={renderSend}
+        renderInputToolbar={renderInputToolbar}
+        renderDay={renderDay}
+        renderTime={renderTime}
+        renderComposer={renderComposer}
+        renderLoadEarlier={renderLoadEarlier}
+        onLoadEarlier={() => getData.call(this)}
+        onPressAvatar={onOpenProfile}
+      />
+    </View>
     <Modalize ref={modalizeRef} adjustToContentHeight={true}>
       <ChatDetailOptions onBefore={onClose} onSelectImage={onSelectImage} />
     </Modalize>

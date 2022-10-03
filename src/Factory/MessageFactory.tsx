@@ -1,4 +1,5 @@
 import { User } from "react-native-gifted-chat";
+import { STOREAGE } from "../common/ApiRoute";
 import { ProfileInterface } from "../common/AppInterface";
 
 type MessageFactoryType = 'user' | 'message';
@@ -14,9 +15,9 @@ export class MessageFactory{
         {
             let profile: ProfileInterface = this.data;
             let user: User = {
-                _id: profile.id,
+                _id: `${profile.id}`,
                 name: profile.name,
-                avatar: 'https://placeimg.com/140/140/any'
+                avatar: profile.avatar? `${STOREAGE}/${this.data.avatar}` : 'https://placeimg.com/140/140/any'
             };
             return user;
         }

@@ -5,16 +5,18 @@ import { Text } from "react-native-paper";
 import { ScreenInterface } from "../common/AppInterface";
 import { AppStyle } from "../common/AppStyle";
 import { black, gray, red, white } from "../common/Colors";
-import { POST_CREATE_SCREEN, PROFILE_EDIT_SCREEN } from "../common/RouteName";
-import BasicProfile from "../components/elements/BasicProfile";
+import { POST_CREATE_SCREEN } from "../common/RouteName";
+import BasicProfile from "../components/elements/BasicProfileHeader";
 import PostCard from "../components/elements/PostCard";
 import AppLayout from "../components/layouts/AppLayout";
 import { sendDeletePost, stateManagement, useLoadPost } from "../sevices/ProfileServices";
 import { Modalize } from "react-native-modalize";
 import Feather from 'react-native-vector-icons/Feather';
 import ModalSlideShow from "../components/elements/ModalSlideShow";
+import { useSelector } from "react-redux";
+import { COMBINE_NAME_RELATION } from "../redux/reducers/CombineName";
 export default function ProfileScreen(this: any, props: ScreenInterface) {
-    
+
     const navigation = useNavigation();
 
     stateManagement.call(this, props.route);
@@ -44,10 +46,9 @@ export default function ProfileScreen(this: any, props: ScreenInterface) {
         countFriend={this.countFriend} 
         current={this.current}
         user_id={this.user_id}/>, 
-    [this.current]);
+    []);
     const renderItem = React.useCallback((props: any) => <PostCard 
         onPressToImage={() => {
-            console.log(props.item);
             this.setDataShowModal([props.item]);
             this.setVisibleShowModal(true);
         }} 

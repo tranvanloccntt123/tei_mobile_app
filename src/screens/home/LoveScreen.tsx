@@ -94,7 +94,7 @@ export default function HomeLoveScreen(this: any) {
             <View style={[{flexDirection: "row", width: "100%"}, AppStyle.center]}>
                 <TouchableOpacity activeOpacity={0.8} style={[style.loveBoxContainer, style.eventBoxContainer, {backgroundColor: "#ba68c8", shadowColor: "#ba68c8"}, AppStyle.m3, AppStyle.center]}>
                     <Text style={[AppStyle.h5, AppStyle.mb2, {color: black, fontWeight: "bold"}]}>Sự kiện</Text>
-                    <Text style={[AppStyle.p, {color: white, textAlign: 'center'}]}>Lên lịch trình và tạo sự kiện đáng nhớ</Text>
+                    <Text style={[AppStyle.p, {color: white, textAlign: 'center'}]}>Lên lịch trình và tạo nên sự kiện đáng nhớ</Text>
                 </TouchableOpacity>
                 {
                     this.profileLover? <TouchableOpacity onPress={onOpenMessage} activeOpacity={0.8} style={[style.loveBoxContainer, style.eventBoxContainer, {backgroundColor: "#f06292", shadowColor: "#f06292"}, AppStyle.m3, AppStyle.center]}>

@@ -45,7 +45,7 @@ export default function ProfileFindUserScreen(){
         onPress={() => navigation.navigate(PROFILE_INFO_SCREEN as never, {visit: propItem.item.id != profile.id, id: propItem.item.id} as never)}
         left={() => <Avatar.Image style={{backgroundColor: gray}} size={55} source={propItem.item.avatar}  />} 
         title={propItem.item.name} 
-        description={propItem.item.email? propItem.item.email : "Press me to contact" }
+        description={propItem.item.email? propItem.item.email : "Kết nối với tôi" }
     />, 
     [data]);
     return <AppLayout>

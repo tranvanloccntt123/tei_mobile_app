@@ -67,7 +67,7 @@ export function renderLoginCommand(this: any){
     });
     loginCommand.resolve(async (result: any) => {
         this.setAuth(true);
-        ApiRequest.token = result;
+        ApiRequest.setToken(result);
         await saveToken(result);
     });
     loginCommand.reject((result: any) => {

@@ -21,7 +21,7 @@ function* checkLogin(action: ProfileReducerAction){
     let r = yield call(getToken);
     if(r){
         yield put({type: AUTH_ACTION_LOGGED});
-        ApiRequest.token = r;
+        ApiRequest.setToken(r);
     }
     else yield put({type: AUTH_ACTION_LOGOUT});
 }

@@ -26,8 +26,8 @@ export function stateManagement(this: any){
         if(startDay){
             let date = new Date(startDay);
             let now = Date.now();
-            const diff = (now - date.getTime()) / (1000 * 3600 * 24);
-            this.setCountDay(parseInt(diff));
+            let diff:number = (now - date.getTime()) / (1000 * 3600 * 24);
+            this.setCountDay(parseInt(diff.toString()));
         }
         if(userId){
             let resultProfile = await getVisitProfile(parseInt(userId));

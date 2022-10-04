@@ -1,16 +1,25 @@
 import axios, {AxiosRequestConfig, AxiosRequestHeaders, Method} from "axios";
+import { BASE } from "./ApiRoute";
 
 export type ContentType = 'text/html' | 'multipart/form-data' | 'x-www-form-urlencoded' | 'application/json';
+let baseApiRequest = axios.create({
+    baseURL: BASE, 
+    timeout: 30000
+});
 export class ApiRequest{
     static token: string
     static applicationId: string
+
+    static setToken(token: string){
+        ApiRequest.token = token;
+        baseApiRequest.defaults.headers.common['Authorization'] = `Bearer ${ApiRequest.token}`;
+    }
+
     static build(method:Method = 'GET', contentType: ContentType = 'text/html'){
-        const token = `Bearer ${ApiRequest.token}`;
         let params = {
             application_id: ApiRequest.applicationId
         };
         const headers:AxiosRequestHeaders = {
-            'Authorization': token,
             'Content-Type': contentType,
         };
         let config = {
@@ -23,14 +32,14 @@ export class ApiRequest{
                     ...config,
                     params: newParams,
                 };
-                return axios.get(url, axiosConfig).then(result => result).catch(e => e.response);
+                return baseApiRequest.get(url, axiosConfig).then(result => result).catch(e => e.response);
             }
 
             let axiosConfig: AxiosRequestConfig = {
                 ...config,
                 params: params
             };
-            return axios.post(url, data? data : undefined, axiosConfig).then(result => {
+            return baseApiRequest.post(url, data? data : undefined, axiosConfig).then(result => {
                 return result;
             }).catch(error => {
                 return error.response;

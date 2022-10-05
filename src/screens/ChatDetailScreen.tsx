@@ -143,7 +143,7 @@ export default function ChatDetailScreen(this: any, props: ScreenInterface) {
 
   const renderLoadEarlier = React.useCallback(() => {
     return <View style={[{ alignItems: "center" }, AppStyle.mb3, AppStyle.pt3]}>
-      <Text style={[{ fontSize: 18, fontWeight: "bold", }, { color: isDarkMode ? white : black }]}>Get Started</Text>
+      <Text style={[{ fontSize: 18, fontWeight: "bold", }, { color: isDarkMode ? white : black }]}>Bắt đầu chat</Text>
     </View>
   }, []);
 

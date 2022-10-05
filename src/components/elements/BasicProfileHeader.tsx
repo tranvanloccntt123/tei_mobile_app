@@ -1,5 +1,5 @@
 import React, { ReactNode } from "react";
-import { Text, StyleSheet, View, TouchableOpacity } from "react-native";
+import { Text, StyleSheet, View, TouchableOpacity, Animated, TextInput } from "react-native";
 import FastImage from "react-native-fast-image";
 import { AVATAR_DEFAULT } from "../../assets/images";
 import { CheckRelationInterface, ProfileInterface } from "../../common/AppInterface";
@@ -28,11 +28,16 @@ const style = StyleSheet.create({
     createPostButtonContainer: { borderRadius: 35, height: 45, backgroundColor: blue, shadowColor: blue, shadowOffset: { width: 0, height: 2 }, shadowOpacity: 0.5, elevation: 5, flexDirection: "row", paddingHorizontal: 25 },
     actionButtonContainer: { width: 45, height: 45, borderRadius: 45, elevation: 5, shadowOpacity: 0.3, shadowOffset: { width: 0, height: 2 } },
     cancelButtonContainer: { backgroundColor: gray, shadowColor: gray },
-    acceptButtonContainer: { backgroundColor: green, shadowColor: green }
+    acceptButtonContainer: { backgroundColor: green, shadowColor: green },
+    inputCounter: { color: orange, backgroundColor: "transparent", borderBottomWidth: 0, textAlign: 'center' }
 });
 export default function BasicProfile(props: PropsInterface) {
     const [relationShip, setRelationShip] = React.useState<CheckRelationInterface>();
     const relationInStorage = useSelector((state:any) => state[`${COMBINE_NAME_RELATION}`]._relationShipCache.get(`${props.user_id}`));
+    const countPostRef = React.useRef<any>();
+    const countFriendRef = React.useRef<any>();
+    const animatedCountPost = React.useRef(new Animated.Value(0)).current;
+    const animatedCountFriend = React.useRef(new Animated.Value(0)).current;
     const dispatch = useDispatch();
     const navigation = useNavigation();
     const getData = async () => {
@@ -41,12 +46,37 @@ export default function BasicProfile(props: PropsInterface) {
         if(result == null) return;
         setRelationShip(result);
     }
+
+    React.useEffect(() => {
+        animatedCountPost.addListener((v) => {
+            if(countPostRef.current){
+                countPostRef.current.setNativeProps({text: `${Math.round(v.value)}`});
+            }
+        });
+        animatedCountFriend.addListener((v) => {
+            if(countFriendRef.current)
+                countFriendRef.current.setNativeProps({text: `${Math.round(v.value)}`});
+        })
+    }, []);
+
     React.useEffect(() => {
         if(props.visit)
         {
             getData()
         }
     }, [props.user_id]);
+
+    React.useEffect(() => {
+        if(props.countPost){
+            Animated.timing(animatedCountPost, {toValue: props.countPost, duration: 1000, useNativeDriver: true}).start();
+        }
+    }, [props.countPost]);
+
+    React.useEffect(() => {
+        if(props.countFriend){
+            Animated.timing(animatedCountFriend, {toValue: props.countFriend, duration: 1000, useNativeDriver: true}).start();
+        }
+    }, [props.countFriend]);
 
     const onRequest = async () => {
         let r = await sendRelationShip(props.user_id? props.user_id : 0 , 0);
@@ -138,16 +168,16 @@ export default function BasicProfile(props: PropsInterface) {
             }
         </View>
         <View style={style.profileContainer}>
-            <View style={[{ flex: 1, borderRightWidth: 1, borderRightColor: violet + 65 }, AppStyle.center]}>
-                <Text style={[AppStyle.h3, { color: orange }]}>{props.countFriend}</Text>
+            <View style={[{ flex: 1}, AppStyle.center]}>
+            <TextInput ref={countFriendRef} defaultValue={'0'} editable={false} style={[AppStyle.h3, style.inputCounter]} />
                 <Text>Kết nối</Text>
             </View>
             <View style={[{ flex: 1 }, AppStyle.center]}>
                 <Text style={[AppStyle.h3, { color: orange }]}>0</Text>
                 <Text>Ảnh</Text>
             </View>
-            <View style={[{ flex: 1, borderLeftWidth: 1, borderLeftColor: violet + 65 }, AppStyle.center]}>
-                <Text style={[AppStyle.h3, { color: orange }]}>{props.countPost}</Text>
+            <View style={[{flex: 1}, AppStyle.center]}>
+                <TextInput ref={countPostRef} defaultValue={'0'} editable={false} style={[AppStyle.h3, style.inputCounter]} />
                 <Text>Bài đăng</Text>
             </View>
         </View>

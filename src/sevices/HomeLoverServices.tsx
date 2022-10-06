@@ -4,10 +4,10 @@ import { ProfileInterface } from "../common/AppInterface";
 import { getVisitProfile } from "../common/Until";
 import { UserFactory } from "../Factory/UserFactory";
 import { COMBINE_NAME_RELATION } from "../redux/reducers/CombineName";
-import { loadRelationShipToStorage, loadStartDayInStorage } from "../untils/RelationShipUntil";
 
 export function stateManagement(this: any){
     const titleRelationInStorage = useSelector((state:any) => state[`${COMBINE_NAME_RELATION}`]._titleRelationShipCache.get("lover"));
+    const startDayRelationInStorage = useSelector((state: any) => state[`${COMBINE_NAME_RELATION}`]._startDayRelationShipCache.get("lover"));
     const [profileLover, setProfileLover] = React.useState<ProfileInterface | null>(null);
     const [loadProfile, setLoadProfile] = React.useState<boolean>(false);
     const [countDay, setCountDay] = React.useState<number>(0);
@@ -21,8 +21,8 @@ export function stateManagement(this: any){
 
     const syncProfileLover = async () => {
         this.setLoadProfile(true);
-        let userId = await loadRelationShipToStorage("lover");
-        let startDay = await loadStartDayInStorage("lover");
+        let userId = titleRelationInStorage;
+        let startDay = startDayRelationInStorage;
         if(startDay){
             let date = new Date(startDay);
             let now = Date.now();

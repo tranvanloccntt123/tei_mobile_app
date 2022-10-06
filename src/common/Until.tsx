@@ -207,6 +207,14 @@ export const sendDetailRelationShip = async (user_id: number, description: strin
   return r.message;
 }
 
+export const getListDetailRelationShip = async () => {
+  let result = await ApiRequest.build('GET')(PROFILE_API_RELATION_NEAR_CREATE);
+  if(result.status < 200 && result.status >= 300) return null;
+  let r: ResponseInterface = result.data;
+  if(!r || r.status == undefined || r.status.toLowerCase() == RESPONSE_FAIL) return null;
+  return r.message.relation;
+}
+
 function renderStorage(content:string = ""){
   let result: string | null | undefined = undefined;
   if(content) result = `${STOREAGE}/${content}`;

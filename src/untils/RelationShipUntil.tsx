@@ -18,7 +18,7 @@ export const saveRelationShipToStorage = async (relation: RelationShipDescriptio
 }
 
 export const loadALlRelationShip = (callback: Function) => {
-    selectRelationShip.forEach(async (item: RelationShipDescriptionEnum) => {
+    selectRelationShip.forEach((item: RelationShipDescriptionEnum) => {
         callback(item);
     });
 }

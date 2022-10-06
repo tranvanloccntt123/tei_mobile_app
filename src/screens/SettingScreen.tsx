@@ -55,11 +55,11 @@ export default function SettingScreen(this: any) {
       <View style={style.cardContainer}>
          <View style={{ flexDirection: "row" }}>
             <TouchableOpacity style={style.containerAvatar} onPress={onChangeAvatar} activeOpacity={0.8} >
-               <FastImage style={{width: "100%", height: "100%", borderRadius: 50}} source={profile.avatar? profile.avatar : AVATAR_DEFAULT} />
+               <FastImage style={{width: "100%", height: "100%", borderRadius: 50}} source={profile?.avatar? profile.avatar : AVATAR_DEFAULT} />
             </TouchableOpacity>
             <View style={AppStyle.ml3}>
-               <Text style={[AppStyle.h5, { fontWeight: 'bold' }]}>{profile.name}</Text>
-               <Paragraph>{profile.email ? profile.email : ""}</Paragraph>
+               <Text style={[AppStyle.h5, { fontWeight: 'bold' }]}>{profile?.name}</Text>
+               <Paragraph>{profile?.email ? profile.email : ""}</Paragraph>
             </View>
          </View>
          <View style={[{ flexDirection: "row", alignItems: "center" }, AppStyle.mt3]}>
